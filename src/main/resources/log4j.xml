@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+	debug="false">
+
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<param name="threshold" value="TRACE" />
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%r:%-5p[%t %d{HH:mm:ss,SSS}] %c - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="TEMPLATE_API" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="threshold" value="DEBUG" />
+		<param name="File" value="${catalina.home}/logs/petrol.log" />
+		<param name="Append" value="true" />
+		<param name="datePattern" value="'_'yyyyMMdd'.log'" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%t][%C][%-5p][%d{yyyy/MM/dd HH:mm:ss,SSS}] %m %n" />
+		</layout>
+	</appender>
+
+	<!-- Application Loggers -->
+	<logger name="jp.co.nec.cxap">
+		<level value="DEBUG" />
+	</logger>
+
+	<!-- 3rdparty Loggers -->
+	<logger name="org.springframework">
+		<level value="DEBUG" />
+	</logger>
+
+	<!-- Root Logger -->
+	<root>
+		<priority value="DEBUG" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="TEMPLATE_API" />
+	</root>
+</log4j:configuration>

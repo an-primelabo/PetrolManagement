@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ah.petrolmanagement.persistence.ITankMapper">
+	<select id="select" parameterType="java.util.Map" resultType="ah.petrolmanagement.entity.TankEntity">
+		SELECT
+			ID					AS id,
+			PRODUCT_ID	AS productId,
+			TANK_NAME		AS tankName,
+			INS_TIME		AS insTime,
+			INS_USER		AS insUser,
+			UPD_TIME		AS updTime,
+			UPD_USER		AS updUser,
+			DEL_FLAG		AS delFlag,
+			DEL_TIME		AS delTime,
+			DEL_USER		AS delUser
+		FROM
+			tank
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="map.id != null">
+				ID = #{map.id}
+			</if>
+			<if test="map.productId != null">
+				AND PRODUCT_ID = #{map.productId}
+			</if>
+			<if test="map.tankName != null">
+				AND TANK_NAME LIKE '%' || #{map.tankName} || '%'
+			</if>
+			<if test="map.delFlag == null">
+				AND DEL_FLAG = 0
+			</if>
+		</trim>
+	</select>
+
+	<insert id="save" parameterType="ah.petrolmanagement.entity.TankEntity">
+		INSERT INTO tank (
+			PRODUCT_ID,
+			TANK_NAME,
+			INS_USER
+		) VALUES (
+			#{entity.productId},
+			#{entity.tankName},
+			#{entity.insUser}
+		)
+	</insert>
+
+	<update id="update" parameterType="ah.petrolmanagement.entity.TankEntity">
+		UPDATE tank
+		<set>
+			<if test="entity.productId != null">
+				PRODUCT_ID = #{entity.productId},
+			</if>
+			<if test="entity.tankName != null">
+				TANK_NAME = #{entity.tankName},
+			</if>
+			UPD_TIME = CURRENT_TIMESTAMP,
+			UPD_USER = #{entity.updUser}
+		</set>
+		<where>
+			ID = #{entity.id}
+		</where>
+	</update>
+
+	<update id="delete" parameterType="ah.petrolmanagement.entity.TankEntity">
+		UPDATE tank
+		<set>
+			DEL_FLAG = 1,
+			DEL_TIME = CURRENT_TIMESTAMP,
+			DEL_USER = #{entity.delUser}
+		</set>
+		<where>
+			ID = #{entity.id}
+		</where>
+	</update>
+</mapper>

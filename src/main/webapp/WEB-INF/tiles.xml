@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition name="default" template="/WEB-INF/pages/layout/template.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header" value="/WEB-INF/pages/layout/header.jsp" />
+		<put-attribute name="left-menu" value="/WEB-INF/pages/layout/left-menu.jsp" />
+		<put-attribute name="content-header" value="/WEB-INF/pages/layout/content-header.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="right-menu" value="/WEB-INF/pages/layout/right-menu.jsp" />
+		<put-attribute name="mobile" value="/WEB-INF/pages/layout/mobile.jsp" />
+	</definition>
+
+	<definition name="login" extends="default">
+		<put-attribute name="title" value="Đăng Nhập" />
+		<put-attribute name="header" value="" />
+		<put-attribute name="body" value="" />
+	</definition>
+
+	<definition name="daily" extends="default">
+		<put-attribute name="title" value="Số Liệu Xăng Dầu Hằng Ngày" />
+		<put-attribute name="body" value="/WEB-INF/pages/daily/index.jsp" />
+	</definition>
+
+	<!-- <definition name="fuel.list" extends="default"> -->
+	<!-- <put-attribute name="title" value="Danh Sách Nhiên Liệu" /> -->
+	<!-- <put-attribute name="body" value="/WEB-INF/pages/fuel/list.jsp" /> -->
+	<!-- </definition> -->
+</tiles-definitions>

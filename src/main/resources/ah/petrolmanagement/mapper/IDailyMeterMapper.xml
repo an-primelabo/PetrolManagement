@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ah.petrolmanagement.persistence.IDailyMeterMapper">
+	<select id="select" parameterType="java.util.Map" resultType="ah.petrolmanagement.entity.DailyMeterEntity">
+		SELECT
+			ID							AS id,
+			TANK_ID					AS tankId,
+			SHIFT_ID				AS shiftId,
+			PRICE_ID				AS priceId,
+			METER_OLD				AS meterOld,
+			METER_NEW				AS meterNew,
+			METER_ELEC_OLD	AS meterElecOld,
+			METER_ELEC_NEW	AS meterElecNew,
+			INS_TIME				AS insTime,
+			INS_USER				AS insUser,
+			UPD_TIME				AS updTime,
+			UPD_USER				AS updUser,
+			DEL_FLAG				AS delFlag,
+			DEL_TIME				AS delTime,
+			DEL_USER				AS delUser
+		FROM
+			daily_meter
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="map.id != null">
+				ID = #{map.id}
+			</if>
+			<if test="map.tankId != null">
+				AND TANK_ID = #{map.tankId}
+			</if>
+			<if test="map.shiftId != null">
+				AND SHIFT_ID = #{map.shiftId}
+			</if>
+			<if test="map.priceId != null">
+				AND PRICE_ID = #{map.priceId}
+			</if>
+			<if test="map.meterOld != null">
+				AND METER_OLD = #{map.meterOld}
+			</if>
+			<if test="map.meterNew != null">
+				AND METER_NEW = #{map.meterNew}
+			</if>
+			<if test="map.meterElecOld != null">
+				AND METER_ELEC_OLD = #{map.meterElecOld}
+			</if>
+			<if test="map.meterElecNew != null">
+				AND METER_ELEC_NEW = #{map.meterElecNew}
+			</if>
+			<if test="map.insTime != null">
+				AND INS_TIME::DATE = #{map.insTime}::DATE
+			</if>
+			<if test="map.delFlag == null">
+				AND DEL_FLAG = 0
+			</if>
+		</trim>
+	</select>
+
+	<insert id="save" parameterType="ah.petrolmanagement.entity.DailyMeterEntity">
+		INSERT INTO daily_meter (
+			STOCK_ID,
+			TANK_ID,
+			SHIFT_ID,
+			PRICE_ID,
+			METER_OLD,
+			METER_NEW,
+			METER_ELEC_OLD,
+			METER_ELEC_NEW,
+			INS_USER
+		) VALUES (
+			0,
+			#{entity.tankId},
+			#{entity.shiftId},
+			#{entity.priceId},
+			#{entity.meterOld},
+			#{entity.meterNew},
+			#{entity.meterElecOld},
+			#{entity.meterElecNew},
+			#{entity.insUser}
+		)
+	</insert>
+
+	<update id="update" parameterType="ah.petrolmanagement.entity.DailyMeterEntity">
+		UPDATE daily_meter
+		<set>
+			<if test="entity.tankId != null">
+				TANK_ID = #{entity.tankId},
+			</if>
+			<if test="entity.shiftId != null">
+				SHIFT_ID = #{entity.shiftId},
+			</if>
+			<if test="entity.priceId != null">
+				PRICE_ID = #{entity.priceId},
+			</if>
+			<if test="entity.meterOld != null">
+				METER_OLD = #{entity.meterOld},
+			</if>
+			<if test="entity.meterNew != null">
+				METER_NEW = #{entity.meterNew},
+			</if>
+			<if test="entity.meterElecOld != null">
+				METER_ELEC_OLD = #{entity.meterElecOld},
+			</if>
+			<if test="entity.meterElecNew != null">
+				METER_ELEC_NEW = #{entity.meterElecNew},
+			</if>
+			UPD_TIME = CURRENT_TIMESTAMP,
+			UPD_USER = #{entity.updUser}
+		</set>
+		<where>
+			ID = #{entity.id}
+		</where>
+	</update>
+
+	<update id="delete" parameterType="ah.petrolmanagement.entity.DailyMeterEntity">
+		UPDATE daily_meter
+		<set>
+			DEL_FLAG = 1,
+			DEL_TIME = CURRENT_TIMESTAMP,
+			DEL_USER = #{entity.delUser}
+		</set>
+		<where>
+			ID = #{entity.id}
+		</where>
+	</update>
+</mapper>

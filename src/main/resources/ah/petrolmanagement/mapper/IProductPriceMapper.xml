@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ah.petrolmanagement.persistence.IProductPriceMapper">
+	<select id="select" parameterType="java.util.Map" resultType="ah.petrolmanagement.entity.ProductPriceEntity">
+		SELECT
+			ID					AS id,
+			PRODUCT_ID	AS productId,
+			PRICE				AS price,
+			INS_TIME		AS insTime,
+			INS_USER		AS insUser,
+			UPD_TIME		AS updTime,
+			UPD_USER		AS updUser,
+			DEL_FLAG		AS delFlag,
+			DEL_TIME		AS delTime,
+			DEL_USER		AS delUser
+		FROM
+			product_price
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="map.id != null">
+				ID = #{map.id}
+			</if>
+			<if test="map.productId != null">
+				AND PRODUCT_ID = #{map.productId}
+			</if>
+			<if test="map.price != null">
+				AND PRICE = #{map.price}
+			</if>
+			<if test="map.delFlag == null">
+				AND DEL_FLAG = 0
+			</if>
+		</trim>
+	</select>
+
+	<select id="selectPrice" parameterType="java.lang.Integer" resultType="ah.petrolmanagement.entity.ProductPriceEntity">
+		SELECT
+			ID					AS id,
+			PRODUCT_ID	AS productId,
+			PRICE				AS price,
+			INS_TIME		AS insTime,
+			UPD_TIME		AS updTime
+		FROM
+			product_price
+		<where>
+			PRODUCT_ID = #{productId}
+			AND INS_TIME <![CDATA[<]]> NOW()
+		</where>
+		LIMIT 2
+	</select>
+
+	<select id="selectOldPrice" parameterType="java.util.List" resultType="ah.petrolmanagement.entity.ProductPriceEntity">
+		SELECT DISTINCT ON (PRODUCT_ID)
+			ID					AS id,
+			PRODUCT_ID	AS productId,
+			PRICE				AS price,
+			INS_TIME		AS insTime,
+			UPD_TIME		AS updTime
+		FROM
+			product_price
+		<where>
+			PRODUCT_ID IN
+				<foreach item="id" collection="productIdList" open="(" separator="," close=")">
+					#{id}
+				</foreach>
+			AND UPD_TIME <![CDATA[<]]> NOW()
+		</where>
+		ORDER BY PRODUCT_ID, UPD_TIME DESC
+	</select>
+
+	<select id="selectNewPrice" parameterType="java.util.List" resultType="ah.petrolmanagement.entity.ProductPriceEntity">
+		SELECT DISTINCT ON (PRODUCT_ID)
+			ID					AS id,
+			PRODUCT_ID	AS productId,
+			PRICE				AS price,
+			INS_TIME		AS insTime,
+			UPD_TIME		AS updTime
+		FROM
+			product_price
+		<where>
+			PRODUCT_ID IN
+				<foreach item="id" collection="productIdList" open="(" separator="," close=")">
+					#{id}
+				</foreach>
+		</where>
+		ORDER BY PRODUCT_ID, INS_TIME DESC
+	</select>
+
+	<insert id="save" parameterType="ah.petrolmanagement.entity.ProductPriceEntity">
+		INSERT INTO product_price (
+			PRODUCT_ID,
+			PRICE,
+			INS_USER
+		) VALUES (
+			#{entity.productId},
+			#{entity.price},
+			#{entity.insUser}
+		)
+	</insert>
+
+	<update id="update" parameterType="ah.petrolmanagement.entity.ProductPriceEntity">
+		UPDATE product_price
+		<set>
+			<if test="entity.productId != null">
+				PRODUCT_ID = #{entity.productId},
+			</if>
+			<if test="entity.price != null">
+				PRICE = #{entity.price},
+			</if>
+			UPD_TIME = CURRENT_TIMESTAMP,
+			UPD_USER = #{entity.updUser}
+		</set>
+		<where>
+			ID = #{entity.id}
+		</where>
+	</update>
+
+	<update id="delete" parameterType="ah.petrolmanagement.entity.ProductPriceEntity">
+		UPDATE product_price
+		<set>
+			DEL_FLAG = 1,
+			DEL_TIME = CURRENT_TIMESTAMP,
+			DEL_USER = #{entity.delUser}
+		</set>
+		<where>
+			ID = #{entity.id}
+		</where>
+	</update>
+</mapper>
