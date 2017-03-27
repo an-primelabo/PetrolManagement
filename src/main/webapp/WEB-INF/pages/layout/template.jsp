@@ -4,7 +4,6 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -21,7 +20,6 @@
 		<!-- Plugins -->
 		<link rel="stylesheet" type="text/css" href="<c:url value='/static/css/plugins/font-awesome.min.css' />">
 		<link rel="stylesheet" type="text/css" href="<c:url value='/static/css/plugins/animate.min.css' />">
-		<link rel="stylesheet" type="text/css" href="<c:url value='/static/css/plugins/bootstrap-material-datetimepicker.css' />">
 		<!-- Custom CSS -->
 		<link rel="stylesheet" href="<c:url value='/static/css/style.css' />">
 		<link rel="shortcut icon" href="<c:url value='/static/img/logomi.png' />">
@@ -39,7 +37,7 @@
 		<!-- Plugins -->
 		<script src="<c:url value='/static/js/plugins/moment-with-locales.min.js' />"></script>
 		<script src="<c:url value='/static/js/plugins/jquery.nicescroll.js' />"></script>
-		<script src="<c:url value='/static/js/plugins/bootstrap-material-datetimepicker.js' />"></script>
+		<script src="<c:url value='/static/js/plugins/jquery.validate.min.js' />"></script>
 		<!-- Numeral JavaScript -->
 		<script src="<c:url value='/static/js/numeral.min.js' />"></script>
 		<script src="<c:url value='/static/js/main.js' />"></script>
@@ -48,11 +46,12 @@
 
 	<body id="mimin" class="dashboard">
 		<c:set var="home" value="${pageContext.request.contextPath}" scope="session" />
+		<c:set var="now" value="<%= new java.util.Date() %>" scope="session" />
 		<spring:htmlEscape defaultHtmlEscape="true" />
 
 		<tiles:insertAttribute name="header" />
 
-		<div class="container-fluid mimin-wrapper">
+		<div class="mimin-wrapper container-fluid">
 			<tiles:insertAttribute name="left-menu" />
 
 			<div id="content">

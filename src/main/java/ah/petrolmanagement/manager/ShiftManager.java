@@ -1,6 +1,8 @@
 package ah.petrolmanagement.manager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ah.petrolmanagement.constants.ApiConstants;
@@ -31,6 +33,10 @@ public class ShiftManager {
 		return singleton;
 	}
 
+	public static List<ItemData> getShiftList() {
+		return getInstance().getList();
+	}
+
 	public static Integer getShiftCode(final int id) {
 		return getInstance().getCode(id);
 	}
@@ -47,10 +53,9 @@ public class ShiftManager {
 		synchronized (_LOCK) {
 			if (singleton != null) {
 				return singleton.reloadFromDB();
-			} else {
-				singleton = new ShiftManager();
-				return singleton.reloadFromDB();
 			}
+			singleton = new ShiftManager();
+			return singleton.reloadFromDB();
 		}
 	}
 
@@ -66,7 +71,7 @@ public class ShiftManager {
 
 				if (dataList != null) {
 					for (ShiftResponseDto dto : dataList) {
-						ItemData item = new ItemData(dto.getShiftCode(), dto.getShiftName(), dto.getUsername());
+						ItemData item = new ItemData(dto.getId(), dto.getShiftCode(), dto.getShiftName(), dto.getUsername());
 						this.shiftMap.put(dto.getId(), item);
 					}
 					return true;
@@ -81,52 +86,81 @@ public class ShiftManager {
 		}
 	}
 
+	public List<ItemData> getList() {
+		List<ItemData> list = new ArrayList<ItemData>();
+
+		if (this.shiftMap != null) {
+			list = new ArrayList<ItemData>(this.shiftMap.values());
+		}
+		return list;
+	}
+
 	public Integer getCode(int id) {
 		if (this.shiftMap.get(id) != null) {
 			return this.shiftMap.get(id).getShiftCode();
-		} else {
-			return id;
 		}
+		return id;
 	}
 
 	public String getName(int id) {
 		if (this.shiftMap.get(id) != null) {
 			return this.shiftMap.get(id).getShiftName();
-		} else {
-			return id + ApiConstants.BLANK;
 		}
+		return id + ApiConstants.BLANK;
 	}
 
 	public String getUser(int id) {
 		if (this.shiftMap.get(id) != null) {
 			return this.shiftMap.get(id).getUsername();
-		} else {
-			return id + ApiConstants.BLANK;
 		}
+		return id + ApiConstants.BLANK;
 	}
 
-	private static class ItemData {
+	public static class ItemData {
+		private Integer id;
 		private Integer shiftCode;
 		private String shiftName;
 		private String username;
 
-		public ItemData(Integer shiftCode, String shiftName, String username) {
+		public ItemData(Integer id, Integer shiftCode, String shiftName,
+				String username) {
 			super();
+			this.id = id;
 			this.shiftCode = shiftCode;
 			this.shiftName = shiftName;
 			this.username = username;
+		}
+
+		public Integer getId() {
+			return id;
+		}
+
+		public void setId(Integer id) {
+			this.id = id;
 		}
 
 		public Integer getShiftCode() {
 			return shiftCode;
 		}
 
+		public void setShiftCode(Integer shiftCode) {
+			this.shiftCode = shiftCode;
+		}
+
 		public String getShiftName() {
 			return shiftName;
 		}
 
+		public void setShiftName(String shiftName) {
+			this.shiftName = shiftName;
+		}
+
 		public String getUsername() {
 			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
 		}
 	}
 }

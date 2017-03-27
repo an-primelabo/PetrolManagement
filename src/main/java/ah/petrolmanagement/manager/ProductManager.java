@@ -33,6 +33,10 @@ public class ProductManager {
 		return singleton;
 	}
 
+	public static List<ItemData> getProductList() {
+		return getInstance().getList();
+	}
+
 	public static Integer getCategoryId(final int id) {
 		return getInstance().getCateId(id);
 	}
@@ -49,10 +53,9 @@ public class ProductManager {
 		synchronized (_LOCK) {
 			if (singleton != null) {
 				return singleton.reloadFromDB();
-			} else {
-				singleton = new ProductManager();
-				return singleton.reloadFromDB();
 			}
+			singleton = new ProductManager();
+			return singleton.reloadFromDB();
 		}
 	}
 
@@ -68,7 +71,7 @@ public class ProductManager {
 
 				if (dataList != null) {
 					for (ProductResponseDto dto : dataList) {
-						ItemData item = new ItemData(dto.getCategoryId(), dto.getProductName());
+						ItemData item = new ItemData(dto.getId(), dto.getCategoryId(), dto.getProductName());
 						this.productMap.put(dto.getId(), item);
 					}
 					return true;
@@ -83,12 +86,20 @@ public class ProductManager {
 		}
 	}
 
+	public List<ItemData> getList() {
+		List<ItemData> list = new ArrayList<ItemData>();
+
+		if (this.productMap != null) {
+			list = new ArrayList<ItemData>(this.productMap.values());
+		}
+		return list;
+	}
+
 	public Integer getCateId(int id) {
 		if (this.productMap.get(id) != null) {
 			return this.productMap.get(id).getCategoryId();
-		} else {
-			return id;
 		}
+		return id;
 	}
 
 	public List<Integer> getIds(int id) {
@@ -107,27 +118,44 @@ public class ProductManager {
 	public String getName(int id) {
 		if (this.productMap.get(id) != null) {
 			return this.productMap.get(id).getProductName();
-		} else {
-			return id + ApiConstants.BLANK;
 		}
+		return id + ApiConstants.BLANK;
 	}
 
-	private static class ItemData {
+	public static class ItemData {
+		private Integer id;
 		private Integer categoryId;
 		private String productName;
 
-		public ItemData(Integer categoryId, String productName) {
+		public ItemData(Integer id, Integer categoryId, String productName) {
 			super();
+			this.id = id;
 			this.categoryId = categoryId;
 			this.productName = productName;
+		}
+
+		public Integer getId() {
+			return id;
+		}
+
+		public void setId(Integer id) {
+			this.id = id;
 		}
 
 		public Integer getCategoryId() {
 			return categoryId;
 		}
 
+		public void setCategoryId(Integer categoryId) {
+			this.categoryId = categoryId;
+		}
+
 		public String getProductName() {
 			return productName;
+		}
+
+		public void setProductName(String productName) {
+			this.productName = productName;
 		}
 	}
 }

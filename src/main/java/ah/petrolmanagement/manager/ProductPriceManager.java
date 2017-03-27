@@ -32,6 +32,10 @@ public class ProductPriceManager {
 		return singleton;
 	}
 
+	public static List<ItemData> getPriceList() {
+		return getInstance().getList();
+	}
+
 	public static Integer getProductId(final int id) {
 		return getInstance().getProId(id);
 	}
@@ -48,10 +52,9 @@ public class ProductPriceManager {
 		synchronized (_LOCK) {
 			if (singleton != null) {
 				return singleton.reloadFromDB();
-			} else {
-				singleton = new ProductPriceManager();
-				return singleton.reloadFromDB();
 			}
+			singleton = new ProductPriceManager();
+			return singleton.reloadFromDB();
 		}
 	}
 
@@ -67,7 +70,7 @@ public class ProductPriceManager {
 
 				if (dataList != null) {
 					for (ProductPriceResponseDto dto : dataList) {
-						ItemData item = new ItemData(dto.getProductId(), dto.getPrice());
+						ItemData item = new ItemData(dto.getId(), dto.getProductId(), dto.getPrice());
 						this.priceMap.put(dto.getId(), item);
 					}
 					return true;
@@ -82,12 +85,20 @@ public class ProductPriceManager {
 		}
 	}
 
+	public List<ItemData> getList() {
+		List<ItemData> list = new ArrayList<ItemData>();
+
+		if (this.priceMap != null) {
+			list = new ArrayList<ItemData>(this.priceMap.values());
+		}
+		return list;
+	}
+
 	public Integer getProId(int id) {
 		if (this.priceMap.get(id) != null) {
 			return this.priceMap.get(id).getProductId();
-		} else {
-			return id;
 		}
+		return id;
 	}
 
 	public List<Integer> getIds(int id) {
@@ -106,27 +117,44 @@ public class ProductPriceManager {
 	public Integer getProPrice(int id) {
 		if (this.priceMap.get(id) != null) {
 			return this.priceMap.get(id).getPrice();
-		} else {
-			return id;
 		}
+		return id;
 	}
 
-	private static class ItemData {
+	public static class ItemData {
+		private Integer id;
 		private Integer productId;
 		private Integer price;
 
-		public ItemData(Integer productId, Integer price) {
+		public ItemData(Integer id, Integer productId, Integer price) {
 			super();
+			this.id = id;
 			this.productId = productId;
 			this.price = price;
+		}
+
+		public Integer getId() {
+			return id;
+		}
+
+		public void setId(Integer id) {
+			this.id = id;
 		}
 
 		public Integer getProductId() {
 			return productId;
 		}
 
+		public void setProductId(Integer productId) {
+			this.productId = productId;
+		}
+
 		public Integer getPrice() {
 			return price;
+		}
+
+		public void setPrice(Integer price) {
+			this.price = price;
 		}
 	}
 }

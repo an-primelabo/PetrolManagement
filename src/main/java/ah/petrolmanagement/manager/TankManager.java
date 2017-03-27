@@ -33,6 +33,10 @@ public class TankManager {
 		return singleton;
 	}
 
+	public static List<ItemData> getTankList() {
+		return getInstance().getList();
+	}
+
 	public static Integer getProductId(final int id) {
 		return getInstance().getProId(id);
 	}
@@ -49,10 +53,9 @@ public class TankManager {
 		synchronized (_LOCK) {
 			if (singleton != null) {
 				return singleton.reloadFromDB();
-			} else {
-				singleton = new TankManager();
-				return singleton.reloadFromDB();
 			}
+			singleton = new TankManager();
+			return singleton.reloadFromDB();
 		}
 	}
 
@@ -68,7 +71,7 @@ public class TankManager {
 
 				if (dataList != null) {
 					for (TankResponseDto dto : dataList) {
-						ItemData item = new ItemData(dto.getProductId(), dto.getTankName());
+						ItemData item = new ItemData(dto.getId(), dto.getProductId(), dto.getTankName());
 						this.tankMap.put(dto.getId(), item);
 					}
 					return true;
@@ -83,12 +86,20 @@ public class TankManager {
 		}
 	}
 
+	public List<ItemData> getList() {
+		List<ItemData> list = new ArrayList<ItemData>();
+
+		if (this.tankMap != null) {
+			list = new ArrayList<ItemData>(this.tankMap.values());
+		}
+		return list;
+	}
+
 	public Integer getProId(int id) {
 		if (this.tankMap.get(id) != null) {
 			return this.tankMap.get(id).getProductId();
-		} else {
-			return id;
 		}
+		return id;
 	}
 
 	public List<Integer> getIds(int id) {
@@ -107,27 +118,44 @@ public class TankManager {
 	public String getName(int id) {
 		if (this.tankMap.get(id) != null) {
 			return this.tankMap.get(id).getTankName();
-		} else {
-			return id + ApiConstants.BLANK;
 		}
+		return id + ApiConstants.BLANK;
 	}
 
-	private static class ItemData {
+	public static class ItemData {
+		private Integer id;
 		private Integer productId;
 		private String tankName;
 
-		public ItemData(Integer productId, String tankName) {
+		public ItemData(Integer id, Integer productId, String tankName) {
 			super();
+			this.id = id;
 			this.productId = productId;
 			this.tankName = tankName;
+		}
+
+		public Integer getId() {
+			return id;
+		}
+
+		public void setId(Integer id) {
+			this.id = id;
 		}
 
 		public Integer getProductId() {
 			return productId;
 		}
 
+		public void setProductId(Integer productId) {
+			this.productId = productId;
+		}
+
 		public String getTankName() {
 			return tankName;
+		}
+
+		public void setTankName(String tankName) {
+			this.tankName = tankName;
 		}
 	}
 }

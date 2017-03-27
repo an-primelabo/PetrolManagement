@@ -27,6 +27,7 @@ public final class UrlConstants {
 	public static final String URL_DAILY_INDEX = "/daily/index";
 	public static final String URL_DAILY_SEARCH = "/daily/search";
 	public static final String URL_DAILY_INSERT_PRICE = "/daily/insert/price";
+	public static final String URL_DAILY_INSERT_DAILY = "/daily/insert/daily";
 
 	public static final String URL_CATEGORY_SELECT = "category/select/json";
 	public static final String URL_CATEGORY_INSERT = "category/save/json";

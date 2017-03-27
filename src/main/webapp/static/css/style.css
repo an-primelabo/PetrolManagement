@@ -805,7 +805,11 @@ ul li a:focus {
 }
 
 .padding-0 {
-  padding: 0px;
+  padding: 0px !important;
+}
+
+.margin-0 {
+  margin: 0px !important;
 }
 
 .fc {
@@ -6081,6 +6085,10 @@ ul li a:focus {
   -ms-animation: rippleForm 0.5s linear;
   -o-animation: rippleForm 0.5s linear;
   animation: rippleForm 0.5s linear;
+}
+
+.form-group em.error {
+  color:#FF968B !important;
 }
 
 .form-group.form-animate-text {

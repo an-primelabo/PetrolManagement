@@ -20,6 +20,7 @@ public final class ApiConstants {
 	public static final String SLASH = "/";
 
 	public static final String VIEW_DAILY = "daily";
-	public static final String VIEW_DAILY_INSERT_PRICE = "daily/insert/price";
 	public static final String VIEW_DAILY_SEARCH = "daily/search";
+	public static final String VIEW_DAILY_INSERT_PRICE = "daily/insert/price";
+	public static final String VIEW_DAILY_INSERT_DAILY = "daily/insert/daily";
 }

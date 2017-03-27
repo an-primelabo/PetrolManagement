@@ -22,6 +22,8 @@ import ah.petrolmanagement.dto.response.ProductPriceResponseDto;
 import ah.petrolmanagement.enums.Categories;
 import ah.petrolmanagement.exception.PetrolException;
 import ah.petrolmanagement.manager.ProductManager;
+import ah.petrolmanagement.manager.TankManager;
+import ah.petrolmanagement.manager.TankManager.ItemData;
 import ah.petrolmanagement.utils.ControllerUtil;
 import ah.petrolmanagement.utils.DateUtil;
 import ah.petrolmanagement.utils.LogUtil;
@@ -38,6 +40,7 @@ public class DailyMeterController extends CommonController {
 		LogUtil.startMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_DAILY);
 
 		List<Integer> productIdList = ProductManager.getIdList(Categories.FUEL.getCode());
+		List<TankManager.ItemData> tankList = TankManager.getTankList();
 
 		DailyMeterRequestDto dailyRequest = new DailyMeterRequestDto();
 		dailyRequest.setInsTime(DateUtil.getToday());
@@ -52,6 +55,7 @@ public class DailyMeterController extends CommonController {
 		map.addAttribute("oldPrice", oldPrice);
 		map.addAttribute("newPrice", newPrice);
 		map.addAttribute("productIdList", productIdList);
+		map.addAttribute("tankList", tankList);
 
 		LogUtil.endMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_DAILY);
 		return ApiConstants.VIEW_DAILY;

@@ -1,8 +1,4 @@
-$(document).ready(function() {
-	$('.dateAnimate').bootstrapMaterialDatePicker({
-		time: false,
-		animation: true
-	});
+$(function() {
 });
 var formatDate = function(value) {
 	if (typeof value == 'undefined') {
@@ -15,4 +11,20 @@ var formatDate = function(value) {
 	var month = d.getMonth() + 1;
 	var day = d.getDate();
 	return (('' + day).length < 2 ? '0' : '') + day + '/' + (('' + month).length < 2 ? '0' : '') + month + '/' + d.getFullYear();
+};
+var numbericFilter = function(event, value) {
+	if ($.inArray(event.keyCode, [ 46, 8, 9, 27, 13, 110, 190 ]) !== -1 ||
+	// Allow: Ctrl+A, Command+A
+	(event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
+	// Allow: home, end, left, right, down, up
+	(event.keyCode >= 35 && event.keyCode <= 40)) {
+		if (value.indexOf('.') !== -1 && event.keyCode == 190) {
+			event.preventDefault();
+		}
+		return;
+	}
+	// Ensure that it is a number and stop the keypress
+	if ((event.shiftKey || (event.keyCode < 48 || event.keyCode > 57)) && (event.keyCode < 96 || event.keyCode > 105)) {
+		event.preventDefault();
+	}
 };
