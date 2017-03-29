@@ -26,4 +26,10 @@ public class ProductPriceEntity extends CommonEntity {
 	public void setPrice(Integer price) {
 		this.price = price;
 	}
+
+	@Override
+	public String toString() {
+		return "ProductPriceEntity [id=" + id + ", productId=" + productId
+				+ ", price=" + price + "]";
+	}
 }

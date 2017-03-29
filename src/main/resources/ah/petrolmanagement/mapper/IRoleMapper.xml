@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ah.petrolmanagement.persistence.IRoleMapper">
+	<select id="select" parameterType="java.util.Map" resultType="ah.petrolmanagement.entity.RoleEntity">
+		SELECT
+			ID				AS id,
+			USERNAME	AS username,
+			ROLE			AS role
+		FROM
+			role
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="map.id != null">
+				ID = #{map.id}
+			</if>
+			<if test="map.username != null">
+				USERNAME = #{map.username}
+			</if>
+			<if test="map.role != null">
+				ROLE = #{map.role}
+			</if>
+		</trim>
+	</select>
+</mapper>

@@ -26,4 +26,10 @@ public class ProductEntity extends CommonEntity {
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
+
+	@Override
+	public String toString() {
+		return "ProductEntity [id=" + id + ", categoryId=" + categoryId
+				+ ", productName=" + productName + "]";
+	}
 }

@@ -1,5 +1,8 @@
 package ah.petrolmanagement.dto.request;
 
+import java.util.Date;
+import java.util.List;
+
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 public class DailyMeterRequestDto extends CommonRequestDto {
@@ -7,12 +10,17 @@ public class DailyMeterRequestDto extends CommonRequestDto {
 
 	public static final String ID = "id";
 	public static final String TANK_ID = "tankId";
-	public static final String SHIFT_ID = "shiftId";
+	public static final String SHIFT = "shift";
 	public static final String PRICE_ID = "priceId";
 	public static final String METER_OLD = "meterOld";
 	public static final String METER_NEW = "meterNew";
 	public static final String METER_ELEC_OLD = "meterElecOld";
 	public static final String METER_ELEC_NEW = "meterElecNew";
+	public static final String DAILY_LIST = "dailyList";
+	public static final String DATE_FROM = "dateFrom";
+	public static final String DATE_TO = "dateTo";
+	public static final String MONTH_FROM = "monthFrom";
+	public static final String MONTH_TO = "monthTo";
 
 	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer id;
@@ -21,7 +29,7 @@ public class DailyMeterRequestDto extends CommonRequestDto {
 	private Integer tankId;
 
 	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-	private Integer shiftId;
+	private Integer shift;
 
 	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer priceId;
@@ -37,6 +45,21 @@ public class DailyMeterRequestDto extends CommonRequestDto {
 
 	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float meterElecNew;
+
+	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+	private List<DailyMeterRequestDto> dailyList;
+
+	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+	private Date dateFrom;
+
+	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+	private Date dateTo;
+
+	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+	private Date monthFrom;
+
+	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+	private Date monthTo;
 
 	public Integer getId() {
 		return id;
@@ -54,12 +77,12 @@ public class DailyMeterRequestDto extends CommonRequestDto {
 		this.tankId = tankId;
 	}
 
-	public Integer getShiftId() {
-		return shiftId;
+	public Integer getShift() {
+		return shift;
 	}
 
-	public void setShiftId(Integer shiftId) {
-		this.shiftId = shiftId;
+	public void setShift(Integer shift) {
+		this.shift = shift;
 	}
 
 	public Integer getPriceId() {
@@ -100,5 +123,45 @@ public class DailyMeterRequestDto extends CommonRequestDto {
 
 	public void setMeterElecNew(Float meterElecNew) {
 		this.meterElecNew = meterElecNew;
+	}
+
+	public List<DailyMeterRequestDto> getDailyList() {
+		return dailyList;
+	}
+
+	public void setDailyList(List<DailyMeterRequestDto> dailyList) {
+		this.dailyList = dailyList;
+	}
+
+	public Date getDateFrom() {
+		return dateFrom;
+	}
+
+	public void setDateFrom(Date dateFrom) {
+		this.dateFrom = dateFrom;
+	}
+
+	public Date getDateTo() {
+		return dateTo;
+	}
+
+	public void setDateTo(Date dateTo) {
+		this.dateTo = dateTo;
+	}
+
+	public Date getMonthFrom() {
+		return monthFrom;
+	}
+
+	public void setMonthFrom(Date monthFrom) {
+		this.monthFrom = monthFrom;
+	}
+
+	public Date getMonthTo() {
+		return monthTo;
+	}
+
+	public void setMonthTo(Date monthTo) {
+		this.monthTo = monthTo;
 	}
 }

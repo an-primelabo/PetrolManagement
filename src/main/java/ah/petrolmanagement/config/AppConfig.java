@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -21,6 +22,7 @@ import ah.petrolmanagement.annotation.JSTLConstantsRegister;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "ah.petrolmanagement")
+@Import({ SecurityConfig.class })
 public class AppConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public JSTLConstantsRegister constantsRegister() {

@@ -21,6 +21,7 @@ import ah.petrolmanagement.constants.ApiConstants;
 import ah.petrolmanagement.dto.request.ProductRequestDto;
 import ah.petrolmanagement.dto.response.ProductResponseDto;
 import ah.petrolmanagement.entity.ProductEntity;
+import ah.petrolmanagement.exception.PetrolException;
 import ah.petrolmanagement.logic.CommonLogic;
 import ah.petrolmanagement.logic.IProductLogic;
 import ah.petrolmanagement.persistence.IProductMapper;
@@ -36,7 +37,8 @@ public class ProductLogicImpl extends CommonLogic implements IProductLogic {
 	private DataSourceTransactionManager transaction;
 
 	@Override
-	public List<ProductResponseDto> select(final ProductRequestDto dto) {
+	public List<ProductResponseDto> select(final ProductRequestDto dto)
+			throws PetrolException {
 		logger.info("select : {}", dto);
 
 		Map<String, Object> map = setDataMap(dto);
@@ -46,8 +48,10 @@ public class ProductLogicImpl extends CommonLogic implements IProductLogic {
 	}
 
 	@Override
-	public ProductResponseDto save(final ProductRequestDto dto) {
+	public ProductResponseDto save(final ProductRequestDto dto)
+			throws PetrolException {
 		logger.info("save : {}", dto);
+
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
@@ -62,6 +66,7 @@ public class ProductLogicImpl extends CommonLogic implements IProductLogic {
 			mapper.save(entity);
 		} catch (Exception e) {
 			logger.error("save error : {}", e);
+
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
@@ -81,8 +86,10 @@ public class ProductLogicImpl extends CommonLogic implements IProductLogic {
 	}
 
 	@Override
-	public ProductResponseDto update(final ProductRequestDto dto) {
+	public ProductResponseDto update(final ProductRequestDto dto)
+			throws PetrolException {
 		logger.info("update : {}", dto);
+
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
@@ -97,6 +104,7 @@ public class ProductLogicImpl extends CommonLogic implements IProductLogic {
 			mapper.update(entity);
 		} catch (Exception e) {
 			logger.error("update error : {}", e);
+
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
@@ -111,8 +119,10 @@ public class ProductLogicImpl extends CommonLogic implements IProductLogic {
 	}
 
 	@Override
-	public ProductResponseDto delete(final ProductRequestDto dto) {
+	public ProductResponseDto delete(final ProductRequestDto dto)
+			throws PetrolException {
 		logger.info("delete : {}", dto);
+
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
@@ -127,6 +137,7 @@ public class ProductLogicImpl extends CommonLogic implements IProductLogic {
 			mapper.delete(entity);
 		} catch (Exception e) {
 			logger.error("delete error : {}", e);
+
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 

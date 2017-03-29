@@ -1,5 +1,3 @@
-$(function() {
-});
 var formatDate = function(value) {
 	if (typeof value == 'undefined') {
 		var d = new Date();
@@ -27,4 +25,19 @@ var numbericFilter = function(event, value) {
 	if ((event.shiftKey || (event.keyCode < 48 || event.keyCode > 57)) && (event.keyCode < 96 || event.keyCode > 105)) {
 		event.preventDefault();
 	}
+};
+var getRandom = function(arr, n) {
+	var result = new Array(n);
+	var len = arr.length;
+	var taken = new Array(len);
+
+	if (n > len) {
+		throw new RangeError('getRandom: more elements taken than available.');
+	}
+	while (n--) {
+		var x = Math.floor(Math.random() * len);
+		result[n] = arr[x in taken ? taken[x] : x];
+		taken[x] = --len;
+	}
+	return result;
 };

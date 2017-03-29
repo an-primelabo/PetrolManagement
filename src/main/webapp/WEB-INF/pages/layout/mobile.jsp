@@ -1,8 +1,8 @@
 
 <!-- start: Mobile -->
-<div id="mimin-mobile" class="reverse">
-	<div class="mimin-mobile-menu-list">
-		<div class="col-md-12 sub-mimin-mobile-menu-list animated fadeInLeft">
+<div id="petrol-mobile" class="reverse">
+	<div class="petrol-mobile-menu-list">
+		<div class="col-md-12 sub-petrol-mobile-menu-list animated fadeInLeft">
 			<ul class="nav nav-list">
 				<li class="active ripple"><a class="tree-toggle nav-header">
 						<span class="fa-home fa"></span>Dashboard <span
@@ -115,7 +115,7 @@
 		</div>
 	</div>
 </div>
-<button id="mimin-mobile-menu-opener"
+<button id="petrol-mobile-menu-opener"
 	class="animated rubberBand btn btn-circle btn-danger">
 	<span class="fa fa-bars"></span>
 </button>

@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<div id="price-content" class="col-md-7 padding-0">
+<div id="price-content" class="col-md-7 padding-0 animated fadeIn">
 	<div class="col-md-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">

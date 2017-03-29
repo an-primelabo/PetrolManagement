@@ -65,7 +65,7 @@ public class ProductPriceManager {
 			try {
 				this.priceMap = new HashMap<Integer, ItemData>();
 
-				String data = ControllerUtil.callAPI(UrlConstants.URL_PRICE_SELECT);
+				String data = ControllerUtil.callAPI(UrlConstants.URL_API_PRICE_SELECT);
 				ProductPriceResponseDto[] dataList = ControllerUtil.convertJson2Dto(data, ProductPriceResponseDto[].class);
 
 				if (dataList != null) {

@@ -3,8 +3,6 @@ package ah.petrolmanagement.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-
 public class CommonEntity implements Serializable {
 	private static final long serialVersionUID = 5953724456272489332L;
 
@@ -74,6 +72,9 @@ public class CommonEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return ReflectionToStringBuilder.reflectionToString(this);
+		return "CommonEntity [insTime=" + insTime + ", insUser=" + insUser
+				+ ", updTime=" + updTime + ", updUser=" + updUser
+				+ ", delFlag=" + delFlag + ", delTime=" + delTime
+				+ ", delUser=" + delUser + "]";
 	}
 }

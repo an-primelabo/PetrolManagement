@@ -28,7 +28,7 @@ public class DailyMeterService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_DAILY_SELECT,
+					value = UrlConstants.URL_API_DAILY_SELECT,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody List<DailyMeterResponseDto> select(@RequestBody final DailyMeterRequestDto dto) throws PetrolException {
 		return logic.select(dto);
@@ -36,7 +36,7 @@ public class DailyMeterService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST, 
-					value = UrlConstants.URL_DAILY_INSERT,
+					value = UrlConstants.URL_API_DAILY_INSERT,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody DailyMeterResponseDto save(@RequestBody final DailyMeterRequestDto dto) throws PetrolException {
 		return logic.save(dto);
@@ -44,7 +44,7 @@ public class DailyMeterService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_DAILY_UPDATE,
+					value = UrlConstants.URL_API_DAILY_UPDATE,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody DailyMeterResponseDto update(@RequestBody final DailyMeterRequestDto dto) throws PetrolException {
 		return logic.update(dto);
@@ -52,7 +52,7 @@ public class DailyMeterService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_DAILY_DELETE,
+					value = UrlConstants.URL_API_DAILY_DELETE,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody DailyMeterResponseDto delete(@RequestBody final DailyMeterRequestDto dto) throws PetrolException {
 		return logic.delete(dto);

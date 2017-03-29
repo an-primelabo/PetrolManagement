@@ -21,6 +21,12 @@ public final class ApiConstants {
 
 	public static final String VIEW_DAILY = "daily";
 	public static final String VIEW_DAILY_SEARCH = "daily/search";
+	public static final String VIEW_DAILY_CHART = "daily/chart";
 	public static final String VIEW_DAILY_INSERT_PRICE = "daily/insert/price";
 	public static final String VIEW_DAILY_INSERT_DAILY = "daily/insert/daily";
+
+	public static final String PAGE_LOGIN = "login/login";
+	public static final String PAGE_403 = "login/403";
+	public static final String PAGE_404 = "login/404";
+	public static final String PAGE_500 = "login/500";
 }

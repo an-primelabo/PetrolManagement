@@ -15,46 +15,46 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import ah.petrolmanagement.constants.UrlConstants;
-import ah.petrolmanagement.dto.request.ShiftRequestDto;
-import ah.petrolmanagement.dto.response.ShiftResponseDto;
+import ah.petrolmanagement.dto.request.UserRequestDto;
+import ah.petrolmanagement.dto.response.UserResponseDto;
 import ah.petrolmanagement.exception.PetrolException;
-import ah.petrolmanagement.logic.IShiftLogic;
+import ah.petrolmanagement.logic.IUserLogic;
 
 @Controller
 @Scope(value = SCOPE_REQUEST)
-public class ShiftService extends CommonService {
+public class UserService extends CommonService {
 	@Autowired
-	private IShiftLogic logic;
+	private IUserLogic logic;
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_SHIFT_SELECT,
+					value = UrlConstants.URL_API_USER_SELECT,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
-	public @ResponseBody List<ShiftResponseDto> select(@RequestBody final ShiftRequestDto dto) throws PetrolException {
+	public @ResponseBody List<UserResponseDto> select(@RequestBody final UserRequestDto dto) throws PetrolException {
 		return logic.select(dto);
 	}
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_SHIFT_INSERT,
+					value = UrlConstants.URL_API_USER_INSERT,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
-	public @ResponseBody ShiftResponseDto save(@RequestBody final ShiftRequestDto dto) throws PetrolException {
+	public @ResponseBody UserResponseDto save(@RequestBody final UserRequestDto dto) throws PetrolException {
 		return logic.save(dto);
 	}
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_SHIFT_UPDATE,
+					value = UrlConstants.URL_API_USER_UPDATE,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
-	public @ResponseBody ShiftResponseDto update(@RequestBody final ShiftRequestDto dto) throws PetrolException {
+	public @ResponseBody UserResponseDto update(@RequestBody final UserRequestDto dto) throws PetrolException {
 		return logic.update(dto);
 	}
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_SHIFT_DELETE,
+					value = UrlConstants.URL_API_USER_DELETE,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
-	public @ResponseBody ShiftResponseDto delete(@RequestBody final ShiftRequestDto dto) throws PetrolException {
+	public @ResponseBody UserResponseDto delete(@RequestBody final UserRequestDto dto) throws PetrolException {
 		return logic.delete(dto);
 	}
 }

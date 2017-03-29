@@ -26,4 +26,10 @@ public class TankEntity extends CommonEntity {
 	public void setTankName(String tankName) {
 		this.tankName = tankName;
 	}
+
+	@Override
+	public String toString() {
+		return "TankEntity [id=" + id + ", productId=" + productId
+				+ ", tankName=" + tankName + "]";
+	}
 }

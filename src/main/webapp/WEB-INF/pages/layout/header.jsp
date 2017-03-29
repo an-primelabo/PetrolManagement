@@ -6,7 +6,7 @@
 				<span class="top"></span> <span class="middle"></span> <span
 					class="bottom"></span>
 			</div>
-			<a href="index.html" class="navbar-brand"> <b>MIMIN</b>
+			<a href="index.html" class="navbar-brand"> <b>QUẢN LÝ TRẠM XĂNG</b>
 			</a>
 
 			<ul class="nav navbar-nav search-nav">

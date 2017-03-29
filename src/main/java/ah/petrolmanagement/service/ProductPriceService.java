@@ -28,7 +28,7 @@ public class ProductPriceService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_PRICE_SELECT,
+					value = UrlConstants.URL_API_PRICE_SELECT,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody List<ProductPriceResponseDto> select(@RequestBody final ProductPriceRequestDto dto) throws PetrolException {
 		return logic.select(dto);
@@ -36,7 +36,7 @@ public class ProductPriceService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_PRICE_SELECT_PRICE,
+					value = UrlConstants.URL_API_PRICE_SELECT_PRICE,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody List<ProductPriceResponseDto> selectPrice(@RequestBody final ProductPriceRequestDto dto) throws PetrolException {
 		return logic.selectPrice(dto);
@@ -44,7 +44,7 @@ public class ProductPriceService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_PRICE_SELECT_OLD_PRICE,
+					value = UrlConstants.URL_API_PRICE_SELECT_OLD_PRICE,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody List<ProductPriceResponseDto> selectOldPrice(@RequestBody final ProductPriceRequestDto dto) throws PetrolException {
 		return logic.selectOldPrice(dto);
@@ -52,7 +52,7 @@ public class ProductPriceService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_PRICE_SELECT_NEW_PRICE,
+					value = UrlConstants.URL_API_PRICE_SELECT_NEW_PRICE,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody List<ProductPriceResponseDto> selectNewPrice(@RequestBody final ProductPriceRequestDto dto) throws PetrolException {
 		return logic.selectNewPrice(dto);
@@ -60,7 +60,7 @@ public class ProductPriceService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_PRICE_INSERT,
+					value = UrlConstants.URL_API_PRICE_INSERT,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody ProductPriceResponseDto save(@RequestBody final ProductPriceRequestDto dto) throws PetrolException {
 		return logic.save(dto);
@@ -68,7 +68,7 @@ public class ProductPriceService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_PRICE_UPDATE,
+					value = UrlConstants.URL_API_PRICE_UPDATE,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody ProductPriceResponseDto update(@RequestBody final ProductPriceRequestDto dto) throws PetrolException {
 		return logic.update(dto);
@@ -76,7 +76,7 @@ public class ProductPriceService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_PRICE_DELETE,
+					value = UrlConstants.URL_API_PRICE_DELETE,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody ProductPriceResponseDto delete(@RequestBody final ProductPriceRequestDto dto) throws PetrolException {
 		return logic.delete(dto);

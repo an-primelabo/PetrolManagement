@@ -48,4 +48,11 @@ public class StockEntity extends CommonEntity {
 	public void setDipping(Float dipping) {
 		this.dipping = dipping;
 	}
+
+	@Override
+	public String toString() {
+		return "StockEntity [id=" + id + ", tankId=" + tankId + ", openStock="
+				+ openStock + ", receipt=" + receipt + ", dipping=" + dipping
+				+ "]";
+	}
 }

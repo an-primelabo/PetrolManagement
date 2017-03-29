@@ -1,5 +1,5 @@
 /*!
- * (c) Mimin Admin Page v1.0
+ * (c) petrol Admin Page v1.0
  */
 
 body {
@@ -237,10 +237,11 @@ p.quote{
 /*end: Lock Screen*/
 
 /*start: page 404*/
- .page-404{padding-top: 10%;font-size: 20px;}
- .page-404 img{margin-bottom: 2px;width: 350px;}
- .page-404 a{margin-left: 30px;}
- .page-404 a span{margin-left: 20px;}
+.page-404 {
+  margin-top: 5% !important;
+  font-size: 20px;
+  max-width: 50% !important;
+}
 /*end: page 404*/
 
 /*start: price*/
@@ -297,7 +298,6 @@ p.quote{
 /*end: product grid*/
 
 /*start: Login*/
- .form-signin-wrapper{background: #2196f3 !important;}
  .form-signin{
          max-width: 330px;
          padding: 15px;
@@ -455,7 +455,7 @@ p.quote{
   border:none !important;
 }
 
-.mimin-wrapper{
+.petrol-wrapper{
   padding-left: 0px !important;
   padding-right: 0px !important;
 }
@@ -490,7 +490,7 @@ p.quote{
     float: left;
     padding-bottom: 100%;
   }
-  .boxed .mimin-wrapper{
+  .boxed .petrol-wrapper{
     -webkit-box-shadow: 0 2px 5px 0 rgba(239, 235, 235, 0.16), 0 2px 10px 0 rgba(72, 70, 70, 0.12);
     -moz-box-shadow: 0 2px 5px 0 rgba(239, 235, 235, 0.16), 0 2px 10px 0 rgba(72, 70, 70, 0.12);
     -ms-box-shadow: 0 2px 5px 0 rgba(239, 235, 235, 0.16), 0 2px 10px 0 rgba(72, 70, 70, 0.12);
@@ -795,13 +795,6 @@ ul li a:focus {
     opacity: 1;
     filter: alpha(opacity=100);
   }
-}
-.left {
-  float: left;
-}
-
-.right {
-  float: right;
 }
 
 .padding-0 {
@@ -5617,7 +5610,7 @@ ul li a:focus {
 
 /*mobile================================*/
 
-#mimin-mobile {
+#petrol-mobile {
   position: fixed;
   bottom: 0px;
   right: 0px;
@@ -5627,7 +5620,7 @@ ul li a:focus {
   display: none
 }
 
-#mimin-mobile-menu-opener{
+#petrol-mobile-menu-opener{
   right: 20px;
   position: fixed;
   bottom: 20px;
@@ -5636,18 +5629,18 @@ ul li a:focus {
   display: none
 }
 
-#mimin-mobile a{
+#petrol-mobile a{
   color: #fff;
   padding-right: 0px;
 }
-#mimin-mobile a:hover{
+#petrol-mobile a:hover{
   background:none !important;
 }
-#mimin-mobile .tree{
+#petrol-mobile .tree{
   padding-left: 10px;
   background: #ef5949;
 }
-.sub-mimin-mobile-menu-list {
+.sub-petrol-mobile-menu-list {
   display: none;
   padding: 0;
   height: 300px;
@@ -5656,9 +5649,9 @@ ul li a:focus {
   font-size: 2em;
 }
 
-.sub-mimin-mobile-menu-list .fa{margin-right: 10px;}
+.sub-petrol-mobile-menu-list .fa{margin-right: 10px;}
 
-#mimin-mobile.animate {
+#petrol-mobile.animate {
   -webkit-animation: mobile-menubg 0.75s linear;
   -moz-animation: mobile-menubg 0.75s linear;
   -ms-animation: mobile-menubg 0.75s linear;
@@ -5666,11 +5659,11 @@ ul li a:focus {
   animation: mobile-menubg 0.75s linear;
 }
 
-#mimin-mobile .ink {
+#petrol-mobile .ink {
   background: #FF6656;
 }
 
-#mimin-mobile .ink.animate {
+#petrol-mobile .ink.animate {
   -webkit-animation: ripple-mobile 0.75s linear;
   -moz-animation: ripple-mobile 0.75s linear;
   -ms-animation: ripple-mobile 0.75s linear;
@@ -5678,7 +5671,7 @@ ul li a:focus {
   animation: ripple-mobile 0.75s linear;
 }
 
-#mimin-mobile.reverse.animate {
+#petrol-mobile.reverse.animate {
   -webkit-animation: mobile-menubg-reverse 0.75s linear !important;
   -moz-animation: mobile-menubg-reverse 0.75s linear !important;
   -ms-animation: mobile-menubg-reverse 0.75s linear !important;
@@ -5686,7 +5679,7 @@ ul li a:focus {
   animation: mobile-menubg-reverse 0.75s linear !important;
 }
 
-#mimin-mobile.reverse .ink.animate {
+#petrol-mobile.reverse .ink.animate {
   -webkit-animation: ripple-mobile-reverse 0.75s linear !important;
   -moz-animation: ripple-mobile-reverse 0.75s linear !important;
   -ms-animation: ripple-mobile-reverse 0.75s linear !important;
@@ -6416,7 +6409,7 @@ ul li a:focus {
     height: 20px;
   }
 
-  .topnav #mimin-mobile,.topnav #mimin-mobile-menu-opener{display: block !important;}
+  .topnav #petrol-mobile,.topnav #petrol-mobile-menu-opener{display: block !important;}
 
   .user-nav{float: right;}
   .user-nav li{
@@ -6487,7 +6480,7 @@ ul li a:focus {
     display: none !important;
   }
 
-  #mimin-mobile,#mimin-mobile-menu-opener{display: block !important;}
+  #petrol-mobile,#petrol-mobile-menu-opener{display: block !important;}
 
   .search-nav{
     display: none;

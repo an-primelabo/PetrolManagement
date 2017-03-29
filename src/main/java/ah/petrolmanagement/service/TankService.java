@@ -28,7 +28,7 @@ public class TankService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_TANK_SELECT,
+					value = UrlConstants.URL_API_TANK_SELECT,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody List<TankResponseDto> select(@RequestBody final TankRequestDto dto) throws PetrolException {
 		return logic.select(dto);
@@ -36,7 +36,7 @@ public class TankService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_TANK_INSERT,
+					value = UrlConstants.URL_API_TANK_INSERT,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody TankResponseDto save(@RequestBody final TankRequestDto dto) throws PetrolException {
 		return logic.save(dto);
@@ -44,7 +44,7 @@ public class TankService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_TANK_UPDATE,
+					value = UrlConstants.URL_API_TANK_UPDATE,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody TankResponseDto update(@RequestBody final TankRequestDto dto) throws PetrolException {
 		return logic.update(dto);
@@ -52,7 +52,7 @@ public class TankService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_TANK_DELETE,
+					value = UrlConstants.URL_API_TANK_DELETE,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody TankResponseDto delete(@RequestBody final TankRequestDto dto) throws PetrolException {
 		return logic.delete(dto);

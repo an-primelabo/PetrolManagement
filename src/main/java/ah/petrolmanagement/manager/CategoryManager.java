@@ -58,7 +58,7 @@ public class CategoryManager {
 			try {
 				this.categoryMap = new HashMap<Integer, ItemData>();
 
-				String data = ControllerUtil.callAPI(UrlConstants.URL_CATEGORY_SELECT);
+				String data = ControllerUtil.callAPI(UrlConstants.URL_API_CATEGORY_SELECT);
 				CategoryResponseDto[] dataList = ControllerUtil.convertJson2Dto(data, CategoryResponseDto[].class);
 
 				if (dataList != null) {

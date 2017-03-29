@@ -36,7 +36,8 @@ public class ProductPriceLogicImpl extends CommonLogic implements IProductPriceL
 	private DataSourceTransactionManager transaction;
 
 	@Override
-	public List<ProductPriceResponseDto> select(final ProductPriceRequestDto dto) {
+	public List<ProductPriceResponseDto> select(final ProductPriceRequestDto dto)
+			throws PetrolException {
 		logger.info("select : {}", dto);
 
 		Map<String, Object> map = setDataMap(dto);
@@ -46,7 +47,8 @@ public class ProductPriceLogicImpl extends CommonLogic implements IProductPriceL
 	}
 
 	@Override
-	public List<ProductPriceResponseDto> selectPrice(final ProductPriceRequestDto dto) throws PetrolException {
+	public List<ProductPriceResponseDto> selectPrice(final ProductPriceRequestDto dto)
+			throws PetrolException {
 		logger.info("selectPrice : {}", dto);
 
 		List<ProductPriceEntity> entities = mapper.selectPrice(dto.getProductId());
@@ -55,7 +57,8 @@ public class ProductPriceLogicImpl extends CommonLogic implements IProductPriceL
 	}
 
 	@Override
-	public List<ProductPriceResponseDto> selectOldPrice(final ProductPriceRequestDto dto) throws PetrolException {
+	public List<ProductPriceResponseDto> selectOldPrice(final ProductPriceRequestDto dto)
+			throws PetrolException {
 		logger.info("selectOldPrice : {}", dto);
 
 		List<ProductPriceEntity> entities = mapper.selectOldPrice(dto.getProductIdList());
@@ -64,7 +67,8 @@ public class ProductPriceLogicImpl extends CommonLogic implements IProductPriceL
 	}
 
 	@Override
-	public List<ProductPriceResponseDto> selectNewPrice(final ProductPriceRequestDto dto) throws PetrolException {
+	public List<ProductPriceResponseDto> selectNewPrice(final ProductPriceRequestDto dto)
+			throws PetrolException {
 		logger.info("selectNewPrice : {}", dto);
 
 		List<ProductPriceEntity> entities = mapper.selectNewPrice(dto.getProductIdList());
@@ -73,8 +77,10 @@ public class ProductPriceLogicImpl extends CommonLogic implements IProductPriceL
 	}
 
 	@Override
-	public ProductPriceResponseDto save(final ProductPriceRequestDto dto) {
+	public ProductPriceResponseDto save(final ProductPriceRequestDto dto)
+			throws PetrolException {
 		logger.info("save : {}", dto);
+
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
@@ -89,6 +95,7 @@ public class ProductPriceLogicImpl extends CommonLogic implements IProductPriceL
 			mapper.save(entity);
 		} catch (Exception e) {
 			logger.error("save error : {}", e);
+
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
@@ -108,8 +115,10 @@ public class ProductPriceLogicImpl extends CommonLogic implements IProductPriceL
 	}
 
 	@Override
-	public ProductPriceResponseDto update(final ProductPriceRequestDto dto) {
+	public ProductPriceResponseDto update(final ProductPriceRequestDto dto)
+			throws PetrolException {
 		logger.info("update : {}", dto);
+
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
@@ -124,6 +133,7 @@ public class ProductPriceLogicImpl extends CommonLogic implements IProductPriceL
 			mapper.update(entity);
 		} catch (Exception e) {
 			logger.error("update error : {}", e);
+
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
@@ -138,8 +148,10 @@ public class ProductPriceLogicImpl extends CommonLogic implements IProductPriceL
 	}
 
 	@Override
-	public ProductPriceResponseDto delete(final ProductPriceRequestDto dto) {
+	public ProductPriceResponseDto delete(final ProductPriceRequestDto dto)
+			throws PetrolException {
 		logger.info("delete : {}", dto);
+
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
@@ -154,6 +166,7 @@ public class ProductPriceLogicImpl extends CommonLogic implements IProductPriceL
 			mapper.delete(entity);
 		} catch (Exception e) {
 			logger.error("delete error : {}", e);
+
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 

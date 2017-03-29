@@ -1,8 +1,10 @@
 package ah.petrolmanagement.enums;
 
+import java.io.Serializable;
+
 import ah.petrolmanagement.constants.ApiConstants;
 
-public enum Shifts {
+public enum Shifts implements Serializable {
 	ALLDAY(0, "Cả Ngày"), MORNING(1, "Ca Sáng"), EVENING(2, "Ca Tối");
 
 	private int code;

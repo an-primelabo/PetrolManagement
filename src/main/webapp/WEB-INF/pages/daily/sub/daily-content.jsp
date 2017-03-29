@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<div id="daily-content" class="col-md-12 padding-0 fade in">
+<div id="daily-content" class="col-md-12 padding-0 animated fadeIn">
 	<div class="col-md-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -66,8 +66,8 @@
 								<c:if test="${daily.different < 0}">
 									<c:set var="cssDifferent" value="#ff6656;" />
 								</c:if>
-								<c:if test="${daily.shiftId != shift}">
-									<c:set var="shift" value="${daily.shiftId}" />
+								<c:if test="${daily.shift != shift}">
+									<c:set var="shift" value="${daily.shift}" />
 									<tbody>
 										<tr>
 											<td colspan="11" class="bg-info text-center"><h5 class="text-white">${daily.shiftName}</h5></td>

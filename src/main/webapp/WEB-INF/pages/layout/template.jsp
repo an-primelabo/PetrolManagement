@@ -44,14 +44,14 @@
 		<script src="<c:url value='/static/js/base.js' />"></script>
 	</head>
 
-	<body id="mimin" class="dashboard">
+	<body id="petrol" class="dashboard">
 		<c:set var="home" value="${pageContext.request.contextPath}" scope="session" />
 		<c:set var="now" value="<%= new java.util.Date() %>" scope="session" />
 		<spring:htmlEscape defaultHtmlEscape="true" />
 
 		<tiles:insertAttribute name="header" />
 
-		<div class="mimin-wrapper container-fluid">
+		<div class="petrol-wrapper container-fluid">
 			<tiles:insertAttribute name="left-menu" />
 
 			<div id="content">
@@ -62,14 +62,8 @@
 
 			<tiles:insertAttribute name="right-menu" />
 		</div>
-		<!-- /div.mimin-wrapper -->
+		<!-- /div.petrol-wrapper -->
 
 		<tiles:insertAttribute name="mobile" />
-
-		<div class="loading hide">
-			<div class="ajax-load"></div>
-			<!-- /div.ajax-load -->
-		</div>
-		<!-- /div.loading -->
 	</body>
 </html>

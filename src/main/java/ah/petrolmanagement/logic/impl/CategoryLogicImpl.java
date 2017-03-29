@@ -21,6 +21,7 @@ import ah.petrolmanagement.constants.ApiConstants;
 import ah.petrolmanagement.dto.request.CategoryRequestDto;
 import ah.petrolmanagement.dto.response.CategoryResponseDto;
 import ah.petrolmanagement.entity.CategoryEntity;
+import ah.petrolmanagement.exception.PetrolException;
 import ah.petrolmanagement.logic.CommonLogic;
 import ah.petrolmanagement.logic.ICategoryLogic;
 import ah.petrolmanagement.persistence.ICategoryMapper;
@@ -36,7 +37,8 @@ public class CategoryLogicImpl extends CommonLogic implements ICategoryLogic {
 	private DataSourceTransactionManager transaction;
 
 	@Override
-	public List<CategoryResponseDto> select(final CategoryRequestDto dto) {
+	public List<CategoryResponseDto> select(final CategoryRequestDto dto)
+			throws PetrolException {
 		logger.info("select : {}", dto);
 
 		Map<String, Object> map = setDataMap(dto);
@@ -46,8 +48,10 @@ public class CategoryLogicImpl extends CommonLogic implements ICategoryLogic {
 	}
 
 	@Override
-	public CategoryResponseDto save(final CategoryRequestDto dto) {
+	public CategoryResponseDto save(final CategoryRequestDto dto)
+			throws PetrolException {
 		logger.info("save : {}", dto);
+
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
@@ -62,6 +66,7 @@ public class CategoryLogicImpl extends CommonLogic implements ICategoryLogic {
 			mapper.save(entity);
 		} catch (Exception e) {
 			logger.error("save error : {}", e);
+
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
@@ -81,8 +86,10 @@ public class CategoryLogicImpl extends CommonLogic implements ICategoryLogic {
 	}
 
 	@Override
-	public CategoryResponseDto update(final CategoryRequestDto dto) {
+	public CategoryResponseDto update(final CategoryRequestDto dto)
+			throws PetrolException {
 		logger.info("update : {}", dto);
+
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
@@ -97,6 +104,7 @@ public class CategoryLogicImpl extends CommonLogic implements ICategoryLogic {
 			mapper.update(entity);
 		} catch (Exception e) {
 			logger.error("update error : {}", e);
+
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
@@ -111,8 +119,10 @@ public class CategoryLogicImpl extends CommonLogic implements ICategoryLogic {
 	}
 
 	@Override
-	public CategoryResponseDto delete(final CategoryRequestDto dto) {
+	public CategoryResponseDto delete(final CategoryRequestDto dto)
+			throws PetrolException {
 		logger.info("delete : {}", dto);
+
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
@@ -127,6 +137,7 @@ public class CategoryLogicImpl extends CommonLogic implements ICategoryLogic {
 			mapper.delete(entity);
 		} catch (Exception e) {
 			logger.error("delete error : {}", e);
+
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 

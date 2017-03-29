@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ah.petrolmanagement.persistence.IPersistentLoginMapper">
+	<select id="select" parameterType="java.lang.String" resultType="ah.petrolmanagement.entity.PersistentLoginEntity">
+		SELECT
+			USERNAME	AS username,
+			SERIES		AS series,
+			TOKEN			AS token,
+			LAST_USED	AS lastUsed
+		FROM
+			persistent_logins
+		<where>
+			SERIES = #{series}
+		</where>
+	</select>
+
+	<insert id="save" parameterType="ah.petrolmanagement.entity.PersistentLoginEntity">
+		INSERT INTO persistent_logins (
+			USERNAME,
+			SERIES,
+			TOKEN,
+			LAST_USED
+		) VALUES (
+			#{entity.username},
+			#{entity.series},
+			#{entity.token},
+			#{entity.lastUsed}
+		)
+	</insert>
+
+	<update id="update" parameterType="ah.petrolmanagement.entity.PersistentLoginEntity">
+		UPDATE persistent_logins
+		<set>
+			TOKEN = #{entity.token},
+			LAST_USED = #{entity.lastUsed},
+		</set>
+		<where>
+			SERIES = #{entity.series}
+		</where>
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM persistent_logins
+		<where>
+			USERNAME = #{username}
+		</where>
+	</delete>
+</mapper>

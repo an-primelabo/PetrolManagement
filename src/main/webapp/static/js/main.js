@@ -214,9 +214,9 @@
         $(this).addClass("active");
     });
 
-    $("#mimin-mobile-menu-opener").on("click",function(e){
-        $("#mimin-mobile").toggleClass("reverse");
-        var rippler = $("#mimin-mobile");
+    $("#petrol-mobile-menu-opener").on("click",function(e){
+        $("#petrol-mobile").toggleClass("reverse");
+        var rippler = $("#petrol-mobile");
         if(!rippler.hasClass("reverse"))
         {
             if(rippler.find(".ink").length == 0) {
@@ -243,10 +243,10 @@
               width: '100%'
             }, 750 );
 
-             $("#mimin-mobile .ink").on("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
+             $("#petrol-mobile .ink").on("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
               function(e){
-                $(".sub-mimin-mobile-menu-list").show();
-                $("#mimin-mobile-menu-opener span").removeClass("fa-bars").addClass("fa-close").css({"font-size":"2em"});
+                $(".sub-petrol-mobile-menu-list").show();
+                $("#petrol-mobile-menu-opener span").removeClass("fa-bars").addClass("fa-close").css({"font-size":"2em"});
               });
         }else{
             
@@ -272,10 +272,10 @@
                   'z-index':'-1'
                 }, 750 );
 
-                $("#mimin-mobile .ink").on("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
+                $("#petrol-mobile .ink").on("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
                 function(e){
-                  $("#mimin-mobile-menu-opener span").removeClass("fa-close").addClass("fa-bars").css({"font-size":"1em"});
-                  $(".sub-mimin-mobile-menu-list").hide();
+                  $("#petrol-mobile-menu-opener span").removeClass("fa-close").addClass("fa-bars").css({"font-size":"1em"});
+                  $(".sub-petrol-mobile-menu-list").hide();
                 });
         }
     });
@@ -296,7 +296,7 @@
     $(".ripple div").ripple();
     $("#carousel-example3").carouselAnimate();
     $("#left-menu .sub-left-menu").niceScroll();
-     $(".sub-mimin-mobile-menu-list").niceScroll({
+     $(".sub-petrol-mobile-menu-list").niceScroll({
             touchbehavior:true,
             cursorcolor:"#FF00FF",
             cursoropacitymax:0.6,

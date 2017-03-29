@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<div id="daily-controls" class="col-md-5 padding-0">
+<div id="daily-controls" class="col-md-5 padding-0 animated fadeIn">
 	<div class="col-md-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -33,8 +33,8 @@
 	
 				<div class="top-20">
 					<button type="button" id="btn-daily-insert-new" class="btn btn-gradient btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Thêm số liệu</button>
-					<button type="button" id="btn-daily-search" class="btn btn-gradient btn-success"><i class="fa fa-money" aria-hidden="true"></i> Kiểm tiền</button>
-					<button type="button" class="btn btn-gradient btn-danger"><i class="fa fa-bar-chart" aria-hidden="true"></i> Báo cáo</button>
+					<button type="button" class="btn btn-gradient btn-success"><i class="fa fa-money" aria-hidden="true"></i> Kiểm tiền</button>
+					<button type="button" id="btn-daily-chart" class="btn btn-gradient btn-danger" data-toggle="modal" data-target="#daily-chart-modal"><i class="fa fa-bar-chart" aria-hidden="true"></i> Thống kê</button>
 				</div>
 				<!-- /div.top-20 -->
 			</div>

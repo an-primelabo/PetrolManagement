@@ -6,7 +6,7 @@
 		SELECT
 			ID							AS id,
 			TANK_ID					AS tankId,
-			SHIFT_ID				AS shiftId,
+			SHIFT						AS shift,
 			PRICE_ID				AS priceId,
 			METER_OLD				AS meterOld,
 			METER_NEW				AS meterNew,
@@ -28,8 +28,8 @@
 			<if test="map.tankId != null">
 				AND TANK_ID = #{map.tankId}
 			</if>
-			<if test="map.shiftId != null">
-				AND SHIFT_ID = #{map.shiftId}
+			<if test="map.shift != null">
+				AND SHIFT = #{map.shift}
 			</if>
 			<if test="map.priceId != null">
 				AND PRICE_ID = #{map.priceId}
@@ -49,6 +49,20 @@
 			<if test="map.insTime != null">
 				AND INS_TIME::DATE = #{map.insTime}::DATE
 			</if>
+			<if test="map.dateFrom != null and map.dateTo == null">
+				AND INS_TIME::DATE = #{map.dateFrom}::DATE
+			</if>
+			<if test="map.dateFrom != null and map.dateTo != null">
+				AND INS_TIME::DATE <![CDATA[>=]]> #{map.dateFrom}::DATE
+				AND INS_TIME::DATE <![CDATA[<=]]> #{map.dateTo}::DATE
+			</if>
+			<if test="map.monthFrom != null and map.monthTo == null">
+				AND EXTRACT (MONTH FROM INS_TIME) = EXTRACT (MONTH FROM #{map.monthFrom}::DATE)
+			</if>
+			<if test="map.monthFrom != null and map.monthTo != null">
+				AND EXTRACT (MONTH FROM INS_TIME) <![CDATA[>=]]> EXTRACT (MONTH FROM #{map.monthFrom}::DATE)
+				AND EXTRACT (MONTH FROM INS_TIME) <![CDATA[<=]]> EXTRACT (MONTH FROM #{map.monthTo}::DATE)
+			</if>
 			<if test="map.delFlag == null">
 				AND DEL_FLAG = 0
 			</if>
@@ -59,7 +73,7 @@
 		INSERT INTO daily_meter (
 			STOCK_ID,
 			TANK_ID,
-			SHIFT_ID,
+			SHIFT,
 			PRICE_ID,
 			METER_OLD,
 			METER_NEW,
@@ -69,7 +83,7 @@
 		) VALUES (
 			0,
 			#{entity.tankId},
-			#{entity.shiftId},
+			#{entity.shift},
 			#{entity.priceId},
 			#{entity.meterOld},
 			#{entity.meterNew},
@@ -85,8 +99,8 @@
 			<if test="entity.tankId != null">
 				TANK_ID = #{entity.tankId},
 			</if>
-			<if test="entity.shiftId != null">
-				SHIFT_ID = #{entity.shiftId},
+			<if test="entity.shift != null">
+				SHIFT = #{entity.shift},
 			</if>
 			<if test="entity.priceId != null">
 				PRICE_ID = #{entity.priceId},

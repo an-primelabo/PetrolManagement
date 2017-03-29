@@ -5,7 +5,7 @@ public class DailyMeterEntity extends CommonEntity {
 
 	private Integer id;
 	private Integer tankId;
-	private Integer shiftId;
+	private Integer shift;
 	private Integer priceId;
 	private Float meterOld;
 	private Float meterNew;
@@ -24,12 +24,12 @@ public class DailyMeterEntity extends CommonEntity {
 		this.tankId = tankId;
 	}
 
-	public Integer getShiftId() {
-		return shiftId;
+	public Integer getShift() {
+		return shift;
 	}
 
-	public void setShiftId(Integer shiftId) {
-		this.shiftId = shiftId;
+	public void setShift(Integer shift) {
+		this.shift = shift;
 	}
 
 	public Integer getPriceId() {
@@ -70,5 +70,13 @@ public class DailyMeterEntity extends CommonEntity {
 
 	public void setMeterElecNew(Float meterElecNew) {
 		this.meterElecNew = meterElecNew;
+	}
+
+	@Override
+	public String toString() {
+		return "DailyMeterEntity [id=" + id + ", tankId=" + tankId
+				+ ", priceId=" + priceId + ", meterOld=" + meterOld
+				+ ", meterNew=" + meterNew + ", meterElecOld=" + meterElecOld
+				+ ", meterElecNew=" + meterElecNew + "]";
 	}
 }

@@ -1,20 +1,18 @@
 package ah.petrolmanagement.dto.request;
 
+import java.util.Date;
+
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 public class UserRequestDto extends CommonRequestDto {
 	private static final long serialVersionUID = 3721673980859484844L;
 
-	public static final String ID = "id";
 	public static final String USERNAME = "username";
 	public static final String PASSWORD = "password";
 	public static final String FIRSTNAME = "firstname";
 	public static final String LASTNAME = "lastname";
-	public static final String EMAIL = "email";
-	public static final String ROLE_ID = "roleId";
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-	private Integer id;
+	public static final String BIRTHDAY = "birthday";
+	public static final String PHONE = "phone";
 
 	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String username;
@@ -29,18 +27,10 @@ public class UserRequestDto extends CommonRequestDto {
 	private String lastname;
 
 	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-	private String email;
+	private Date birthday;
 
 	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-	private Integer roleId;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	private String phone;
 
 	public String getUsername() {
 		return username;
@@ -74,19 +64,19 @@ public class UserRequestDto extends CommonRequestDto {
 		this.lastname = lastname;
 	}
 
-	public String getEmail() {
-		return email;
+	public Date getBirthday() {
+		return birthday;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
 
-	public Integer getRoleId() {
-		return roleId;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 }

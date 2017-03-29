@@ -28,7 +28,7 @@ public class CategoryService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_CATEGORY_SELECT,
+					value = UrlConstants.URL_API_CATEGORY_SELECT,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody List<CategoryResponseDto> select(@RequestBody final CategoryRequestDto dto) throws PetrolException {
 		return logic.select(dto);
@@ -36,7 +36,7 @@ public class CategoryService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_CATEGORY_INSERT,
+					value = UrlConstants.URL_API_CATEGORY_INSERT,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody CategoryResponseDto save(@RequestBody final CategoryRequestDto dto) throws PetrolException {
 		return logic.save(dto);
@@ -44,7 +44,7 @@ public class CategoryService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_CATEGORY_UPDATE,
+					value = UrlConstants.URL_API_CATEGORY_UPDATE,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody CategoryResponseDto update(@RequestBody final CategoryRequestDto dto) throws PetrolException {
 		return logic.update(dto);
@@ -52,7 +52,7 @@ public class CategoryService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_CATEGORY_DELETE,
+					value = UrlConstants.URL_API_CATEGORY_DELETE,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody CategoryResponseDto delete(@RequestBody final CategoryRequestDto dto) throws PetrolException {
 		return logic.delete(dto);

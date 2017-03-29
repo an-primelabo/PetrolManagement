@@ -1,9 +1,11 @@
 package ah.petrolmanagement.enums;
 
+import java.io.Serializable;
+
 import ah.petrolmanagement.constants.ApiConstants;
 
-public enum Categories {
-	FUEL(1, "Xăng"), LUBE(2, "Nhớt Bình"), OIL(3, "Nhớt Lẻ");
+public enum Categories implements Serializable {
+	FUEL(1, "Xăng"), OIL(2, "Nhớt"), LUBE(3, "Nhớt Bình"), OTHER(4, "Nhớt Lẻ");
 
 	private int code;
 	private String value;

@@ -21,6 +21,7 @@ import ah.petrolmanagement.constants.ApiConstants;
 import ah.petrolmanagement.dto.request.TankRequestDto;
 import ah.petrolmanagement.dto.response.TankResponseDto;
 import ah.petrolmanagement.entity.TankEntity;
+import ah.petrolmanagement.exception.PetrolException;
 import ah.petrolmanagement.logic.CommonLogic;
 import ah.petrolmanagement.logic.ITankLogic;
 import ah.petrolmanagement.persistence.ITankMapper;
@@ -36,7 +37,8 @@ public class TankLogicImpl extends CommonLogic implements ITankLogic {
 	private DataSourceTransactionManager transaction;
 
 	@Override
-	public List<TankResponseDto> select(final TankRequestDto dto) {
+	public List<TankResponseDto> select(final TankRequestDto dto)
+			throws PetrolException {
 		logger.info("select : {}", dto);
 
 		Map<String, Object> map = setDataMap(dto);
@@ -46,8 +48,10 @@ public class TankLogicImpl extends CommonLogic implements ITankLogic {
 	}
 
 	@Override
-	public TankResponseDto save(final TankRequestDto dto) {
+	public TankResponseDto save(final TankRequestDto dto)
+			throws PetrolException {
 		logger.info("save : {}", dto);
+
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
@@ -62,6 +66,7 @@ public class TankLogicImpl extends CommonLogic implements ITankLogic {
 			mapper.save(entity);
 		} catch (Exception e) {
 			logger.error("save error : {}", e);
+
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
@@ -81,8 +86,10 @@ public class TankLogicImpl extends CommonLogic implements ITankLogic {
 	}
 
 	@Override
-	public TankResponseDto update(final TankRequestDto dto) {
+	public TankResponseDto update(final TankRequestDto dto)
+			throws PetrolException {
 		logger.info("update : {}", dto);
+
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
@@ -97,6 +104,7 @@ public class TankLogicImpl extends CommonLogic implements ITankLogic {
 			mapper.update(entity);
 		} catch (Exception e) {
 			logger.error("update error : {}", e);
+
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
@@ -111,8 +119,10 @@ public class TankLogicImpl extends CommonLogic implements ITankLogic {
 	}
 
 	@Override
-	public TankResponseDto delete(final TankRequestDto dto) {
+	public TankResponseDto delete(final TankRequestDto dto)
+			throws PetrolException {
 		logger.info("delete : {}", dto);
+
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
@@ -127,6 +137,7 @@ public class TankLogicImpl extends CommonLogic implements ITankLogic {
 			mapper.delete(entity);
 		} catch (Exception e) {
 			logger.error("delete error : {}", e);
+
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 

@@ -18,43 +18,47 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import ah.petrolmanagement.constants.ApiConstants;
-import ah.petrolmanagement.dto.request.ShiftRequestDto;
-import ah.petrolmanagement.dto.response.ShiftResponseDto;
-import ah.petrolmanagement.entity.ShiftEntity;
+import ah.petrolmanagement.dto.request.UserRequestDto;
+import ah.petrolmanagement.dto.response.UserResponseDto;
+import ah.petrolmanagement.entity.UserEntity;
+import ah.petrolmanagement.exception.PetrolException;
 import ah.petrolmanagement.logic.CommonLogic;
-import ah.petrolmanagement.logic.IShiftLogic;
-import ah.petrolmanagement.persistence.IShiftMapper;
+import ah.petrolmanagement.logic.IUserLogic;
+import ah.petrolmanagement.persistence.IUserMapper;
 
 @Component
-public class ShiftLogicImpl extends CommonLogic implements IShiftLogic {
+public class UserLogicImpl extends CommonLogic implements IUserLogic {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
-	private IShiftMapper mapper;
+	private IUserMapper mapper;
 
 	@Autowired
 	private DataSourceTransactionManager transaction;
 
 	@Override
-	public List<ShiftResponseDto> select(final ShiftRequestDto dto) {
+	public List<UserResponseDto> select(UserRequestDto dto)
+			throws PetrolException {
 		logger.info("select : {}", dto);
 
 		Map<String, Object> map = setDataMap(dto);
-		List<ShiftEntity> entities = mapper.select(map);
-		List<ShiftResponseDto> list = setData(entities);
+		List<UserEntity> entities = mapper.select(map);
+		List<UserResponseDto> list = setData(entities);
 		return list;
 	}
 
 	@Override
-	public ShiftResponseDto save(final ShiftRequestDto dto) {
+	public UserResponseDto save(UserRequestDto dto)
+			throws PetrolException {
 		logger.info("save : {}", dto);
+
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
 		TransactionStatus status = transaction.getTransaction(def);
 
-		ShiftEntity entity = setDataEntity(dto);
-		ShiftResponseDto response = new ShiftResponseDto();
+		UserEntity entity = setDataEntity(dto);
+		UserResponseDto response = new UserResponseDto();
 
 		Object savePoint = status.createSavepoint();
 
@@ -62,6 +66,7 @@ public class ShiftLogicImpl extends CommonLogic implements IShiftLogic {
 			mapper.save(entity);
 		} catch (Exception e) {
 			logger.error("save error : {}", e);
+
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
@@ -81,15 +86,17 @@ public class ShiftLogicImpl extends CommonLogic implements IShiftLogic {
 	}
 
 	@Override
-	public ShiftResponseDto update(final ShiftRequestDto dto) {
+	public UserResponseDto update(UserRequestDto dto)
+			throws PetrolException {
 		logger.info("update : {}", dto);
+
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
 		TransactionStatus status = transaction.getTransaction(def);
 
-		ShiftEntity entity = setDataEntity(dto);
-		ShiftResponseDto response = new ShiftResponseDto();
+		UserEntity entity = setDataEntity(dto);
+		UserResponseDto response = new UserResponseDto();
 
 		Object savePoint = status.createSavepoint();
 
@@ -97,6 +104,7 @@ public class ShiftLogicImpl extends CommonLogic implements IShiftLogic {
 			mapper.update(entity);
 		} catch (Exception e) {
 			logger.error("update error : {}", e);
+
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
@@ -111,15 +119,17 @@ public class ShiftLogicImpl extends CommonLogic implements IShiftLogic {
 	}
 
 	@Override
-	public ShiftResponseDto delete(final ShiftRequestDto dto) {
+	public UserResponseDto delete(UserRequestDto dto)
+			throws PetrolException {
 		logger.info("delete : {}", dto);
+
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
 		TransactionStatus status = transaction.getTransaction(def);
 
-		ShiftEntity entity = setDataEntity(dto);
-		ShiftResponseDto response = new ShiftResponseDto();
+		UserEntity entity = setDataEntity(dto);
+		UserResponseDto response = new UserResponseDto();
 
 		Object savePoint = status.createSavepoint();
 
@@ -127,6 +137,7 @@ public class ShiftLogicImpl extends CommonLogic implements IShiftLogic {
 			mapper.delete(entity);
 		} catch (Exception e) {
 			logger.error("delete error : {}", e);
+
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
@@ -140,41 +151,32 @@ public class ShiftLogicImpl extends CommonLogic implements IShiftLogic {
 		return response;
 	}
 
-	private Map<String, Object> setDataMap(ShiftRequestDto dto) {
+	private Map<String, Object> setDataMap(UserRequestDto dto) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		if (dto.getId() != null) {
-			map.put(ShiftRequestDto.ID, dto.getId());
-		}
-		if (dto.getShiftCode() != null) {
-			map.put(ShiftRequestDto.SHIFT_CODE, dto.getShiftCode());
-		}
-		if (StringUtils.isNotBlank(dto.getShiftName())) {
-			map.put(ShiftRequestDto.SHIFT_NAME, dto.getShiftName());
-		}
 		if (StringUtils.isNotBlank(dto.getUsername())) {
-			map.put(ShiftRequestDto.USERNAME, dto.getUsername());
+			map.put(UserRequestDto.USERNAME, dto.getUsername());
 		}
 		return map;
 	}
 
-	private ShiftEntity setDataEntity(ShiftRequestDto dto) {
-		ShiftEntity entity = new ShiftEntity();
+	private UserEntity setDataEntity(UserRequestDto dto) {
+		UserEntity entity = new UserEntity();
 		BeanUtils.copyProperties(dto, entity);
 		return entity;
 	}
 
-	private ShiftResponseDto setDataResponse(ShiftRequestDto dto) {
-		ShiftResponseDto response = new ShiftResponseDto();
+	private UserResponseDto setDataResponse(UserRequestDto dto) {
+		UserResponseDto response = new UserResponseDto();
 		BeanUtils.copyProperties(dto, response);
 		return response;
 	}
 
-	private List<ShiftResponseDto> setData(List<ShiftEntity> entities) {
-		List<ShiftResponseDto> list = new ArrayList<ShiftResponseDto>();
+	private List<UserResponseDto> setData(List<UserEntity> entities) {
+		List<UserResponseDto> list = new ArrayList<UserResponseDto>();
 
-		for (ShiftEntity entity : entities) {
-			ShiftResponseDto dto = new ShiftResponseDto();
+		for (UserEntity entity : entities) {
+			UserResponseDto dto = new UserResponseDto();
 			BeanUtils.copyProperties(entity, dto);
 			dto.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 

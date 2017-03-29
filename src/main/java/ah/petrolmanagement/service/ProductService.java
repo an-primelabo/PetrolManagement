@@ -28,7 +28,7 @@ public class ProductService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_PRODUCT_SELECT,
+					value = UrlConstants.URL_API_PRODUCT_SELECT,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody List<ProductResponseDto> select(@RequestBody final ProductRequestDto dto) throws PetrolException {
 		return logic.select(dto);
@@ -36,7 +36,7 @@ public class ProductService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_PRODUCT_INSERT,
+					value = UrlConstants.URL_API_PRODUCT_INSERT,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody ProductResponseDto save(@RequestBody final ProductRequestDto dto) throws PetrolException {
 		return logic.save(dto);
@@ -44,7 +44,7 @@ public class ProductService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_PRODUCT_UPDATE,
+					value = UrlConstants.URL_API_PRODUCT_UPDATE,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody ProductResponseDto update(@RequestBody final ProductRequestDto dto) throws PetrolException {
 		return logic.update(dto);
@@ -52,7 +52,7 @@ public class ProductService extends CommonService {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.POST,
-					value = UrlConstants.URL_PRODUCT_DELETE,
+					value = UrlConstants.URL_API_PRODUCT_DELETE,
 					headers = UrlConstants.REQUEST_HEADER_ACCEPT_JSON)
 	public @ResponseBody ProductResponseDto delete(@RequestBody final ProductRequestDto dto) throws PetrolException {
 		return logic.delete(dto);

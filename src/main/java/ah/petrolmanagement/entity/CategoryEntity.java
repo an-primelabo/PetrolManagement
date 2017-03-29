@@ -17,4 +17,9 @@ public class CategoryEntity extends CommonEntity {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
+
+	@Override
+	public String toString() {
+		return "CategoryEntity [id=" + id + ", categoryName=" + categoryName + "]";
+	}
 }

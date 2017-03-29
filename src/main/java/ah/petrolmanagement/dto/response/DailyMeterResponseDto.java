@@ -23,7 +23,7 @@ public class DailyMeterResponseDto extends CommonResponseDto {
 	private String tankName;
 
 	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-	private Integer shiftId;
+	private Integer shift;
 
 	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String shiftName;
@@ -93,12 +93,12 @@ public class DailyMeterResponseDto extends CommonResponseDto {
 		this.tankName = tankName;
 	}
 
-	public Integer getShiftId() {
-		return shiftId;
+	public Integer getShift() {
+		return shift;
 	}
 
-	public void setShiftId(Integer shiftId) {
-		this.shiftId = shiftId;
+	public void setShift(Integer shift) {
+		this.shift = shift;
 	}
 
 	public String getShiftName() {
@@ -204,7 +204,7 @@ public class DailyMeterResponseDto extends CommonResponseDto {
 		Integer product = TankManager.getProductId(getTankId());
 		setProductId(product);
 
-		String shift = Shifts.getByCode(getShiftId());
+		String shift = Shifts.getByCode(getShift());
 		setShiftName(shift);
 
 		Float mNew = (getMeterNew() != null) ? getMeterNew() : 0L;

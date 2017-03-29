@@ -66,7 +66,7 @@ public class TankManager {
 			try {
 				this.tankMap = new HashMap<Integer, ItemData>();
 
-				String data = ControllerUtil.callAPI(UrlConstants.URL_TANK_SELECT);
+				String data = ControllerUtil.callAPI(UrlConstants.URL_API_TANK_SELECT);
 				TankResponseDto[] dataList = ControllerUtil.convertJson2Dto(data, TankResponseDto[].class);
 
 				if (dataList != null) {

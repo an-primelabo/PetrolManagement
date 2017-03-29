@@ -1,7 +1,8 @@
-package ah.petrolmanagement.config;
+package ah.petrolmanagement.config.core;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import ah.petrolmanagement.config.AppConfig;
 import ah.petrolmanagement.constants.ApiConstants;
 
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {

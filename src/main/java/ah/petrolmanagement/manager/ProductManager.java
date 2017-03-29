@@ -66,7 +66,7 @@ public class ProductManager {
 			try {
 				this.productMap = new HashMap<Integer, ItemData>();
 
-				String data = ControllerUtil.callAPI(UrlConstants.URL_PRODUCT_SELECT);
+				String data = ControllerUtil.callAPI(UrlConstants.URL_API_PRODUCT_SELECT);
 				ProductResponseDto[] dataList = ControllerUtil.convertJson2Dto(data, ProductResponseDto[].class);
 
 				if (dataList != null) {

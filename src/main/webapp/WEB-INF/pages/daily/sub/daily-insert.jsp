@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<div id="daily-insert" class="col-md-12 padding-0 fade hide">
+<div id="daily-insert" class="col-md-12 padding-0 animated fadeIn hide">
 	<div class="col-md-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -37,17 +37,17 @@
 								</c:if>
 								<div id="tab-tank-content-${tank.id}" class="tab-pane fade ${active}" data-id="${tank.id}" role="tabpanel" aria-labelledby="tab-tank-content-${tank.id}">
 									<div class="col-md-12">
-										<div id="tab-tank-message-${tank.id}" class="col-md-12 col-sm-12 alert alert-icon alert-danger alert-dismissible fade top-20 hide" role="alert">
+										<div id="tab-tank-message-${tank.id}" class="col-md-12 col-sm-12 alert alert-icon alert-dismissible animated fadeIn top-20" role="alert">
 											<div class="col-md-1 col-sm-1 icon-wrapper text-center"><span class="fa fa-flash"></span></div>
 											<!-- /div.col-md-1.col-sm-1.icon-wrapper.text-center -->
 	
 											<div class="col-md-11 col-sm-11">
-												<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-												<p><strong>Lỗi</strong> <span>ABCDF</span></p>
+												<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+												<p></p>
 											</div>
 											<!-- /div.col-md-11.col-sm-11 -->
 										</div>
-										<!-- /div.col-md-12.col-sm-12.alert.alert-icon.alert-danger.alert-dismissible.fade.top-20.hide -->
+										<!-- /div.col-md-12.col-sm-12.alert.alert-icon.alert-dismissible.animated.fadeIn.top-20 -->
 									</div>
 									<!-- /div.col-md-12 -->
 
@@ -80,7 +80,7 @@
 
 									<div class="col-md-12">
 										<div class="form-group">
-											<label class="col-md-2 control-label text-right">Chỉ Số Mới - Cũ</label>
+											<label class="col-md-2 control-label">Chỉ Số Mới - Cũ</label>
 
 											<div class="col-md-5 padding-0">
 												<div class="col-md-6">
@@ -114,7 +114,7 @@
 
 									<div class="col-md-12">
 										<div class="form-group">
-											<label class="col-md-2 control-label text-right">Bán</label>
+											<label class="col-md-2 control-label">Bán</label>
 
 											<div class="col-md-5">
 												<p id="meter-quantity-${tank.id}" class="form-control-static">0</p>
@@ -132,7 +132,7 @@
 
 									<div class="col-md-12">
 										<div class="form-group">
-											<label class="col-md-2 control-label text-right">Thành Tiền</label>
+											<label class="col-md-2 control-label">Thành Tiền</label>
 
 											<div class="col-md-5">
 												<p id="amount-${tank.id}" class="form-control-static">0</p>
@@ -150,7 +150,7 @@
 
 									<div class="col-md-12">
 										<div class="form-group">
-											<label class="col-md-2 control-label text-right">Chênh Lệch</label>
+											<label class="col-md-2 control-label">Chênh Lệch</label>
 
 											<div class="col-md-10">
 												<p id="different-${tank.id}" class="form-control-static">0</p>
@@ -158,15 +158,6 @@
 											<!-- /div.col-md-10 -->
 										</div>
 										<!-- /div.form-group -->
-									</div>
-									<!-- /div.col-md-12 -->
-
-									<div class="col-md-12">
-										<div class="form-group form-animate-checkbox margin-0">
-											<input type="checkbox" id="tank-ignore-${tank.id}" name="tank-ignore-${tank.id}" class="checkbox" />
-											<label>Bỏ qua trụ này</label>
-										</div>
-										<!-- /div.form-group.form-animate-checkbox.margin-0 -->
 									</div>
 									<!-- /div.col-md-12 -->
 

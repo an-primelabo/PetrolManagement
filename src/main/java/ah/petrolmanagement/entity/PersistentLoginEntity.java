@@ -42,4 +42,10 @@ public class PersistentLoginEntity implements Serializable {
 	public void setLastUsed(Date lastUsed) {
 		this.lastUsed = lastUsed;
 	}
+
+	@Override
+	public String toString() {
+		return "PersistentLoginEntity [username=" + username + ", series="
+				+ series + ", token=" + token + ", lastUsed=" + lastUsed + "]";
+	}
 }
