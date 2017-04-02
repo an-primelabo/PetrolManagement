@@ -29,6 +29,7 @@ import ah.petrolmanagement.utils.LogUtil;
 
 @Controller
 public class DailyMeterController extends CommonController {
+	private static final String TITLE = "Số liệu xăng dầu hằng ngày";
 	private String responseJson = null;
 	private Map<String, Object> mapJson = null;
 
@@ -55,6 +56,8 @@ public class DailyMeterController extends CommonController {
 		map.addAttribute("newPrice", newPrice);
 		map.addAttribute("productIdList", productIdList);
 		map.addAttribute("tankList", tankList);
+		map.addAttribute("loggedInUser", getPrincipal());
+		map.addAttribute("title", TITLE);
 
 		LogUtil.endMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_DAILY);
 		return ApiConstants.VIEW_DAILY;

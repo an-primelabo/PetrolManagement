@@ -4,8 +4,8 @@ public class ControllerUtilProperties {
 	private static final ControllerUtilProperties singleton = new ControllerUtilProperties();
 
 	private String host;
-	private int connectionTimeout;
-	private int socketTimeout;
+	private Integer connectionTimeout;
+	private Integer socketTimeout;
 
 	private ControllerUtilProperties() {
 		this.host = "http://localhost:8080/PetrolManagement/";
@@ -17,11 +17,11 @@ public class ControllerUtilProperties {
 		return host;
 	}
 
-	public int getConnectionTimeout() {
+	public Integer getConnectionTimeout() {
 		return connectionTimeout;
 	}
 
-	public int getSocketTimeout() {
+	public Integer getSocketTimeout() {
 		return socketTimeout;
 	}
 

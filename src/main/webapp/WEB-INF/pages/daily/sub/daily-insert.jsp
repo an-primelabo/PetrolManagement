@@ -12,7 +12,7 @@
 			<!-- /div.panel-heading -->
 
 			<div class="panel-body">
-				<form id="form-daily-insert" class="form-horizontal" action="" method="post">
+				<form id="form-daily-insert" class="form-horizontal" action="" method="post" autocomplete="off">
 					<div class="col-md-12 tabs-area margin-0">
 						<ul id="tabs-tanks" class="nav nav-tabs nav-tabs-v3 padding-0" role="tablist">
 							<c:forEach var="tank" items="${tankList}" varStatus="idx">
@@ -47,7 +47,7 @@
 											</div>
 											<!-- /div.col-md-11.col-sm-11 -->
 										</div>
-										<!-- /div.col-md-12.col-sm-12.alert.alert-icon.alert-dismissible.animated.fadeIn.top-20 -->
+										<!-- /div#tab-tank-message-${tank.id} -->
 									</div>
 									<!-- /div.col-md-12 -->
 

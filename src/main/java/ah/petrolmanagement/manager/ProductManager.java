@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ah.petrolmanagement.constants.ApiConstants;
 import ah.petrolmanagement.constants.UrlConstants;
 import ah.petrolmanagement.dto.response.ProductResponseDto;
 import ah.petrolmanagement.utils.ControllerUtil;
@@ -37,15 +36,15 @@ public class ProductManager {
 		return getInstance().getList();
 	}
 
-	public static Integer getCategoryId(final int id) {
+	public static Integer getCategoryId(final Integer id) {
 		return getInstance().getCateId(id);
 	}
 
-	public static List<Integer> getIdList(final int id) {
+	public static List<Integer> getIdList(final Integer id) {
 		return getInstance().getIds(id);
 	}
 
-	public static String getProduct(final int id) {
+	public static String getProduct(final Integer id) {
 		return getInstance().getName(id);
 	}
 
@@ -95,14 +94,14 @@ public class ProductManager {
 		return list;
 	}
 
-	public Integer getCateId(int id) {
+	public Integer getCateId(Integer id) {
 		if (this.productMap.get(id) != null) {
 			return this.productMap.get(id).getCategoryId();
 		}
 		return id;
 	}
 
-	public List<Integer> getIds(int id) {
+	public List<Integer> getIds(Integer id) {
 		List<Integer> list = new ArrayList<Integer>();
 
 		for (Map.Entry<Integer, ItemData> entry : this.productMap.entrySet()) {
@@ -115,11 +114,11 @@ public class ProductManager {
 		return list;
 	}
 
-	public String getName(int id) {
+	public String getName(Integer id) {
 		if (this.productMap.get(id) != null) {
 			return this.productMap.get(id).getProductName();
 		}
-		return id + ApiConstants.BLANK;
+		return id.toString();
 	}
 
 	public static class ItemData {

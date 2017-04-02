@@ -16,6 +16,10 @@ public class DailyMeterEntity extends CommonEntity {
 		return id;
 	}
 
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public Integer getTankId() {
 		return tankId;
 	}

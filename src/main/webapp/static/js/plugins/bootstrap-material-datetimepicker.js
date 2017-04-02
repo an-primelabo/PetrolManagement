@@ -11,7 +11,7 @@
 	var pluginName = "bootstrapMaterialDatePicker";
   	var pluginDataName = "plugin_" + pluginName;
 
-  	moment.locale('vi');
+  	moment.locale('en');
 
 	function Plugin(element, options)
 	{
@@ -25,7 +25,7 @@
 		this.element = element;
 		this.$element = $(element);
 
-		this.params = { date : true, time : true, format : 'DD/MM/YYYY', minDate : null, maxDate : null, currentDate : null, lang : 'vi', weekStart : 0, shortTime : false, 'cancelText' : 'Cancel', 'okText' : 'OK','animation' : false};
+		this.params = { date : true, time : true, format : 'YYYY-MM-DD', minDate : null, maxDate : null, currentDate : null, lang : 'en', weekStart : 0, shortTime : false, 'cancelText' : 'Cancel', 'okText' : 'OK','animation' : false};
 		this.params = $.fn.extend(this.params, options);
 
 		this.name = "dtp_" + this.setName();
@@ -262,11 +262,11 @@
 											'<div class="dtp-picker-datetime hidden">' +
 												'<div class="dtp-actual-meridien">' +
 													'<div class="left p20">' +
-														'<a class="dtp-meridien-am" href="javascript:void(0);">SA</a>' +
+														'<a class="dtp-meridien-am" href="javascript:void(0);">AM</a>' +
 													'</div>' +
 													'<div class="dtp-actual-time p60"></div>' +
 													'<div class="right p20">' +
-														'<a class="dtp-meridien-pm" href="javascript:void(0);">CH</a>' +
+														'<a class="dtp-meridien-pm" href="javascript:void(0);">PM</a>' +
 													'</div>' +
 													'<div class="clearfix"></div>' +
 												'</div>' +
@@ -600,8 +600,8 @@
 		{
 			if(date)
 			{
-				this.$dtpElement.find('.dtp-actual-day').html(date.locale(this.params.lang).format('dddd').toUpperCase());
-				this.$dtpElement.find('.dtp-actual-month').html(date.locale(this.params.lang).format('MMMM').toUpperCase());
+				this.$dtpElement.find('.dtp-actual-day').html(date.locale(this.params.lang).format('dddd'));
+				this.$dtpElement.find('.dtp-actual-month').html(date.locale(this.params.lang).format('MMM').toUpperCase());
 				this.$dtpElement.find('.dtp-actual-num').html(date.locale(this.params.lang).format('DD'));
 				this.$dtpElement.find('.dtp-actual-year').html(date.locale(this.params.lang).format('YYYY'));
 			}
@@ -673,11 +673,11 @@
 		{
 			var _template = "";
 
-			_template += '<div class="dtp-picker-month">' + date.locale(this.params.lang).format('MMMM YYYY').toUpperCase() + '</div>';
+			_template += '<div class="dtp-picker-month">' + date.locale(this.params.lang).format('MMMM YYYY') + '</div>';
 			_template += '<table class="table dtp-picker-days"><thead>';
 			for(var i = 0; i < calendar.week.length; i++)
 			{
-				_template += '<th>' + moment(parseInt(calendar.week[i]), "d").locale(this.params.lang).format("dd").substring(0, 2) + '</th>';
+				_template += '<th>' + moment(parseInt(calendar.week[i]), "d").locale(this.params.lang).format("dd").substring(0, 1) + '</th>';
 			}
 
 			_template += '</thead>';

@@ -11,7 +11,7 @@ public class BaseDto implements Serializable {
 	private static final long serialVersionUID = 7209760273222456270L;
 
 	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-	private int status;
+	private Integer status;
 
 	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String resultCode;
@@ -22,11 +22,11 @@ public class BaseDto implements Serializable {
 	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private List<String> errors;
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 

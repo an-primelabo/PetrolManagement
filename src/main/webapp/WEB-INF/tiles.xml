@@ -9,6 +9,7 @@
 		<put-attribute name="body" value="" />
 		<put-attribute name="right-menu" value="/WEB-INF/pages/layout/right-menu.jsp" />
 		<put-attribute name="mobile" value="/WEB-INF/pages/layout/mobile.jsp" />
+		<put-attribute name="modal" value="/WEB-INF/pages/layout/modal.jsp" />
 	</definition>
 
 	<definition name="login" extends="default">
@@ -18,8 +19,13 @@
 	</definition>
 
 	<definition name="daily" extends="default">
-		<put-attribute name="title" value="Số Liệu Xăng Dầu Hằng Ngày" />
+		<put-attribute name="title" value="Số Liệu Xăng Dầu" />
 		<put-attribute name="body" value="/WEB-INF/pages/daily/index.jsp" />
+	</definition>
+
+	<definition name="product" extends="default">
+		<put-attribute name="title" value="Hạng Mục Hàng Hóa" />
+		<put-attribute name="body" value="/WEB-INF/pages/product/index.jsp" />
 	</definition>
 
 	<!-- <definition name="fuel.list" extends="default"> -->

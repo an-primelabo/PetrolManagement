@@ -81,6 +81,7 @@ public class UserLogicImpl extends CommonLogic implements IUserLogic {
 			return response;
 		}
 		transaction.commit(status);
+		response = setDataResponse(dto);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}
@@ -114,6 +115,7 @@ public class UserLogicImpl extends CommonLogic implements IUserLogic {
 			return response;
 		}
 		transaction.commit(status);
+		response = setDataResponse(dto);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}
@@ -147,6 +149,7 @@ public class UserLogicImpl extends CommonLogic implements IUserLogic {
 			return response;
 		}
 		transaction.commit(status);
+		response = setDataResponse(dto);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}

@@ -513,27 +513,3 @@ var hideMessageDailyInsert = function(tabActive) {
 		tabActive.find('div[id^=tab-tank-message-]').hide();
 	}
 };
-var callAjax = function(url, data, callback) {
-	$.ajax({
-		type: 'POST',
-		contentType: 'application/json; charset=utf-8',
-		url: url,
-		data: JSON.stringify(data),
-		dataType: 'json',
-		async: false,
-		timeout: 100000,
-		success: function(response) {
-			console.log(response);
-			callback(response);
-		},
-		error: function(e) {
-			console.log('ERROR: ', e);
-		},
-		beforeSend: function() {
-			$('.loading').removeClass('hide');
-		},
-		complete: function() {
-			$('.loading').addClass('hide');
-		}
-	});
-};

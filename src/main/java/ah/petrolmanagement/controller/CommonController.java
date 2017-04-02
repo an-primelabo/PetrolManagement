@@ -14,6 +14,8 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.SpringSecurityMessageSource;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -47,6 +49,7 @@ public class CommonController implements MessageSourceAware {
 			final HttpServletRequest request,
 			final HttpServletResponse response) {
 		logger.error(ApiConstants.BLANK, e);
+
 		return this.handleException(new PetrolException(ApiConstants.BLANK, ApiConstants.BLANK, e), request, response);
 	}
 
@@ -57,6 +60,7 @@ public class CommonController implements MessageSourceAware {
 			final HttpServletRequest request,
 			final HttpServletResponse response) {
 		logger.error(ApiConstants.BLANK, e);
+
 		return this.handleException(new PetrolException(ApiConstants.BLANK, ApiConstants.BLANK, e), request, response);
 	}
 
@@ -67,6 +71,7 @@ public class CommonController implements MessageSourceAware {
 			final HttpServletRequest request,
 			final HttpServletResponse response) {
 		logger.error(ApiConstants.BLANK, e);
+
 		return this.handleException(new PetrolException(ApiConstants.BLANK, ApiConstants.BLANK, e), request, response);
 	}
 
@@ -77,6 +82,7 @@ public class CommonController implements MessageSourceAware {
 			final HttpServletResponse response) {
 		logger.error(MessageFormat.format("[{0}] {1}", exception.getErrorCode(), exception.getErrorMessage()));
 		logger.error(ApiConstants.BLANK, exception);
+
 		HttpStatus status = exception.getHttpStatus();
 
 		if (status != null) {
@@ -85,6 +91,16 @@ public class CommonController implements MessageSourceAware {
 			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		}
 		return this.createErrorDto(exception.getErrorCode());
+	}
+
+	protected String getPrincipal() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String userName = principal.toString();
+
+		if (principal instanceof UserDetails) {
+			userName = ((UserDetails) principal).getUsername();
+		}
+		return userName;
 	}
 
 	private CommonResponseDto createErrorDto(final String errorCode) {

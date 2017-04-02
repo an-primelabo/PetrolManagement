@@ -11,6 +11,7 @@ public class ProductPriceRequestDto extends CommonRequestDto {
 	public static final String PRODUCT_ID = "productId";
 	public static final String PRICE = "price";
 	public static final String PRODUCT_ID_LIST = "productIdList";
+	public static final String SELECT_TOP = "selectTop";
 
 	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer id;
@@ -23,6 +24,9 @@ public class ProductPriceRequestDto extends CommonRequestDto {
 
 	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private List<Integer> productIdList;
+
+	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+	private Integer selectTop;
 
 	public Integer getId() {
 		return id;
@@ -54,5 +58,13 @@ public class ProductPriceRequestDto extends CommonRequestDto {
 
 	public void setProductIdList(List<Integer> productIdList) {
 		this.productIdList = productIdList;
+	}
+
+	public Integer getSelectTop() {
+		return selectTop;
+	}
+
+	public void setSelectTop(Integer selectTop) {
+		this.selectTop = selectTop;
 	}
 }

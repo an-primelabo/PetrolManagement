@@ -20,5 +20,6 @@
 				ROLE = #{map.role}
 			</if>
 		</trim>
+		ORDER BY ID
 	</select>
 </mapper>

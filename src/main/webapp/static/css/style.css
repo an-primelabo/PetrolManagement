@@ -460,10 +460,6 @@ p.quote{
   padding-right: 0px !important;
 }
 
-.search-nav .form-animate-text{
-  margin-bottom: 0px !important;
-}
-
 .panel{
   border-radius:0px;
   padding: 0px;
@@ -1815,44 +1811,6 @@ ul li a:focus {
   .dropdown a {
     font-size: 1em;
   }
-
-  .navbar .search {
-    padding-top: 15px;
-    padding-left: 10px;
-    color: #0c66ae;
-  }
-
-  .navbar .search .form-animate-text{
-    float: right;
-    margin-top: -10px;
-    margin-left: 5px;
-    width: 200px;
-  }
-
-
-  .navbar-header .search .form-animate-text .form-text:focus ~ .label-search,.form-text:valid ~ .label-search {
-    top: -50px !important;
-    font-size: 14px;
-    color: #0c66ae !important;
-  }
-
-  .navbar .search .form-animate-text .form-text{
-   border:none !important;
- }
-
- .navbar .search .form-animate-text .bar:before,.navbar .search .form-animate-text
- .bar:after {
-  height: 1px;
-  background: #0c66ae !important;
-}
-
-
-.navbar .search .form-animate-text label{
-  color:#0c66ae;
-  font-size: 15px !important;
-}
-
-
 
 .user-dropdown {
   margin-top: 20px;
@@ -6387,10 +6345,6 @@ ul li a:focus {
 
   .responsive-table td:before { content: attr(data-title); }
 
-  .search-nav{
-    display: none !Im;
-  }
-
   #quote-carousel .carousel-indicators {
     bottom: -20px !important;
   }
@@ -6481,9 +6435,5 @@ ul li a:focus {
   }
 
   #petrol-mobile,#petrol-mobile-menu-opener{display: block !important;}
-
-  .search-nav{
-    display: none;
-  }
 
 }

@@ -164,14 +164,14 @@ public final class HttpUtil {
 		}
 	}
 
-	public void setProxy(final boolean isProxy, final String proxyHost, final int proxyPort, final String proxySheme) {
+	public void setProxy(final boolean isProxy, final String proxyHost, final Integer proxyPort, final String proxySheme) {
 		HttpHost httpHost = new HttpHost(proxyHost, proxyPort, proxySheme);
 		this.setProxy(isProxy, httpHost);
 	}
 
 	public void setProxy(
 			final boolean isProxy, final String proxyHost,
-			final int proxyPort, final String proxySheme,
+			final Integer proxyPort, final String proxySheme,
 			final String userName, final String password) {
 		if (isProxy) {
 			httpClient.getCredentialsProvider().setCredentials(

@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationTrustResolverIm
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +17,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import ah.petrolmanagement.constants.UrlConstants;
 import ah.petrolmanagement.enums.Roles;
@@ -38,12 +38,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring()
+			.antMatchers("/resources/**")
+			.antMatchers("/static/**");
+	}
+
+	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers(UrlConstants.URL_DAILY).hasAnyRole(Roles.ADMIN.getRole())
+				.antMatchers(UrlConstants.URL_DAILY).hasAnyRole(Roles.ADMIN.getRole())
+				.anyRequest().permitAll()
 			.and()
 				.formLogin().loginPage(UrlConstants.URL_LOGIN).loginProcessingUrl(UrlConstants.URL_LOGIN)
-				.usernameParameter("username").passwordParameter("password")
+				.usernameParameter("username").passwordParameter("password").permitAll()
 			.and()
 				.rememberMe().rememberMeParameter("remember")
 				.tokenRepository(tokenRepository).tokenValiditySeconds(86400)
@@ -51,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.exceptionHandling().accessDeniedPage(UrlConstants.URL_403)
 			.and()
 				.csrf().disable();
-		http.logout().logoutRequestMatcher(new AntPathRequestMatcher(UrlConstants.URL_LOGOUT));
+		http.logout().logoutSuccessUrl(UrlConstants.URL_LOGOUT);
 	}
 
 	@Bean

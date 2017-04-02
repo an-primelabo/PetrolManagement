@@ -30,9 +30,10 @@
 				AND DEL_FLAG = 0
 			</if>
 		</trim>
+		ORDER BY ID
 	</select>
 
-	<select id="selectPrice" parameterType="java.lang.Integer" resultType="ah.petrolmanagement.entity.ProductPriceEntity">
+	<select id="selectPrice" parameterType="java.util.Map" resultType="ah.petrolmanagement.entity.ProductPriceEntity">
 		SELECT
 			ID					AS id,
 			PRODUCT_ID	AS productId,
@@ -42,10 +43,12 @@
 		FROM
 			product_price
 		<where>
-			PRODUCT_ID = #{productId}
+			PRODUCT_ID = #{map.productId}
 			AND INS_TIME <![CDATA[<]]> NOW()
 		</where>
-		LIMIT 2
+		<if test="map.selectTop != null">
+			LIMIT #{map.selectTop}
+		</if>
 	</select>
 
 	<select id="selectOldPrice" parameterType="java.util.List" resultType="ah.petrolmanagement.entity.ProductPriceEntity">

@@ -36,15 +36,15 @@ public class ProductPriceManager {
 		return getInstance().getList();
 	}
 
-	public static Integer getProductId(final int id) {
+	public static Integer getProductId(final Integer id) {
 		return getInstance().getProId(id);
 	}
 
-	public static List<Integer> getIdList(final int id) {
+	public static List<Integer> getIdList(final Integer id) {
 		return getInstance().getIds(id);
 	}
 
-	public static Integer getPrice(final int id) {
+	public static Integer getPrice(final Integer id) {
 		return getInstance().getProPrice(id);
 	}
 
@@ -94,14 +94,14 @@ public class ProductPriceManager {
 		return list;
 	}
 
-	public Integer getProId(int id) {
+	public Integer getProId(Integer id) {
 		if (this.priceMap.get(id) != null) {
 			return this.priceMap.get(id).getProductId();
 		}
 		return id;
 	}
 
-	public List<Integer> getIds(int id) {
+	public List<Integer> getIds(Integer id) {
 		List<Integer> list = new ArrayList<Integer>();
 
 		for (Map.Entry<Integer, ItemData> entry : this.priceMap.entrySet()) {
@@ -114,7 +114,7 @@ public class ProductPriceManager {
 		return list;
 	}
 
-	public Integer getProPrice(int id) {
+	public Integer getProPrice(Integer id) {
 		if (this.priceMap.get(id) != null) {
 			return this.priceMap.get(id).getPrice();
 		}

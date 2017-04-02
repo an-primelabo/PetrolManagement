@@ -51,8 +51,17 @@ public class ProductPriceLogicImpl extends CommonLogic implements IProductPriceL
 			throws PetrolException {
 		logger.info("selectPrice : {}", dto);
 
-		List<ProductPriceEntity> entities = mapper.selectPrice(dto.getProductId());
-		List<ProductPriceResponseDto> list = setData(entities);
+		List<ProductPriceResponseDto> list = new ArrayList<ProductPriceResponseDto>();
+
+		for (Integer productId : dto.getProductIdList()) {
+			ProductPriceRequestDto request = new ProductPriceRequestDto();
+			request.setProductId(productId);
+			request.setSelectTop(dto.getSelectTop());
+
+			Map<String, Object> map = setDataMap(request);
+			List<ProductPriceEntity> entities = mapper.selectPrice(map);
+			list.addAll(setData(entities));
+		}
 		return list;
 	}
 
@@ -110,6 +119,7 @@ public class ProductPriceLogicImpl extends CommonLogic implements IProductPriceL
 			return response;
 		}
 		transaction.commit(status);
+		response = setDataResponse(dto);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}
@@ -143,6 +153,7 @@ public class ProductPriceLogicImpl extends CommonLogic implements IProductPriceL
 			return response;
 		}
 		transaction.commit(status);
+		response = setDataResponse(dto);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}
@@ -176,6 +187,7 @@ public class ProductPriceLogicImpl extends CommonLogic implements IProductPriceL
 			return response;
 		}
 		transaction.commit(status);
+		response = setDataResponse(dto);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}
@@ -192,6 +204,9 @@ public class ProductPriceLogicImpl extends CommonLogic implements IProductPriceL
 		if (dto.getPrice() != null) {
 			map.put(ProductPriceRequestDto.PRICE, dto.getPrice());
 		}
+		if (dto.getSelectTop() != null) {
+			map.put(ProductPriceRequestDto.SELECT_TOP, dto.getSelectTop());
+		}
 		return map;
 	}
 
@@ -207,8 +222,7 @@ public class ProductPriceLogicImpl extends CommonLogic implements IProductPriceL
 		return response;
 	}
 
-	private List<ProductPriceResponseDto> setData(
-			List<ProductPriceEntity> entities) {
+	private List<ProductPriceResponseDto> setData(List<ProductPriceEntity> entities) {
 		List<ProductPriceResponseDto> list = new ArrayList<ProductPriceResponseDto>();
 
 		for (ProductPriceEntity entity : entities) {

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ah.petrolmanagement.constants.ApiConstants;
 import ah.petrolmanagement.constants.UrlConstants;
 import ah.petrolmanagement.dto.response.TankResponseDto;
 import ah.petrolmanagement.utils.ControllerUtil;
@@ -37,15 +36,15 @@ public class TankManager {
 		return getInstance().getList();
 	}
 
-	public static Integer getProductId(final int id) {
+	public static Integer getProductId(final Integer id) {
 		return getInstance().getProId(id);
 	}
 
-	public static List<Integer> getIdList(final int id) {
+	public static List<Integer> getIdList(final Integer id) {
 		return getInstance().getIds(id);
 	}
 
-	public static String getTankName(final int id) {
+	public static String getTankName(final Integer id) {
 		return getInstance().getName(id);
 	}
 
@@ -95,14 +94,14 @@ public class TankManager {
 		return list;
 	}
 
-	public Integer getProId(int id) {
+	public Integer getProId(Integer id) {
 		if (this.tankMap.get(id) != null) {
 			return this.tankMap.get(id).getProductId();
 		}
 		return id;
 	}
 
-	public List<Integer> getIds(int id) {
+	public List<Integer> getIds(Integer id) {
 		List<Integer> list = new ArrayList<Integer>();
 
 		for (Map.Entry<Integer, ItemData> entry : this.tankMap.entrySet()) {
@@ -115,11 +114,11 @@ public class TankManager {
 		return list;
 	}
 
-	public String getName(int id) {
+	public String getName(Integer id) {
 		if (this.tankMap.get(id) != null) {
 			return this.tankMap.get(id).getTankName();
 		}
-		return id + ApiConstants.BLANK;
+		return id.toString();
 	}
 
 	public static class ItemData {

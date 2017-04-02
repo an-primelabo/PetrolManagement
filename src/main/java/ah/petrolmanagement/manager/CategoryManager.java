@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ah.petrolmanagement.constants.ApiConstants;
 import ah.petrolmanagement.constants.UrlConstants;
 import ah.petrolmanagement.dto.response.CategoryResponseDto;
 import ah.petrolmanagement.utils.ControllerUtil;
@@ -37,7 +36,7 @@ public class CategoryManager {
 		return getInstance().getList();
 	}
 
-	public static String getCategory(final int id) {
+	public static String getCategory(final Integer id) {
 		return getInstance().getName(id);
 	}
 
@@ -87,11 +86,11 @@ public class CategoryManager {
 		return list;
 	}
 
-	public String getName(int id) {
+	public String getName(Integer id) {
 		if (this.categoryMap.get(id) != null) {
 			return this.categoryMap.get(id).getCategoryName();
 		}
-		return id + ApiConstants.BLANK;
+		return id.toString();
 	}
 
 	public static class ItemData {

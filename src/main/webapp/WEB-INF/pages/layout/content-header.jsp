@@ -3,12 +3,7 @@
 <div class="panel box-shadow-none content-header">
 	<div class="panel-body">
 		<div class="col-md-12">
-			<h3 class="animated fadeInLeft">Số Liệu Xăng Dầu Hằng Ngày</h3>
-			<p class="animated fadeInDown">
-				Table 
-				<span class="fa-angle-right fa"></span> Data Tables
-			
-			</p>
+			<h3 class="animated fadeInLeft text-capitalize">${title}</h3>
 		</div>
 		<!-- /div.col-md-12 -->
 	</div>

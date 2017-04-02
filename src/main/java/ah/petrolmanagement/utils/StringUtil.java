@@ -12,7 +12,7 @@ public final class StringUtil {
 
 	private static final long CONVERT = 1024;
 
-	public static String getString(final int intValue, final String format) {
+	public static String getString(final Integer intValue, final String format) {
 		DecimalFormat decimalFormat = new DecimalFormat(format);
 		return decimalFormat.format(intValue);
 	}

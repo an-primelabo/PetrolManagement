@@ -27,6 +27,7 @@
 				AND DEL_FLAG = 0
 			</if>
 		</trim>
+		ORDER BY USERNAME
 	</select>
 
 	<insert id="save" parameterType="ah.petrolmanagement.entity.UserEntity">

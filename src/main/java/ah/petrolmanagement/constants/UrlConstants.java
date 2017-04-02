@@ -30,6 +30,13 @@ public final class UrlConstants {
 	public static final String URL_DAILY_INSERT_PRICE = "/daily/insert/price";
 	public static final String URL_DAILY_INSERT_DAILY = "/daily/insert/daily";
 
+	public static final String URL_PRODUCT = "/product";
+	public static final String URL_PRODUCT_INDEX = "/product/index";
+	public static final String URL_PRODUCT_CATEGORY_SELECT = "/product/category/select";
+	public static final String URL_PRODUCT_CATEGORY_ACTION = "/product/category/action";
+	public static final String URL_PRODUCT_SELECT = "/product/select";
+	public static final String URL_PRODUCT_ACTION = "/product/action";
+
 	public static final String URL_LOGIN = "/login";
 	public static final String URL_LOGOUT = "/logout";
 	public static final String URL_403 = "/403";
@@ -48,6 +55,11 @@ public final class UrlConstants {
 	public static final String URL_API_DAILY_UPDATE = "daily/update/json";
 	public static final String URL_API_DAILY_DELETE = "daily/delete/json";
 
+	public static final String URL_API_PRODUCT_SELECT = "product/select/json";
+	public static final String URL_API_PRODUCT_INSERT = "product/save/json";
+	public static final String URL_API_PRODUCT_UPDATE = "product/update/json";
+	public static final String URL_API_PRODUCT_DELETE = "product/delete/json";
+
 	public static final String URL_API_PRICE_SELECT = "price/select/json";
 	public static final String URL_API_PRICE_SELECT_PRICE = "price/select/price/json";
 	public static final String URL_API_PRICE_SELECT_OLD_PRICE = "price/select/old/price/json";
@@ -55,11 +67,6 @@ public final class UrlConstants {
 	public static final String URL_API_PRICE_INSERT = "price/save/json";
 	public static final String URL_API_PRICE_UPDATE = "price/update/json";
 	public static final String URL_API_PRICE_DELETE = "price/delete/json";
-
-	public static final String URL_API_PRODUCT_SELECT = "product/select/json";
-	public static final String URL_API_PRODUCT_INSERT = "product/save/json";
-	public static final String URL_API_PRODUCT_UPDATE = "product/update/json";
-	public static final String URL_API_PRODUCT_DELETE = "product/delete/json";
 
 	public static final String URL_API_ROLE_SELECT = "role/select/json";
 

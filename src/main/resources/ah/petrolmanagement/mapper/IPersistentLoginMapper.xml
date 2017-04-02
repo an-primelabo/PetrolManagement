@@ -13,6 +13,7 @@
 		<where>
 			SERIES = #{series}
 		</where>
+		ORDER BY USERNAME
 	</select>
 
 	<insert id="save" parameterType="ah.petrolmanagement.entity.PersistentLoginEntity">

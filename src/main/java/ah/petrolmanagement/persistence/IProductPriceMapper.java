@@ -10,7 +10,7 @@ import ah.petrolmanagement.entity.ProductPriceEntity;
 public interface IProductPriceMapper {
 	List<ProductPriceEntity> select(final @Param("map") Map<String, Object> map);
 
-	List<ProductPriceEntity> selectPrice(final @Param("productId") Integer productId);
+	List<ProductPriceEntity> selectPrice(final @Param("map") Map<String, Object> map);
 
 	List<ProductPriceEntity> selectOldPrice(final @Param("productIdList") List<Integer> productIdList);
 

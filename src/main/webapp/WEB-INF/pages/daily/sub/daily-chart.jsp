@@ -14,7 +14,7 @@
 
 				<div class="modal-body">
 					<div class="row">
-						<form id="form-daily-chart" class="form-horizontal" action="" method="post">
+						<form id="form-daily-chart" class="form-horizontal" action="" method="post" autocomplete="off">
 							<div class="col-md-12">
 								<div class="col-md-4">
 									<div class="form-group">

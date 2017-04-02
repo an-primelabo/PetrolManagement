@@ -26,6 +26,7 @@
 				AND DEL_FLAG = 0
 			</if>
 		</trim>
+		ORDER BY ID
 	</select>
 
 	<insert id="save" parameterType="ah.petrolmanagement.entity.CategoryEntity">

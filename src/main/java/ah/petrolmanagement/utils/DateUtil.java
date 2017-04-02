@@ -10,32 +10,32 @@ public final class DateUtil {
 	private DateUtil() {
 	}
 
-	public static int getYearPart(final Date date) {
+	public static Integer getYearPart(final Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		return c.get(Calendar.YEAR);
 	}
 
-	public static int getMonthPart(final Date date) {
+	public static Integer getMonthPart(final Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		return c.get(Calendar.MONTH) + 1;
 	}
 
-	public static int getDayOfWeek(final Date date) {
+	public static Integer getDayOfWeek(final Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		return c.get(Calendar.DAY_OF_WEEK);
 	}
 
-	public static Date getDate(final int year, final int month, final int date) {
+	public static Date getDate(final Integer year, final Integer month, final Integer date) {
 		Calendar c = Calendar.getInstance();
 		c.clear();
 		c.set(year, month - 1, date);
 		return c.getTime();
 	}
 
-	public static Date getTime(final Date date, final int hour, final int minute, final int second, final int millisecond) {
+	public static Date getTime(final Date date, final Integer hour, final Integer minute, final Integer second, final Integer millisecond) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		c.set(Calendar.HOUR_OF_DAY, hour);
@@ -95,39 +95,39 @@ public final class DateUtil {
 		return addYears(date, -1);
 	}
 
-	public static Date addDays(final Date date, final int amount) {
+	public static Date addDays(final Date date, final Integer amount) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		c.add(Calendar.DAY_OF_MONTH, amount);
 		return c.getTime();
 	}
 
-	public static Date addMonths(final Date date, final int amount) {
+	public static Date addMonths(final Date date, final Integer amount) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		c.add(Calendar.MONTH, amount);
 		return c.getTime();
 	}
 
-	public static Date addYears(final Date date, final int amount) {
+	public static Date addYears(final Date date, final Integer amount) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		c.add(Calendar.YEAR, amount);
 		return c.getTime();
 	}
 
-	public static Date addMinutes(final Date date, final int amount) {
+	public static Date addMinutes(final Date date, final Integer amount) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		c.add(Calendar.MINUTE, amount);
 		return c.getTime();
 	}
 
-	public static boolean isWithinHours(final Date date1, final Date date2, final int hour) {
+	public static boolean isWithinHours(final Date date1, final Date date2, final Integer hour) {
 		return Math.abs(date1.getTime() - date2.getTime()) <= ONE_HOUR_MILLISECONDS * hour;
 	}
 
-	public static boolean isWithinDays(final Date date1, final Date date2, final int days) {
+	public static boolean isWithinDays(final Date date1, final Date date2, final Integer days) {
 		return Math.abs(date1.getTime() - date2.getTime()) <= days * ONE_DAY_MILLISECONDS;
 	}
 

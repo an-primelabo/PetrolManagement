@@ -79,13 +79,11 @@ public class JSTLConstantsRegister implements ServletContextAware, ResourceLoade
 			clazz = Class.forName(className);
 		} catch (ClassNotFoundException e) {
 		}
-		String shortName;
+		String shortName = className;
 		int i = className.lastIndexOf('.');
 
 		if (i > 0) {
 			shortName = className.substring(i + 1);
-		} else {
-			shortName = className;
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
 

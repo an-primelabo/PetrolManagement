@@ -43,15 +43,15 @@ public final class FormatUtil {
 
 	private static final String DATETIME_FORMAT = "yyyy/MM/dd HH:mm:ss.SSSSSS";
 
-	public static String formatYear(final int year) {
+	public static String formatYear(final Integer year) {
 		return String.format("%04d", year);
 	}
 
-	public static String formatMonth(final int month) {
+	public static String formatMonth(final Integer month) {
 		return String.format("%02d", month);
 	}
 
-	public static String formatMinutes(final int minutes) {
+	public static String formatMinutes(final Integer minutes) {
 		return String.format("%02d", minutes);
 	}
 
@@ -340,14 +340,14 @@ public final class FormatUtil {
 		}
 	}
 
-	public static String padLeft(final String text, final int length, final String character) {
+	public static String padLeft(final String text, final Integer length, final String character) {
 		if (StringUtils.isEmpty(text)) {
 			return text;
 		}
 		return StringUtils.repeat(character, length - text.length()) + text;
 	}
 
-	public static String padRight(final String text, final int length, final String character) {
+	public static String padRight(final String text, final Integer length, final String character) {
 		if (StringUtils.isEmpty(text)) {
 			return text;
 		}

@@ -82,6 +82,7 @@ public class DailyMeterLogicImpl extends CommonLogic implements IDailyMeterLogic
 			return response;
 		}
 		transaction.commit(status);
+		response = setDataResponse(dto);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}
@@ -117,6 +118,7 @@ public class DailyMeterLogicImpl extends CommonLogic implements IDailyMeterLogic
 			return response;
 		}
 		transaction.commit(status);
+		response = setDataResponse(dto);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}
@@ -152,6 +154,7 @@ public class DailyMeterLogicImpl extends CommonLogic implements IDailyMeterLogic
 			return response;
 		}
 		transaction.commit(status);
+		response = setDataResponse(dto);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}

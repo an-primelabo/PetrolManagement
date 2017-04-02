@@ -2,18 +2,36 @@ package ah.petrolmanagement.dto.response;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import ah.petrolmanagement.dto.BaseDto;
 
 public class CommonResponseDto extends BaseDto {
 	private static final long serialVersionUID = 3759025953033144829L;
 
+	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Date insTime;
+
+	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String insUser;
+
+	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Date updTime;
+
+	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String updUser;
+
+	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer delFlag;
+
+	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Date delTime;
+
+	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String delUser;
+
+	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+	private String mode;
 
 	public Date getInsTime() {
 		return insTime;
@@ -69,5 +87,13 @@ public class CommonResponseDto extends BaseDto {
 
 	public void setDelUser(String delUser) {
 		this.delUser = delUser;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
 	}
 }

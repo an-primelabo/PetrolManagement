@@ -11,6 +11,10 @@ public class ProductPriceEntity extends CommonEntity {
 		return id;
 	}
 
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public Integer getProductId() {
 		return productId;
 	}
