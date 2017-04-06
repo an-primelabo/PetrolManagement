@@ -5,21 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 public class BaseDto implements Serializable {
 	private static final long serialVersionUID = 7209760273222456270L;
 
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer status;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String resultCode;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private List<String> messages;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private List<String> errors;
 
 	public Integer getStatus() {

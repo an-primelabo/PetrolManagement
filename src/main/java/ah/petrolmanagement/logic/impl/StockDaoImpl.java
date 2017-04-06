@@ -2,10 +2,8 @@ package ah.petrolmanagement.logic.impl;
 
 import org.springframework.stereotype.Component;
 
-import ah.petrolmanagement.logic.CommonLogic;
-
 @Component
-public class StockDaoImpl extends CommonLogic{
+public class StockDaoImpl{
 //implements
 //		StockDao {
 //	static final Logger logger = LoggerFactory.getLogger(StockDaoImpl.class);

@@ -1,13 +1,12 @@
 package ah.petrolmanagement.logic.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -21,56 +20,60 @@ import ah.petrolmanagement.constants.ApiConstants;
 import ah.petrolmanagement.dto.request.ProductRequestDto;
 import ah.petrolmanagement.dto.response.ProductResponseDto;
 import ah.petrolmanagement.entity.ProductEntity;
-import ah.petrolmanagement.exception.PetrolException;
-import ah.petrolmanagement.logic.CommonLogic;
+import ah.petrolmanagement.entity.ProductPriceEntity;
 import ah.petrolmanagement.logic.IProductLogic;
 import ah.petrolmanagement.persistence.IProductMapper;
+import ah.petrolmanagement.persistence.IProductPriceMapper;
+import ah.petrolmanagement.utils.LogUtil;
+import ah.petrolmanagement.utils.Utils;
 
 @Component
-public class ProductLogicImpl extends CommonLogic implements IProductLogic {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+public class ProductLogicImpl implements IProductLogic {
 	@Autowired
 	private IProductMapper mapper;
+
+	@Autowired
+	private IProductPriceMapper priceMapper;
 
 	@Autowired
 	private DataSourceTransactionManager transaction;
 
 	@Override
-	public List<ProductResponseDto> select(final ProductRequestDto dto)
-			throws PetrolException {
-		logger.info("select : {}", dto);
+	public List<ProductResponseDto> selectByCategoryId(final ProductRequestDto request)
+			throws Exception {
+		LogUtil.startMethod(this.getClass().getSimpleName(), "select", request);
 
-		Map<String, Object> map = setDataMap(dto);
-		List<ProductEntity> entities = mapper.select(map);
-		List<ProductResponseDto> list = setData(entities);
-		return list;
+		List<Map<String, Object>> entities = mapper.selectByCategoryId(request.getCategoryId());
+		return setData(entities);
 	}
 
 	@Override
-	public ProductResponseDto save(final ProductRequestDto dto)
-			throws PetrolException {
-		logger.info("save : {}", dto);
+	public ProductResponseDto save(final ProductRequestDto request)
+			throws Exception {
+		LogUtil.startMethod(this.getClass().getSimpleName(), "save", request);
 
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
 		TransactionStatus status = transaction.getTransaction(def);
 
-		ProductEntity entity = setDataEntity(dto);
+		ProductEntity entity = setDataEntity(request);
+		ProductPriceEntity priceEntity = setDataPriceEntity(request);
 		ProductResponseDto response = new ProductResponseDto();
 
 		Object savePoint = status.createSavepoint();
 
 		try {
 			mapper.save(entity);
+			priceEntity.setProductId(entity.getId());
+			priceMapper.save(priceEntity);
 		} catch (Exception e) {
-			logger.error("save error : {}", e);
+			LogUtil.errorLog(this.getClass().getSimpleName(), "save error", e);
 
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
-			response = setDataResponse(dto);
+			response = setDataResponse(request);
 
 			if (e instanceof DuplicateKeyException) {
 				response.setErrorsList(new String[] { ApiConstants.ERR_ITEM_DUPLICATE });
@@ -81,22 +84,21 @@ public class ProductLogicImpl extends CommonLogic implements IProductLogic {
 			return response;
 		}
 		transaction.commit(status);
-		response = setDataResponse(dto);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}
 
 	@Override
-	public ProductResponseDto update(final ProductRequestDto dto)
-			throws PetrolException {
-		logger.info("update : {}", dto);
+	public ProductResponseDto update(final ProductRequestDto request)
+			throws Exception {
+		LogUtil.startMethod(this.getClass().getSimpleName(), "update", request);
 
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
 		TransactionStatus status = transaction.getTransaction(def);
 
-		ProductEntity entity = setDataEntity(dto);
+		ProductEntity entity = setDataEntity(request);
 		ProductResponseDto response = new ProductResponseDto();
 
 		Object savePoint = status.createSavepoint();
@@ -104,33 +106,32 @@ public class ProductLogicImpl extends CommonLogic implements IProductLogic {
 		try {
 			mapper.update(entity);
 		} catch (Exception e) {
-			logger.error("update error : {}", e);
+			LogUtil.errorLog(this.getClass().getSimpleName(), "update error", e);
 
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
-			response = setDataResponse(dto);
+			response = setDataResponse(request);
 			response.setErrorsList(new String[] { ApiConstants.ERR_SYSTEM });
 			response.setStatus(ApiConstants.STATUS_CODE_ERROR);
 			return response;
 		}
 		transaction.commit(status);
-		response = setDataResponse(dto);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}
 
 	@Override
-	public ProductResponseDto delete(final ProductRequestDto dto)
-			throws PetrolException {
-		logger.info("delete : {}", dto);
+	public ProductResponseDto delete(final ProductRequestDto request)
+			throws Exception {
+		LogUtil.startMethod(this.getClass().getSimpleName(), "delete", request);
 
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
 		TransactionStatus status = transaction.getTransaction(def);
 
-		ProductEntity entity = setDataEntity(dto);
+		ProductEntity entity = setDataEntity(request);
 		ProductResponseDto response = new ProductResponseDto();
 
 		Object savePoint = status.createSavepoint();
@@ -138,59 +139,84 @@ public class ProductLogicImpl extends CommonLogic implements IProductLogic {
 		try {
 			mapper.delete(entity);
 		} catch (Exception e) {
-			logger.error("delete error : {}", e);
+			LogUtil.errorLog(this.getClass().getSimpleName(), "delete error", e);
 
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
-			response = setDataResponse(dto);
+			response = setDataResponse(request);
 			response.setErrorsList(new String[] { ApiConstants.ERR_SYSTEM });
 			response.setStatus(ApiConstants.STATUS_CODE_ERROR);
 			return response;
 		}
 		transaction.commit(status);
-		response = setDataResponse(dto);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}
 
-	private Map<String, Object> setDataMap(ProductRequestDto dto) {
+	private Map<String, Object> setDataMap(ProductRequestDto request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		if (dto.getId() != null) {
-			map.put(ProductRequestDto.ID, dto.getId());
+		if (request.getId() != null) {
+			map.put(ProductRequestDto.ID, request.getId());
 		}
-		if (dto.getCategoryId() != null) {
-			map.put(ProductRequestDto.CATEGORY_ID, dto.getCategoryId());
+		if (request.getCategoryId() != null) {
+			map.put(ProductRequestDto.CATEGORY_ID, request.getCategoryId());
 		}
-		if (StringUtils.isNotBlank(dto.getProductName())) {
-			map.put(ProductRequestDto.PRODUCT_NAME, dto.getProductName());
+		if (StringUtils.isNotBlank(request.getProductName())) {
+			map.put(ProductRequestDto.PRODUCT_NAME, request.getProductName());
 		}
 		return map;
 	}
 
-	private ProductEntity setDataEntity(ProductRequestDto dto) {
+	private List<ProductResponseDto> setData(List<Map<String, Object>> entities) {
+		List<ProductResponseDto> list = new ArrayList<ProductResponseDto>();
+
+		for (Map<String, Object> entity : entities) {
+			ProductResponseDto response = new ProductResponseDto();
+			response.setId(Utils.getInteger(entity.get(ProductRequestDto.ID)));
+			response.setCategoryId(Utils.getInteger(entity.get(ProductRequestDto.CATEGORY_ID)));
+			response.setProductName(Utils.getString(entity.get(ProductRequestDto.PRODUCT_NAME)));
+			response.setPriceId(Utils.getInteger(entity.get(ProductRequestDto.PRICE_ID)));
+			response.setPrice(Utils.getInteger(entity.get(ProductRequestDto.PRICE)));
+			response.setPriceNewest((Date) entity.get(ProductRequestDto.PRICE_NEWEST));
+			response.setInsTime((Date) entity.get(ProductRequestDto.INS_TIME));
+			response.setInsUser(Utils.getString(entity.get(ProductRequestDto.INS_USER)));
+			response.setUpdTime((Date) entity.get(ProductRequestDto.UPD_TIME));
+			response.setUpdUser(Utils.getString(entity.get(ProductRequestDto.UPD_USER)));
+			response.setDelFlag(Utils.getInteger(entity.get(ProductRequestDto.DEL_FLAG)));
+			response.setDelTime((Date) entity.get(ProductRequestDto.DEL_TIME));
+			response.setDelUser(Utils.getString(entity.get(ProductRequestDto.DEL_USER)));
+			response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
+
+			list.add(response);
+		}
+		return list;
+	}
+
+	private ProductEntity setDataEntity(ProductRequestDto request) {
 		ProductEntity entity = new ProductEntity();
-		BeanUtils.copyProperties(dto, entity);
+		BeanUtils.copyProperties(request, entity);
 		return entity;
 	}
 
-	private ProductResponseDto setDataResponse(ProductRequestDto dto) {
-		ProductResponseDto response = new ProductResponseDto();
-		BeanUtils.copyProperties(dto, response);
-		return response;
+	private ProductPriceEntity setDataPriceEntity(ProductRequestDto request) {
+		ProductPriceEntity entity = new ProductPriceEntity();
+		entity.setProductId(request.getId());
+		entity.setPrice(request.getPrice());
+
+		if (StringUtils.equals(request.getMode(), ApiConstants.INSERT)) {
+			entity.setInsUser(request.getInsUser());
+		} else if (StringUtils.equals(request.getMode(), ApiConstants.UPDATE)) {
+			entity.setId(request.getPriceId());
+			entity.setUpdUser(request.getUpdUser());
+		}
+		return entity;
 	}
 
-	private List<ProductResponseDto> setData(List<ProductEntity> entities) {
-		List<ProductResponseDto> list = new ArrayList<ProductResponseDto>();
-
-		for (ProductEntity entity : entities) {
-			ProductResponseDto dto = new ProductResponseDto();
-			BeanUtils.copyProperties(entity, dto);
-			dto.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
-
-			list.add(dto);
-		}
-		return list;
+	private ProductResponseDto setDataResponse(ProductRequestDto request) {
+		ProductResponseDto response = new ProductResponseDto();
+		BeanUtils.copyProperties(request, response);
+		return response;
 	}
 }

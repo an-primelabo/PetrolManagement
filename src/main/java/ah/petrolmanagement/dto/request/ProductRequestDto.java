@@ -1,22 +1,17 @@
 package ah.petrolmanagement.dto.request;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
 public class ProductRequestDto extends CommonRequestDto {
 	private static final long serialVersionUID = 6310069911937819036L;
 
-	public static final String ID = "id";
-	public static final String CATEGORY_ID = "categoryId";
-	public static final String PRODUCT_NAME = "productName";
+	public static final String PRICE_NEWEST = "priceNewest";
 
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer id;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer categoryId;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String productName;
+	private Integer priceId;
+	private Integer price;
+	private boolean updateProduct;
+	private boolean updatePrice;
 
 	public Integer getId() {
 		return id;
@@ -40,5 +35,37 @@ public class ProductRequestDto extends CommonRequestDto {
 
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+
+	public Integer getPriceId() {
+		return priceId;
+	}
+
+	public void setPriceId(Integer priceId) {
+		this.priceId = priceId;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+
+	public boolean isUpdateProduct() {
+		return updateProduct;
+	}
+
+	public void setUpdateProduct(boolean updateProduct) {
+		this.updateProduct = updateProduct;
+	}
+
+	public boolean isUpdatePrice() {
+		return updatePrice;
+	}
+
+	public void setUpdatePrice(boolean updatePrice) {
+		this.updatePrice = updatePrice;
 	}
 }

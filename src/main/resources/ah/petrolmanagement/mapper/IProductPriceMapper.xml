@@ -103,12 +103,6 @@
 	<update id="update" parameterType="ah.petrolmanagement.entity.ProductPriceEntity">
 		UPDATE product_price
 		<set>
-			<if test="entity.productId != null">
-				PRODUCT_ID = #{entity.productId},
-			</if>
-			<if test="entity.price != null">
-				PRICE = #{entity.price},
-			</if>
 			UPD_TIME = CURRENT_TIMESTAMP,
 			UPD_USER = #{entity.updUser}
 		</set>

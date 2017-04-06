@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -21,15 +19,12 @@ import ah.petrolmanagement.constants.ApiConstants;
 import ah.petrolmanagement.dto.request.TankRequestDto;
 import ah.petrolmanagement.dto.response.TankResponseDto;
 import ah.petrolmanagement.entity.TankEntity;
-import ah.petrolmanagement.exception.PetrolException;
-import ah.petrolmanagement.logic.CommonLogic;
 import ah.petrolmanagement.logic.ITankLogic;
 import ah.petrolmanagement.persistence.ITankMapper;
+import ah.petrolmanagement.utils.LogUtil;
 
 @Component
-public class TankLogicImpl extends CommonLogic implements ITankLogic {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+public class TankLogicImpl implements ITankLogic {
 	@Autowired
 	private ITankMapper mapper;
 
@@ -37,27 +32,26 @@ public class TankLogicImpl extends CommonLogic implements ITankLogic {
 	private DataSourceTransactionManager transaction;
 
 	@Override
-	public List<TankResponseDto> select(final TankRequestDto dto)
-			throws PetrolException {
-		logger.info("select : {}", dto);
+	public List<TankResponseDto> select(final TankRequestDto request)
+			throws Exception {
+		LogUtil.startMethod(this.getClass().getSimpleName(), "select", request);
 
-		Map<String, Object> map = setDataMap(dto);
+		Map<String, Object> map = setDataMap(request);
 		List<TankEntity> entities = mapper.select(map);
 		List<TankResponseDto> list = setData(entities);
 		return list;
 	}
 
 	@Override
-	public TankResponseDto save(final TankRequestDto dto)
-			throws PetrolException {
-		logger.info("save : {}", dto);
+	public TankResponseDto save(final TankRequestDto request) throws Exception {
+		LogUtil.startMethod(this.getClass().getSimpleName(), "save", request);
 
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
 		TransactionStatus status = transaction.getTransaction(def);
 
-		TankEntity entity = setDataEntity(dto);
+		TankEntity entity = setDataEntity(request);
 		TankResponseDto response = new TankResponseDto();
 
 		Object savePoint = status.createSavepoint();
@@ -65,12 +59,12 @@ public class TankLogicImpl extends CommonLogic implements ITankLogic {
 		try {
 			mapper.save(entity);
 		} catch (Exception e) {
-			logger.error("save error : {}", e);
+			LogUtil.errorLog(this.getClass().getSimpleName(), "save error", e);
 
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
-			response = setDataResponse(dto);
+			response = setDataResponse(request);
 
 			if (e instanceof DuplicateKeyException) {
 				response.setErrorsList(new String[] { ApiConstants.ERR_ITEM_DUPLICATE });
@@ -81,22 +75,22 @@ public class TankLogicImpl extends CommonLogic implements ITankLogic {
 			return response;
 		}
 		transaction.commit(status);
-		response = setDataResponse(dto);
+		response = setDataResponse(request);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}
 
 	@Override
-	public TankResponseDto update(final TankRequestDto dto)
-			throws PetrolException {
-		logger.info("update : {}", dto);
+	public TankResponseDto update(final TankRequestDto request)
+			throws Exception {
+		LogUtil.startMethod(this.getClass().getSimpleName(), "update", request);
 
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
 		TransactionStatus status = transaction.getTransaction(def);
 
-		TankEntity entity = setDataEntity(dto);
+		TankEntity entity = setDataEntity(request);
 		TankResponseDto response = new TankResponseDto();
 
 		Object savePoint = status.createSavepoint();
@@ -104,33 +98,33 @@ public class TankLogicImpl extends CommonLogic implements ITankLogic {
 		try {
 			mapper.update(entity);
 		} catch (Exception e) {
-			logger.error("update error : {}", e);
+			LogUtil.errorLog(this.getClass().getSimpleName(), "update error", e);
 
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
-			response = setDataResponse(dto);
+			response = setDataResponse(request);
 			response.setErrorsList(new String[] { ApiConstants.ERR_SYSTEM });
 			response.setStatus(ApiConstants.STATUS_CODE_ERROR);
 			return response;
 		}
 		transaction.commit(status);
-		response = setDataResponse(dto);
+		response = setDataResponse(request);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}
 
 	@Override
-	public TankResponseDto delete(final TankRequestDto dto)
-			throws PetrolException {
-		logger.info("delete : {}", dto);
+	public TankResponseDto delete(final TankRequestDto request)
+			throws Exception {
+		LogUtil.startMethod(this.getClass().getSimpleName(), "delete", request);
 
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
 		TransactionStatus status = transaction.getTransaction(def);
 
-		TankEntity entity = setDataEntity(dto);
+		TankEntity entity = setDataEntity(request);
 		TankResponseDto response = new TankResponseDto();
 
 		Object savePoint = status.createSavepoint();
@@ -138,46 +132,46 @@ public class TankLogicImpl extends CommonLogic implements ITankLogic {
 		try {
 			mapper.delete(entity);
 		} catch (Exception e) {
-			logger.error("delete error : {}", e);
+			LogUtil.errorLog(this.getClass().getSimpleName(), "delete error", e);
 
 			status.releaseSavepoint(savePoint);
 			transaction.rollback(status);
 
-			response = setDataResponse(dto);
+			response = setDataResponse(request);
 			response.setErrorsList(new String[] { ApiConstants.ERR_SYSTEM });
 			response.setStatus(ApiConstants.STATUS_CODE_ERROR);
 			return response;
 		}
 		transaction.commit(status);
-		response = setDataResponse(dto);
+		response = setDataResponse(request);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}
 
-	private Map<String, Object> setDataMap(TankRequestDto dto) {
+	private Map<String, Object> setDataMap(TankRequestDto request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		if (dto.getId() != null) {
-			map.put(TankRequestDto.ID, dto.getId());
+		if (request.getId() != null) {
+			map.put(TankRequestDto.ID, request.getId());
 		}
-		if (dto.getProductId() != null) {
-			map.put(TankRequestDto.PRODUCT_ID, dto.getProductId());
+		if (request.getProductId() != null) {
+			map.put(TankRequestDto.PRODUCT_ID, request.getProductId());
 		}
-		if (StringUtils.isNotBlank(dto.getTankName())) {
-			map.put(TankRequestDto.TANK_NAME, dto.getTankName());
+		if (StringUtils.isNotBlank(request.getTankName())) {
+			map.put(TankRequestDto.TANK_NAME, request.getTankName());
 		}
 		return map;
 	}
 
-	private TankEntity setDataEntity(TankRequestDto dto) {
+	private TankEntity setDataEntity(TankRequestDto request) {
 		TankEntity entity = new TankEntity();
-		BeanUtils.copyProperties(dto, entity);
+		BeanUtils.copyProperties(request, entity);
 		return entity;
 	}
 
-	private TankResponseDto setDataResponse(TankRequestDto dto) {
+	private TankResponseDto setDataResponse(TankRequestDto request) {
 		TankResponseDto response = new TankResponseDto();
-		BeanUtils.copyProperties(dto, response);
+		BeanUtils.copyProperties(request, response);
 		return response;
 	}
 
@@ -185,11 +179,11 @@ public class TankLogicImpl extends CommonLogic implements ITankLogic {
 		List<TankResponseDto> list = new ArrayList<TankResponseDto>();
 
 		for (TankEntity entity : entities) {
-			TankResponseDto dto = new TankResponseDto();
-			BeanUtils.copyProperties(entity, dto);
-			dto.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
+			TankResponseDto response = new TankResponseDto();
+			BeanUtils.copyProperties(entity, response);
+			response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 
-			list.add(dto);
+			list.add(response);
 		}
 		return list;
 	}

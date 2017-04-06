@@ -2,38 +2,56 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ah.petrolmanagement.persistence.IProductMapper">
-	<select id="select" parameterType="java.util.Map" resultType="ah.petrolmanagement.entity.ProductEntity">
+	<resultMap id="productResultByCategoryId" type="java.util.Map">
+		<result column="ID" property="id" />
+		<result column="CATEGORY_ID" property="categoryId" />
+		<result column="PRODUCT_NAME" property="productName" />
+		<result column="INS_TIME" property="insTime" />
+		<result column="INS_USER" property="insUser" />
+		<result column="UPD_TIME" property="updTime" />
+		<result column="UPD_USER" property="updUser" />
+		<result column="DEL_FLAG" property="delFlag" />
+		<result column="DEL_TIME" property="delTime" />
+		<result column="DEL_USER" property="delUser" />
+		<result column="PRICE_ID" property="priceId" />
+		<result column="PRICE" property="price" />
+		<result column="PRICE_NEWEST" property="priceNewest" />
+	</resultMap>
+
+	<select id="selectByCategoryId" parameterType="java.lang.Integer" resultMap="productResultByCategoryId">
 		SELECT
-			ID						AS id,
-			CATEGORY_ID		AS categoryId,
-			PRODUCT_NAME	AS productName,
-			INS_TIME			AS insTime,
-			INS_USER			AS insUser,
-			UPD_TIME			AS updTime,
-			UPD_USER			AS updUser,
-			DEL_FLAG			AS delFlag,
-			DEL_TIME			AS delTime,
-			DEL_USER			AS delUser
+			p.ID,
+			p.CATEGORY_ID,
+			p.PRODUCT_NAME,
+			p.INS_TIME,
+			p.INS_USER,
+			p.UPD_TIME,
+			p.UPD_USER,
+			p.DEL_FLAG,
+			p.DEL_TIME,
+			p.DEL_USER,
+			pp.ID				AS PRICE_ID,
+			pp.PRICE,
+			pp.INS_TIME	AS PRICE_NEWEST
 		FROM
-			product
-		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<if test="map.id != null">
-				ID = #{map.id}
-			</if>
-			<if test="map.categoryId != null">
-				AND CATEGORY_ID = #{map.categoryId}
-			</if>
-			<if test="map.productName != null">
-				AND PRODUCT_NAME LIKE '%' || #{map.productName} || '%'
-			</if>
-			<if test="map.delFlag == null">
-				AND DEL_FLAG = 0
-			</if>
-		</trim>
-		ORDER BY ID
+			product p
+		INNER JOIN
+			product_price pp
+				ON
+					p.ID = pp.PRODUCT_ID
+		WHERE
+			p.CATEGORY_ID = #{categoryId}
+				AND
+					pp.INS_TIME <![CDATA[<]]> NOW()
+				AND
+					pp.UPD_TIME IS NULL
+				AND
+					p.DEL_FLAG = 0
+		ORDER BY
+			p.ID
 	</select>
 
-	<insert id="save" parameterType="ah.petrolmanagement.entity.ProductEntity">
+	<insert id="save" parameterType="ah.petrolmanagement.entity.ProductEntity" useGeneratedKeys="true" keyProperty="entity.id">
 		INSERT INTO product (
 			CATEGORY_ID,
 			PRODUCT_NAME,
@@ -46,8 +64,7 @@
 	</insert>
 
 	<update id="update" parameterType="ah.petrolmanagement.entity.ProductEntity">
-		UPDATE product
-		<set>
+		UPDATE product SET
 			<if test="entity.categoryId != null">
 				CATEGORY_ID = #{entity.categoryId},
 			</if>
@@ -56,21 +73,16 @@
 			</if>
 			UPD_TIME = CURRENT_TIMESTAMP,
 			UPD_USER = #{entity.updUser}
-		</set>
-		<where>
+		WHERE
 			ID = #{entity.id}
-		</where>
 	</update>
 
 	<update id="delete" parameterType="ah.petrolmanagement.entity.ProductEntity">
-		UPDATE product
-		<set>
+		UPDATE product SET
 			DEL_FLAG = 1,
 			DEL_TIME = CURRENT_TIMESTAMP,
 			DEL_USER = #{entity.delUser}
-		</set>
-		<where>
+		WHERE
 			ID = #{entity.id}
-		</where>
 	</update>
 </mapper>

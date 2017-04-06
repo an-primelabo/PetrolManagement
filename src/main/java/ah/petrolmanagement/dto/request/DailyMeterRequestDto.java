@@ -3,8 +3,6 @@ package ah.petrolmanagement.dto.request;
 import java.util.Date;
 import java.util.List;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
 public class DailyMeterRequestDto extends CommonRequestDto {
 	private static final long serialVersionUID = -3631533596571093703L;
 
@@ -22,43 +20,18 @@ public class DailyMeterRequestDto extends CommonRequestDto {
 	public static final String MONTH_FROM = "monthFrom";
 	public static final String MONTH_TO = "monthTo";
 
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer id;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer tankId;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer shift;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer priceId;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float meterOld;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float meterNew;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float meterElecOld;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float meterElecNew;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private List<DailyMeterRequestDto> dailyList;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Date dateFrom;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Date dateTo;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Date monthFrom;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Date monthTo;
 
 	public Integer getId() {

@@ -1,11 +1,11 @@
 package ah.petrolmanagement.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,195 +21,189 @@ import ah.petrolmanagement.dto.request.ProductRequestDto;
 import ah.petrolmanagement.dto.response.CategoryResponseDto;
 import ah.petrolmanagement.dto.response.ProductPriceResponseDto;
 import ah.petrolmanagement.dto.response.ProductResponseDto;
-import ah.petrolmanagement.exception.PetrolException;
-import ah.petrolmanagement.utils.ControllerUtil;
 import ah.petrolmanagement.utils.LogUtil;
 
 @Controller
 public class ProductController extends CommonController {
 	private static final String TITLE = "Hạng mục hàng hóa";
-	private String responseJson = null;
-	private Map<String, Object> mapJson = null;
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@RequestMapping(value = { UrlConstants.URL_PRODUCT, UrlConstants.URL_PRODUCT_INDEX },
-					method = { RequestMethod.GET },
-					headers = { UrlConstants.REQUEST_HEADER_ACCEPT })
-	public String index(final Model map) throws PetrolException {
-		LogUtil.startMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_PRODUCT);
+	@RequestMapping(value = { UrlConstants.URL_PRODUCT, UrlConstants.URL_PRODUCT_INDEX }, method = { RequestMethod.GET }, headers = { UrlConstants.REQUEST_HEADER_ACCEPT })
+	public String index(final Model map) throws Exception {
+		LogUtil.startMethod(this.getClass().getSimpleName(), "index");
 
-		map.addAttribute("title", TITLE);
+		String checkUser = isAdmin();
 
-		LogUtil.endMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_PRODUCT);
+		if (StringUtils.isNotBlank(checkUser)) {
+			logger.error(checkUser);
+			return checkUser;
+		}
+		map.addAttribute(ApiConstants.REQUEST_TITLE, TITLE);
+
+		LogUtil.endMethod(this.getClass().getSimpleName(), "index");
 		return ApiConstants.VIEW_PRODUCT;
 	}
 
-	@RequestMapping(value = { UrlConstants.URL_PRODUCT_CATEGORY_SELECT },
-					method = { RequestMethod.POST },
-					headers = { UrlConstants.REQUEST_HEADER_ACCEPT_JSON })
+	@RequestMapping(value = { UrlConstants.URL_PRODUCT_CATEGORY_SELECT }, method = { RequestMethod.POST }, headers = { UrlConstants.REQUEST_HEADER_ACCEPT_JSON })
 	public @ResponseBody List<CategoryResponseDto> categorySelect(
-			@RequestBody final CategoryRequestDto model,
-			final Model map) throws PetrolException {
-		LogUtil.startMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_PRODUCT_CATEGORY_SELECT, model);
+			@RequestBody final CategoryRequestDto model, final Model map)
+			throws Exception {
+		LogUtil.startMethod(this.getClass().getSimpleName(), "categorySelect",
+				model);
 
-		List<CategoryResponseDto> list = getCategoryList(model);
+		List<CategoryResponseDto> list = getCategoryList();
 
-		LogUtil.endMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_PRODUCT_CATEGORY_SELECT, model);
+		LogUtil.endMethod(this.getClass().getSimpleName(), "categorySelect",
+				list);
 		return list;
 	}
 
-	@RequestMapping(value = { UrlConstants.URL_PRODUCT_CATEGORY_ACTION },
-					method = { RequestMethod.POST },
-					headers = { UrlConstants.REQUEST_HEADER_ACCEPT_JSON })
+	@RequestMapping(value = { UrlConstants.URL_PRODUCT_CATEGORY_ACTION }, method = { RequestMethod.POST }, headers = { UrlConstants.REQUEST_HEADER_ACCEPT_JSON })
 	public @ResponseBody CategoryResponseDto categoryAction(
-			@RequestBody final CategoryRequestDto model,
-			final Model map) throws PetrolException {
-		LogUtil.startMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_PRODUCT_CATEGORY_ACTION, model);
+			@RequestBody final CategoryRequestDto model, final Model map)
+			throws Exception {
+		LogUtil.startMethod(this.getClass().getSimpleName(), "categoryAction",
+				model);
 
 		CategoryResponseDto response = doCategoryAction(model);
 
-		LogUtil.endMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_PRODUCT_CATEGORY_ACTION, model);
+		LogUtil.endMethod(this.getClass().getSimpleName(), "categoryAction",
+				response);
 		return response;
 	}
 
-	@RequestMapping(value = { UrlConstants.URL_PRODUCT_SELECT },
-					method = { RequestMethod.POST },
-					headers = { UrlConstants.REQUEST_HEADER_ACCEPT_JSON })
+	@RequestMapping(value = { UrlConstants.URL_PRODUCT_SELECT }, method = { RequestMethod.POST }, headers = { UrlConstants.REQUEST_HEADER_ACCEPT_JSON })
 	public @ResponseBody List<ProductResponseDto> productSelect(
-			@RequestBody final ProductRequestDto model,
-			final Model map) throws PetrolException {
-		LogUtil.startMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_PRODUCT_SELECT, model);
+			@RequestBody final ProductRequestDto model, final Model map)
+			throws Exception {
+		LogUtil.startMethod(this.getClass().getSimpleName(), "productSelect",
+				model);
 
 		List<ProductResponseDto> list = getProductList(model);
 
-		LogUtil.endMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_PRODUCT_SELECT, model);
+		LogUtil.endMethod(this.getClass().getSimpleName(), "productSelect",
+				list);
 		return list;
 	}
 
-	@RequestMapping(value = { UrlConstants.URL_PRODUCT_ACTION },
-					method = { RequestMethod.POST },
-					headers = { UrlConstants.REQUEST_HEADER_ACCEPT_JSON })
+	@RequestMapping(value = { UrlConstants.URL_PRODUCT_ACTION }, method = { RequestMethod.POST }, headers = { UrlConstants.REQUEST_HEADER_ACCEPT_JSON })
 	public @ResponseBody ProductResponseDto productAction(
-			@RequestBody final ProductRequestDto model,
-			final Model map) throws PetrolException {
-		LogUtil.startMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_PRODUCT_ACTION, model);
+			@RequestBody final ProductRequestDto model, final Model map)
+			throws Exception {
+		LogUtil.startMethod(this.getClass().getSimpleName(), "productAction",
+				model);
 
 		ProductResponseDto response = doProductAction(model);
 
-		LogUtil.endMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_PRODUCT_ACTION, model);
+		LogUtil.endMethod(this.getClass().getSimpleName(), "productAction",
+				response);
 		return response;
 	}
 
-	private List<CategoryResponseDto> getCategoryList(CategoryRequestDto request) {
+	private List<CategoryResponseDto> getCategoryList() {
 		List<CategoryResponseDto> list = new ArrayList<CategoryResponseDto>();
-		mapJson = new HashMap<String, Object>();
-		mapJson.put(CategoryRequestDto.ID, request.getId());
 
-		responseJson = ControllerUtil.callAPI(UrlConstants.URL_API_CATEGORY_SELECT, mapJson);
-
-		if (StringUtils.isNotBlank(responseJson)) {
-			CategoryResponseDto[] dataList = ControllerUtil.convertJson2Dto(responseJson, CategoryResponseDto[].class);
-
-			if (dataList != null) {
-				for (CategoryResponseDto category : dataList) {
-					list.add(category);
-				}
-			}
+		try {
+			list = categoryService.select();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
 		}
 		return list;
 	}
 
 	private CategoryResponseDto doCategoryAction(CategoryRequestDto request) {
 		CategoryResponseDto response = new CategoryResponseDto();
-		mapJson = new HashMap<String, Object>();
-		mapJson.put(CategoryRequestDto.ID, request.getId());
-		mapJson.put(CategoryRequestDto.CATEGORY_NAME, request.getCategoryName());
 
 		switch (request.getMode()) {
 		case ApiConstants.INSERT:
-			mapJson.put(CategoryRequestDto.INS_USER, getPrincipal());
-			responseJson = ControllerUtil.callAPI(UrlConstants.URL_API_CATEGORY_INSERT, mapJson);
+			try {
+				request.setInsUser(getUsernameLoggedIn());
+				response = categoryService.save(request);
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+				e.printStackTrace();
+			}
 			break;
 		case ApiConstants.UPDATE:
-			mapJson.put(CategoryRequestDto.UPD_USER, getPrincipal());
-			responseJson = ControllerUtil.callAPI(UrlConstants.URL_API_CATEGORY_UPDATE, mapJson);
+			try {
+				request.setUpdUser(getUsernameLoggedIn());
+				response = categoryService.update(request);
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+				e.printStackTrace();
+			}
 			break;
 		case ApiConstants.DELETE:
-			mapJson.put(CategoryRequestDto.DEL_USER, getPrincipal());
-			responseJson = ControllerUtil.callAPI(UrlConstants.URL_API_CATEGORY_DELETE, mapJson);
+			try {
+				request.setDelUser(getUsernameLoggedIn());
+				response = categoryService.delete(request);
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+				e.printStackTrace();
+			}
 			break;
-		}
-		if (StringUtils.isNotBlank(responseJson)) {
-			response = ControllerUtil.convertJson2Dto(responseJson, CategoryResponseDto.class);
 		}
 		return response;
 	}
 
 	private List<ProductResponseDto> getProductList(ProductRequestDto request) {
 		List<ProductResponseDto> list = new ArrayList<ProductResponseDto>();
-		mapJson = new HashMap<String, Object>();
-		mapJson.put(ProductRequestDto.CATEGORY_ID, request.getCategoryId());
 
-		responseJson = ControllerUtil.callAPI(UrlConstants.URL_API_PRODUCT_SELECT, mapJson);
-
-		if (StringUtils.isNotBlank(responseJson)) {
-			ProductResponseDto[] dataList = ControllerUtil.convertJson2Dto(responseJson, ProductResponseDto[].class);
-
-			if (dataList != null) {
-				for (ProductResponseDto product : dataList) {
-					list.add(product);
-				}
-			}
+		try {
+			list = productService.selectByCategoryId(request);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
 		}
 		return list;
 	}
 
 	private ProductResponseDto doProductAction(ProductRequestDto request) {
 		ProductResponseDto response = new ProductResponseDto();
-		mapJson = new HashMap<String, Object>();
-		mapJson.put(ProductRequestDto.ID, request.getId());
-		mapJson.put(ProductRequestDto.CATEGORY_ID, request.getCategoryId());
-		mapJson.put(ProductRequestDto.PRODUCT_NAME, request.getProductName());
 
 		switch (request.getMode()) {
 		case ApiConstants.INSERT:
-			mapJson.put(ProductRequestDto.INS_USER, getPrincipal());
-			responseJson = ControllerUtil.callAPI(UrlConstants.URL_API_PRODUCT_INSERT, mapJson);
+			try {
+				request.setInsUser(getUsernameLoggedIn());
+				response = productService.save(request);
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+				e.printStackTrace();
+			}
 			break;
 		case ApiConstants.UPDATE:
-			mapJson.put(ProductRequestDto.UPD_USER, getPrincipal());
-			responseJson = ControllerUtil.callAPI(UrlConstants.URL_API_PRODUCT_UPDATE, mapJson);
+			try {
+				if (request.isUpdateProduct()) {
+					request.setUpdUser(getUsernameLoggedIn());
+					response = productService.update(request);
+				}
+				if (request.isUpdatePrice()) {
+					ProductPriceRequestDto priceRequest = new ProductPriceRequestDto();
+					priceRequest.setId(request.getPriceId());
+					priceRequest.setProductId(request.getId());
+					priceRequest.setPrice(request.getPrice());
+					priceRequest.setInsUser(getUsernameLoggedIn());
+					priceRequest.setUpdUser(getUsernameLoggedIn());
+
+					ProductPriceResponseDto priceResponse = priceService.save(priceRequest);
+					response.setStatus(priceResponse.getStatus());
+				}
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+				e.printStackTrace();
+			}
 			break;
 		case ApiConstants.DELETE:
-			mapJson.put(ProductRequestDto.DEL_USER, getPrincipal());
-			responseJson = ControllerUtil.callAPI(UrlConstants.URL_API_PRODUCT_DELETE, mapJson);
+			try {
+				request.setDelUser(getUsernameLoggedIn());
+				response = productService.delete(request);
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+				e.printStackTrace();
+			}
 			break;
 		}
-		if (StringUtils.isNotBlank(responseJson)) {
-			response = ControllerUtil.convertJson2Dto(responseJson, ProductResponseDto.class);
-		}
 		return response;
-	}
-
-	private List<ProductPriceResponseDto> getProductPriceList(List<Integer> productIdList, Integer selectTop) {
-		List<ProductPriceResponseDto> list = new ArrayList<ProductPriceResponseDto>();
-		mapJson = new HashMap<String, Object>();
-
-		if (productIdList != null && !productIdList.isEmpty()) {
-			mapJson.put(ProductPriceRequestDto.PRODUCT_ID_LIST, productIdList);
-			mapJson.put(ProductPriceRequestDto.SELECT_TOP, selectTop);
-		}
-		responseJson = ControllerUtil.callAPI(UrlConstants.URL_API_PRICE_SELECT_PRICE, mapJson);
-
-		if (StringUtils.isNotBlank(responseJson)) {
-			ProductPriceResponseDto[] dataList = ControllerUtil.convertJson2Dto(responseJson, ProductPriceResponseDto[].class);
-
-			if (dataList != null) {
-				for (ProductPriceResponseDto price : dataList) {
-					price.setData();
-					list.add(price);
-				}
-			}
-		}
-		return list;
 	}
 }

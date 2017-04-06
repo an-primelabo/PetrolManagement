@@ -1,22 +1,11 @@
 package ah.petrolmanagement.dto.response;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
-import ah.petrolmanagement.manager.ProductManager;
-
 public class ProductPriceResponseDto extends CommonResponseDto {
 	private static final long serialVersionUID = -3600290904237187974L;
 
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer id;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer productId;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String productName;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer price;
 
 	public Integer getId() {
@@ -52,7 +41,7 @@ public class ProductPriceResponseDto extends CommonResponseDto {
 	}
 
 	public void setData() {
-		String product = ProductManager.getProduct(getProductId());
+		String product = "";// ProductManager.getProduct(getProductId());
 		setProductName(product);
 	}
 }

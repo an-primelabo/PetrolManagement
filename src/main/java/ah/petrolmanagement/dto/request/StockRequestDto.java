@@ -1,7 +1,5 @@
 package ah.petrolmanagement.dto.request;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
 public class StockRequestDto extends CommonRequestDto {
 	private static final long serialVersionUID = -1679817479529686701L;
 
@@ -11,19 +9,10 @@ public class StockRequestDto extends CommonRequestDto {
 	public static final String RECEIPT = "receipt";
 	public static final String DIPPING = "dipping";
 
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer id;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer tankId;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float openStock;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float receipt;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float dipping;
 
 	public Integer getId() {

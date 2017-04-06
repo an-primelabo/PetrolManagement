@@ -2,8 +2,6 @@ package ah.petrolmanagement.dto.request;
 
 import java.util.Date;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
 public class UserRequestDto extends CommonRequestDto {
 	private static final long serialVersionUID = 3721673980859484844L;
 
@@ -13,23 +11,13 @@ public class UserRequestDto extends CommonRequestDto {
 	public static final String LASTNAME = "lastname";
 	public static final String BIRTHDAY = "birthday";
 	public static final String PHONE = "phone";
+	public static final String ROLE = "role";
 
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String username;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String password;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String firstname;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String lastname;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Date birthday;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String phone;
 
 	public String getUsername() {

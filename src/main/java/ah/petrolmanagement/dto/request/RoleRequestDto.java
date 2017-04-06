@@ -1,7 +1,5 @@
 package ah.petrolmanagement.dto.request;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
 import ah.petrolmanagement.dto.BaseDto;
 
 public class RoleRequestDto extends BaseDto {
@@ -11,13 +9,8 @@ public class RoleRequestDto extends BaseDto {
 	public static final String USERNAME = "username";
 	public static final String ROLE = "role";
 
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer id;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String username;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String role;
 
 	public Integer getId() {

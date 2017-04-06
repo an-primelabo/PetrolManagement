@@ -1,0 +1,59 @@
+package ah.petrolmanagement.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import ah.petrolmanagement.dto.request.ProductPriceRequestDto;
+import ah.petrolmanagement.dto.response.ProductPriceResponseDto;
+import ah.petrolmanagement.logic.IProductPriceLogic;
+import ah.petrolmanagement.service.IProductPriceService;
+
+@Service("priceService")
+public class ProductPriceServiceImpl implements IProductPriceService {
+	@Autowired
+	private IProductPriceLogic logic;
+
+	@Override
+	public List<ProductPriceResponseDto> select(ProductPriceRequestDto request)
+			throws Exception {
+		return logic.select(request);
+	}
+
+	@Override
+	public List<ProductPriceResponseDto> selectPrice(
+			ProductPriceRequestDto request) throws Exception {
+		return logic.selectPrice(request);
+	}
+
+	@Override
+	public List<ProductPriceResponseDto> selectOldPrice(
+			ProductPriceRequestDto request) throws Exception {
+		return logic.selectOldPrice(request);
+	}
+
+	@Override
+	public List<ProductPriceResponseDto> selectNewPrice(
+			ProductPriceRequestDto request) throws Exception {
+		return logic.selectNewPrice(request);
+	}
+
+	@Override
+	public ProductPriceResponseDto save(ProductPriceRequestDto request)
+			throws Exception {
+		return logic.save(request);
+	}
+
+	@Override
+	public ProductPriceResponseDto update(ProductPriceRequestDto request)
+			throws Exception {
+		return logic.update(request);
+	}
+
+	@Override
+	public ProductPriceResponseDto delete(ProductPriceRequestDto request)
+			throws Exception {
+		return logic.delete(request);
+	}
+}

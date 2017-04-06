@@ -4,10 +4,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <link href="<c:url value='/static/css/plugins/datatables.bootstrap.min.css' />" rel="stylesheet">
+<link href="<c:url value='/static/css/pages/product.css' />" rel="stylesheet">
 
 <div id="product-content" class="col-md-12 padding-0 animated fadeIn">
 	<div class="col-md-12">
-		<div class="col-md-6">
+		<div class="col-md-5">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3>Quản lý hàng hóa</h3>
@@ -47,9 +48,9 @@
 			</div>
 			<!-- /div.panel.panel-default -->
 		</div>
-		<!-- /div.col-md-6 -->
+		<!-- /div.col-md-5 -->
 
-		<div class="col-md-6">
+		<div class="col-md-7">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3>Quản lý hạng mục</h3>
@@ -67,9 +68,10 @@
 							<thead>
 								<tr>
 									<th></th>
-									<th>Tên hàng hóa</th>
 									<th>Tên hạng mục</th>
 									<th>Ngày tạo</th>
+									<th>Giá mới nhất</th>
+									<th>Ngày cập nhật giá</th>
 								</tr>
 							</thead>
 
@@ -90,7 +92,7 @@
 			</div>
 			<!-- /div.panel.panel-default -->
 		</div>
-		<!-- /div.col-md-6 -->
+		<!-- /div.col-md-7 -->
 	</div>
 	<!-- /div.col-md-12 -->
 </div>
@@ -101,22 +103,20 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	var tableCategory = $('#product-content #table-category-content').DataTable({
+		rowCallback: function(row, data, index) {
+			$('td:eq(0)', row).html(index + 1);
+			return row;
+		},
 		columnDefs: [{
 			targets: 0,
 			className: 'text-center',
-			searchable: false,
+			data: null,
 			orderable: false,
-			orderData: 0,
-			render: function(data, type, row, meta) {
-				var html = '<input type="hidden" id="category-id-' + row.id + '" value="' + row.id + '" />';
-				return html + (meta.row + 1);
-			}
+			searchable: false,
+			orderData: 0
 		}, {
 			targets: 1,
-			render: function(data, type, row, meta) {
-				var html = '<input type="hidden" id="category-name-' + row.id + '" value="' + row.categoryName + '" />';
-				return html + row.categoryName;
-			}
+			data: 'categoryName'
 		}, {
 			targets: 2,
 			data: 'insTime',
@@ -130,42 +130,55 @@ $(document).ready(function() {
 		}
 	});
 	var tableProduct = $('#product-content #table-product-content').DataTable({
+		rowCallback: function(row, data, index) {
+			$('td:eq(0)', row).html(index + 1);
+			return row;
+		},
 		columnDefs: [{
 			targets: 0,
 			className: 'text-center',
-			searchable: false,
+			data: null,
 			orderable: false,
-			orderData: 0,
-			render: function(data, type, row, meta) {
-				var html = '<input type="hidden" id="product-id-' + row.id + '" value="' + row.id + '" />';
-				return html + (meta.row + 1);
-			}
+			searchable: false,
+			orderData: 0
 		}, {
 			targets: 1,
-			render: function() {
-				return CATEGORY_NAME_SELECT;
-			}
+			data: 'productName'
 		}, {
 			targets: 2,
-			render: function(data, type, row, meta) {
-				var html = '<input type="hidden" id="product-name-' + row.id + '" value="' + row.productName + '" />';
-				return html + row.productName;
-			}
-		}, {
-			targets: 3,
 			data: 'insTime',
 			render: function(data) {
 				return formatDate(data);
 			}
+		}, {
+			targets: 3,
+			data: 'price',
+			render: function(data) {
+				return numeral(data).format();
+			}
+		}, {
+			targets: 4,
+			data: 'priceNewest',
+			render: function(data) {
+				return formatDate(data);
+			}
+		}, {
+			targets: 5,
+			data: 'priceId',
+			orderable: false,
+			searchable: false,
+			visible: false
 		}],
 		language: {
 			infoFiltered: '(Đã lọc từ _MAX_ hạng mục)',
 			zeroRecords: 'Không tìm thấy hạng mục phù hợp'
 		}
 	});
-	showTableContent(tableCategory);
 
+	showTableContent(tableCategory);
+	$('div.dataTables_wrapper').find('.row:first .col-sm-6:first').remove();
 	$('div#table-product-content_paginate').hide();
+
 	$('#product-content #table-category-content tbody').on('click', 'tr', function() {
 		var disabled = true;
 
@@ -181,11 +194,10 @@ $(document).ready(function() {
 			tableCategory.$('tr.bg-light-green').removeClass('bg-light-green text-white');
 			$(this).addClass('bg-light-green text-white');
 
-			CATEGORY_ID_SELECT = tableCategory.$('tr.bg-light-green').find('input:hidden[id^=category-id-]').val();
-			CATEGORY_NAME_SELECT = tableCategory.$('tr.bg-light-green').find('input:hidden[id^=category-name-]').val();
+			CATEGORY_ROW_SELECTED = tableCategory.row(this).index();
 			disabled = false;
 
-			showTableContent(tableProduct, { categoryId: CATEGORY_ID_SELECT });
+			showTableContent(tableProduct, { categoryId: getDataRowSelected(tableCategory).id });
 		}
 		disabledButtons('btn-category-edit, btn-category-delete, btn-product-insert', disabled);
 		disabledButtons('btn-product-edit, btn-product-delete', true);
@@ -198,74 +210,99 @@ $(document).ready(function() {
 		}
 		if ($(this).hasClass('bg-light-green')) {
 			$(this).removeClass('bg-light-green text-white');
-
-// 			tableProduct.clear().draw();
-// 			$('div#table-product-content_paginate').hide();
 		} else {
 			tableProduct.$('tr.bg-light-green').removeClass('bg-light-green text-white');
 			$(this).addClass('bg-light-green text-white');
 
-			PRODUCT_ID_SELECT = tableProduct.$('tr.bg-light-green').find('input:hidden[id^=product-id-]').val();
-			PRODUCT_NAME_SELECT = tableProduct.$('tr.bg-light-green').find('input:hidden[id^=product-name-]').val();
+			PRODUCT_ROW_SELECTED = tableProduct.row(this).index();
 			disabled = false;
-
-// 			showProductContent(tableProduct, { categoryId: PRODUCT_ID_SELECT });
 		}
 		disabledButtons('btn-product-edit, btn-product-delete', disabled);
 	});
-	$('#modal-category-form, #modal-product-form').on('show.bs.modal', function(event) {
+	$('#modal-category-form').on('show.bs.modal', function(event) {
 		var modal = $(this);
 		var button = $(event.relatedTarget);
 		var buttonId = button.attr('id');
-		var buttonAction = 'btn-category-action';
-		var headerClass = 'success';
-		var titleName = 'Thay đổi';
-		var type = ' hàng hóa';
 
-		TABLE_WORKING = button.parent().closest('div.panel-body').find('table').attr('id');
+		TABLE_WORKING = 'table-category-content';
 
-		switch (TABLE_WORKING) {
-		case 'table-category-content':
-			modal.find('#category-name').val(CATEGORY_NAME_SELECT);
-			break;
-		case 'table-product-content':
-			buttonAction = 'btn-product-action';
-			type = ' hạng mục';
-			var select = modal.find('#category-select');
-
-			$.each(CATEGORY_DATA, function(idx, category) {
-				var option = $('<option/>', {
-					value: category.id,
-					text: category.categoryName
-				});
-				if (category.id == CATEGORY_ID_SELECT) {
-					option.attr({
-						selected: true
-					});
-				}
-				select.append(option);
-			});
-			if (modal.find('#category-select').hasClass('hide')) {
-				modal.find('#category-select-show, #category-select').toggleClass('hide');
-			}
-			modal.find('#category-select-show').html(CATEGORY_NAME_SELECT);
-			modal.find('#product-name').val(PRODUCT_NAME_SELECT);
-			break;
-		}
 		if (buttonId.endsWith('-insert')) {
-			headerClass = 'primary';
-			titleName = 'Thêm mới';
+			var headerClass = 'primary';
+			var titleName = 'Thêm mới';
+			var categoryId = 0;
+			var categoryName = '';
+
+			modal.find('.form-horizontal')[0].reset();
+		} else if (buttonId.endsWith('-edit')) {
+			var headerClass = 'success';
+			var titleName = 'Thay đổi';
+			var categoryId = getDataRowSelected(tableCategory).id;
+			var categoryName = getDataRowSelected(tableCategory).categoryName;
+		}
+		modal.find('#category-name').val(categoryName);
+		modal.find('.modal-header').changeHeaderType({
+			type: headerClass,
+			text: titleName + ' hàng hóa'
+		});
+		modal.find('#btn-category-action').changeButtonType({
+			type: headerClass,
+			text: titleName
+		});
+
+		addValidateForm(modal.find('.form-horizontal'));
+	});
+	$('#modal-product-form').on('show.bs.modal', function(event) {
+		var modal = $(this);
+		var button = $(event.relatedTarget);
+		var buttonId = button.attr('id');
+
+		TABLE_WORKING = 'table-product-content';
+
+		if (buttonId.endsWith('-insert')) {
+			var headerClass = 'primary';
+			var titleName = 'Thêm mới';
+			var productName = '';
+			var price = '';
 
 			if (!modal.find('#category-select').hasClass('hide')) {
 				modal.find('#category-select-show, #category-select').toggleClass('hide');
 			}
 			modal.find('.form-horizontal')[0].reset();
+		} else if (buttonId.endsWith('-edit')) {
+			var headerClass = 'success';
+			var titleName = 'Thay đổi';
+			var productName = getDataRowSelected(tableProduct).productName;
+			var price = getDataRowSelected(tableProduct).price;
+
+			if (modal.find('#category-select').hasClass('hide')) {
+				modal.find('#category-select-show, #category-select').toggleClass('hide');
+			}
 		}
+		var categoryId = getDataRowSelected(tableCategory).id;
+		var categoryName = getDataRowSelected(tableCategory).categoryName;
+		var select = modal.find('#category-select');
+		select.empty();
+
+		$.each(tableCategory.rows().data(), function(idx, category) {
+			var option = $('<option/>', {
+				value: category.id,
+				text: category.categoryName
+			});
+			if (categoryId == category.id) {
+				option.attr({
+					selected: true
+				});
+			}
+			select.append(option);
+		});
+		modal.find('#category-select-show').html(categoryName);
+		modal.find('#product-name').val(productName);
+		modal.find('#product-price').val(price);
 		modal.find('.modal-header').changeHeaderType({
 			type: headerClass,
-			text: titleName + type
+			text: titleName + ' hạng mục'
 		});
-		modal.find('#' + buttonAction).changeButtonType({
+		modal.find('#btn-product-action').changeButtonType({
 			type: headerClass,
 			text: titleName
 		});
@@ -277,50 +314,29 @@ $(document).ready(function() {
 
 		TABLE_WORKING = button.parent().closest('div.panel-body').find('table').attr('id');
 	});
-	$('#modal-category-form #btn-category-action, #modal-product-form #btn-product-action').on('click', function() {
+	$('#modal-category-form #btn-category-action').on('click', function() {
 		var form = $(this).parent().closest('div.modal');
 		var buttonId = $(this).attr('id');
-		var url = REQUEST_CATEGORY_ACTION;
-		var message = 'category-message';
-		var msgClass = 'success';
-		var msg = 'Thay đổi thành công !';
-		var mode = 'update';
-		var data = {
-			id: CATEGORY_ID_SELECT
-		};
 
-		switch (TABLE_WORKING) {
-		case 'table-category-content':
-			data['categoryName'] = $('#modal-category-form #category-name').val();
-			break;
-		case 'table-product-content':
-			url = REQUEST_PRODUCT_ACTION;
-			message = 'product-message';
-			var select = $('#modal-product-form #category-select');
-
-			data['id'] = PRODUCT_ID_SELECT;
-			data['categoryId'] = select.hasClass('hide') ? CATEGORY_ID_SELECT : select.val();
-			data['productName'] = $('#modal-product-form #product-name').val();
-			break;
-		}
 		if ($(this).hasClass('btn-primary')) {
-			msgClass = 'primary';
-			msg = 'Thêm mới thành công !';
-			mode = 'insert';
-			data['id'] = null;
+			var msgClass = 'primary';
+			var msg = 'Thêm mới thành công !';
+			var data = {
+					mode: 'insert'
+				};
+		} else if ($(this).hasClass('btn-success')) {
+			var msgClass = 'success';
+			var msg = 'Thay đổi thành công !';
+			var data = {
+				id: getDataRowSelected(tableCategory).id,
+				mode: 'update'
+			};
 		}
-		data['mode'] = mode;
+		data['categoryName'] = $('#modal-category-form #category-name').val();
 
-		callAjax(url, data, function(json) {
+		callAjax(REQUEST_CATEGORY_ACTION, data, function(json) {
 			if (json.status == 0) {
-				switch (TABLE_WORKING) {
-				case 'table-category-content':
-					showTableContent(tableCategory);
-					break;
-				case 'table-product-content':
-					showTableContent(tableProduct, { categoryId: CATEGORY_ID_SELECT });
-					break;
-				}
+				showTableContent(tableCategory);
 			} else {
 				msgClass = 'danger';
 				msg = '';
@@ -331,50 +347,112 @@ $(document).ready(function() {
 			}
 			form.modal('hide');
 
-			$('#product-content #' + message).removeClass('hide').fadeIn().delay(3000).fadeOut().changeMessageType({
+			$('#product-content #category-message').removeClass('hide').fadeIn().delay(3000).fadeOut().changeMessageType({
 				type: msgClass,
 				text: msg
 			});
+		});
+	});
+	$('#modal-product-form #btn-product-action').on('click', function() {
+		var form = $(this).parent().closest('div.modal');
+		var buttonId = $(this).attr('id');
 
-			switch (TABLE_WORKING) {
-			case 'table-category-content':
-				tableProduct.clear().draw();
-				$('div#table-product-content_paginate').hide();
-	
-				disabledButtons('btn-category-edit, btn-category-delete, btn-product-insert, btn-product-edit, btn-product-delete', true);
-				break;
-			case 'table-product-content':
-				disabledButtons('btn-product-edit, btn-product-delete', true);
-				break;
+		if ($(this).hasClass('btn-primary')) {
+			var msgClass = 'primary';
+			var msg = 'Thêm mới thành công !';
+			var categoryId = getDataRowSelected(tableCategory).id;
+			var price = '';
+			var data = {
+					mode: 'insert'
+				};
+		} else if ($(this).hasClass('btn-success')) {
+			var msgClass = 'success';
+			var msg = 'Thay đổi thành công !';
+			var categoryId = $('#modal-product-form #category-select').val();
+			var oldProductName = getDataRowSelected(tableProduct).productName;
+			var oldPrice = getDataRowSelected(tableProduct).price;
+			var data = {
+				id: getDataRowSelected(tableProduct).id,
+				priceId: getDataRowSelected(tableProduct).priceId,
+				mode: 'update'
+			};
+		}
+		var categoryName = getDataRowSelected(tableCategory).categoryName;
+		var productName = $('#modal-product-form #product-name').val();
+		var price = $('#modal-product-form #product-price').val();
+		var updateProduct = false;
+		var updatePrice = false;
+
+		if (getDataRowSelected(tableCategory).id != categoryId || oldProductName != productName) {
+			updateProduct = true;
+		}
+		if (oldPrice != price) {
+			updatePrice = true;
+		}
+		data['categoryId'] = categoryId;
+		data['productName'] = productName;
+		data['price'] = price;
+		data['updateProduct'] = updateProduct;
+		data['updatePrice'] = updatePrice;
+
+		callAjax(REQUEST_PRODUCT_ACTION, data, function(json) {
+			if (json.status == 0) {
+				showTableContent(tableProduct, { categoryId: getDataRowSelected(tableCategory).id });
+			} else {
+				msgClass = 'danger';
+				msg = '';
+
+				$.each(json.error, function(idx, err) {
+					msg += err + '<br/>';
+				});
 			}
+			form.modal('hide');
+
+			$('#product-content #product-message').removeClass('hide').fadeIn().delay(3000).fadeOut().changeMessageType({
+				type: msgClass,
+				text: msg
+			});
 		});
 	});
 	$('#modal-confirm-delete #btn-delete').on('click', function() {
 		var form = $(this).parent().closest('div.modal');
-		var url = REQUEST_CATEGORY_ACTION;
-		var message = 'category-message';
 		var msgClass = 'warning';
 		var msg = 'Xóa thành công !';
-		var data = {
-			id: CATEGORY_ID_SELECT,
-			mode: 'delete'
-		};
 
 		switch (TABLE_WORKING) {
+		case 'table-category-content':
+			var url = REQUEST_CATEGORY_ACTION;
+			var message = 'category-message';
+			var data = {
+				id: getDataRowSelected(tableCategory).id,
+				mode: 'delete'
+			};
+			break;
 		case 'table-product-content':
-			url = REQUEST_PRODUCT_ACTION;
-			message = 'product-message';
-			data['id'] = PRODUCT_ID_SELECT;
+			var url = REQUEST_PRODUCT_ACTION;
+			var message = 'product-message';
+			var data = {
+				id: getDataRowSelected(tableProduct).id,
+				mode: 'delete'
+			};
 			break;
 		}
 		callAjax(url, data, function(json) {
 			if (json.status == 0) {
+				PRODUCT_ROW_SELECTED = -1;
+
 				switch (TABLE_WORKING) {
 				case 'table-category-content':
+					CATEGORY_ROW_SELECTED = -1;
 					showTableContent(tableCategory);
+					tableProduct.clear().draw();
+					$('div#table-product-content_paginate').hide();
+
+					disabledButtons('btn-category-edit, btn-category-delete, btn-product-insert, btn-product-edit, btn-product-delete', true);
 					break;
 				case 'table-product-content':
-					showTableContent(tableProduct, { categoryId: CATEGORY_ID_SELECT });
+					showTableContent(tableProduct, { categoryId: getDataRowSelected(tableCategory).id });
+					disabledButtons('btn-product-edit, btn-product-delete', true);
 					break;
 				}
 			} else {
@@ -391,18 +469,6 @@ $(document).ready(function() {
 				type: msgClass,
 				text: msg
 			});
-
-			switch (TABLE_WORKING) {
-			case 'table-category-content':
-				tableProduct.clear().draw();
-				$('div#table-product-content_paginate').hide();
-
-				disabledButtons('btn-category-edit, btn-category-delete, btn-product-insert, btn-product-edit, btn-product-delete', true);
-				break;
-			case 'table-product-content':
-				disabledButtons('btn-product-edit, btn-product-delete', true);
-				break;
-			}
 		});
 	});
 });
@@ -411,43 +477,47 @@ var REQUEST_CATEGORY_ACTION = '${home}/product/category/action';
 var REQUEST_PRODUCT_SELECT = '${home}/product/select';
 var REQUEST_PRODUCT_ACTION = '${home}/product/action';
 var TABLE_WORKING = '';
-var CATEGORY_DATA = '';
-var CATEGORY_ID_SELECT = '';
-var CATEGORY_NAME_SELECT = '';
-var PRODUCT_DATA = '';
-var PRODUCT_ID_SELECT = '';
-var PRODUCT_NAME_SELECT = '';
+var CATEGORY_ROW_SELECTED = -1;
+var PRODUCT_ROW_SELECTED = -1;
 
 var showTableContent = function(table, data) {
 	var url = REQUEST_CATEGORY_SELECT;
-	var paginate = 'div#' + table.table().node().id + '_paginate';
 	data = (data == undefined) ? {} : data;
 
-	switch (table.table().node().id) {
-	case 'table-product-content':
+	if (table.table().node().id == 'table-product-content') {
 		url = REQUEST_PRODUCT_SELECT;
-		break;
 	}
 	callAjax(url, data, function(json) {
-		table.clear();
-		table.rows.add(json);
-		table.draw();
-
-		switch (table.table().node().id) {
-		case 'table-category-content':
-			CATEGORY_DATA = json;
-			break;
-// 		case 'table-product-content':
-// 			url = REQUEST_PRODUCT_SELECT;
-// 			data = (data == 'undefined') ? { categoryId: '0' } : data;
-// 			break;
-		}
+		drawTableContent(table, json);
 	});
+};
+var drawTableContent = function(table, json) {
+	var tableId = table.table().node().id;
+	var paginate = 'div#' + tableId + '_paginate';
+	var row = CATEGORY_ROW_SELECTED;
+
+	if (tableId == 'table-product-content') {
+		row = PRODUCT_ROW_SELECTED;
+	}
+	table.clear();
+	table.rows.add(json).draw();
+
 	if (table.data().count() <= 10) {
 		$(paginate).hide();
 	} else {
 		$(paginate).show();
 	}
+	if (row != -1 && table.row(row).node() != null) {
+		table.row(row).node().classList.add('bg-light-green', 'text-white');
+	}
+};
+var getDataRowSelected = function(table) {
+	var row = CATEGORY_ROW_SELECTED;
+
+	if (table.table().node().id == 'table-product-content') {
+		row = PRODUCT_ROW_SELECTED;
+	}
+	return table.row(row).data();
 };
 var disabledButtons = function(buttons, flag) {
 	buttons = buttons.split(', ');

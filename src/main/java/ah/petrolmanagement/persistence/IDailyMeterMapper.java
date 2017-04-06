@@ -8,11 +8,11 @@ import org.apache.ibatis.annotations.Param;
 import ah.petrolmanagement.entity.DailyMeterEntity;
 
 public interface IDailyMeterMapper {
-	List<DailyMeterEntity> select(final @Param("map") Map<String, Object> map);
+	List<DailyMeterEntity> select(@Param("map") Map<String, Object> map);
 
-	void save(final @Param("entity") DailyMeterEntity entity);
+	void save(@Param("entity") DailyMeterEntity entity);
 
-	void update(final @Param("entity") DailyMeterEntity entity);
+	void update(@Param("entity") DailyMeterEntity entity);
 
-	void delete(final @Param("entity") DailyMeterEntity entity);
+	void delete(@Param("entity") DailyMeterEntity entity);
 }

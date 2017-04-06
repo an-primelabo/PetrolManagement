@@ -2,32 +2,51 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ah.petrolmanagement.persistence.IUserMapper">
-	<select id="select" parameterType="java.util.Map" resultType="ah.petrolmanagement.entity.UserEntity">
+	<resultMap id="userLoginResult" type="java.util.Map">
+		<result column="USERNAME" property="username" />
+		<result column="PASSWORD" property="password" />
+		<result column="FIRSTNAME" property="firstname" />
+		<result column="LASTNAME" property="lastname" />
+		<result column="BIRTHDAY" property="birthday" />
+		<result column="PHONE" property="phone" />
+		<result column="INS_TIME" property="insTime" />
+		<result column="INS_USER" property="insUser" />
+		<result column="UPD_TIME" property="updTime" />
+		<result column="UPD_USER" property="updUser" />
+		<result column="DEL_FLAG" property="delFlag" />
+		<result column="DEL_TIME" property="delTime" />
+		<result column="DEL_USER" property="delUser" />
+		<association property="role" javaType="java.lang.String">
+			<result column="ROLE" property="role" />
+		</association>
+	</resultMap>
+
+	<select id="login" parameterType="java.lang.String" resultMap="userLoginResult">
 		SELECT
-			USERNAME	AS username,
-			PASSWORD	AS password,
-			FIRSTNAME	AS firstname,
-			LASTNAME	AS lastname,
-			BIRTHDAY	AS birthday,
-			PHONE			AS phone,
-			INS_TIME	AS insTime,
-			INS_USER	AS insUser,
-			UPD_TIME	AS updTime,
-			UPD_USER	AS updUser,
-			DEL_FLAG	AS delFlag,
-			DEL_TIME	AS delTime,
-			DEL_USER	AS delUser
+			u.USERNAME,
+			u.PASSWORD,
+			u.FIRSTNAME,
+			u.LASTNAME,
+			u.BIRTHDAY,
+			u.PHONE,
+			u.INS_TIME,
+			u.INS_USER,
+			u.UPD_TIME,
+			u.UPD_USER,
+			u.DEL_FLAG,
+			u.DEL_TIME,
+			u.DEL_USER,
+			r.ROLE
 		FROM
-			users
-		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<if test="map.username != null">
-				USERNAME = #{map.username}
-			</if>
-			<if test="map.delFlag == null">
-				AND DEL_FLAG = 0
-			</if>
-		</trim>
-		ORDER BY USERNAME
+			users u
+		INNER JOIN
+			role r
+				ON
+					u.USERNAME = r.USERNAME
+		WHERE
+			u.USERNAME = #{username}
+				AND
+					u.DEL_FLAG = 0
 	</select>
 
 	<insert id="save" parameterType="ah.petrolmanagement.entity.UserEntity">
@@ -51,8 +70,7 @@
 	</insert>
 
 	<update id="update" parameterType="ah.petrolmanagement.entity.UserEntity">
-		UPDATE users
-		<set>
+		UPDATE users SET
 			<if test="entity.password != null">
 				PASSWORD = #{entity.password},
 			</if>
@@ -70,21 +88,16 @@
 			</if>
 			UPD_TIME = CURRENT_TIMESTAMP,
 			UPD_USER = #{entity.updUser}
-		</set>
-		<where>
+		WHERE
 			USERNAME = #{entity.username}
-		</where>
 	</update>
 
 	<update id="delete" parameterType="ah.petrolmanagement.entity.UserEntity">
-		UPDATE users
-		<set>
+		UPDATE users SET
 			DEL_FLAG = 1,
 			DEL_TIME = CURRENT_TIMESTAMP,
 			DEL_USER = #{entity.delUser}
-		</set>
-		<where>
+		WHERE
 			USERNAME = #{entity.username}
-		</where>
 	</update>
 </mapper>

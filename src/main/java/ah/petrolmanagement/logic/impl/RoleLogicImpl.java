@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,40 +15,37 @@ import ah.petrolmanagement.dto.request.RoleRequestDto;
 import ah.petrolmanagement.dto.request.TankRequestDto;
 import ah.petrolmanagement.dto.response.RoleResponseDto;
 import ah.petrolmanagement.entity.RoleEntity;
-import ah.petrolmanagement.exception.PetrolException;
-import ah.petrolmanagement.logic.CommonLogic;
 import ah.petrolmanagement.logic.IRoleLogic;
 import ah.petrolmanagement.persistence.IRoleMapper;
+import ah.petrolmanagement.utils.LogUtil;
 
 @Component
-public class RoleLogicImpl extends CommonLogic implements IRoleLogic {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+public class RoleLogicImpl implements IRoleLogic {
 	@Autowired
 	private IRoleMapper mapper;
 
 	@Override
-	public List<RoleResponseDto> select(RoleRequestDto dto)
-			throws PetrolException {
-		logger.info("select : {}", dto);
+	public List<RoleResponseDto> select(RoleRequestDto request)
+			throws Exception {
+		LogUtil.startMethod(this.getClass().getSimpleName(), "select", request);
 
-		Map<String, Object> map = setDataMap(dto);
+		Map<String, Object> map = setDataMap(request);
 		List<RoleEntity> entities = mapper.select(map);
 		List<RoleResponseDto> list = setData(entities);
 		return list;
 	}
 
-	private Map<String, Object> setDataMap(RoleRequestDto dto) {
+	private Map<String, Object> setDataMap(RoleRequestDto request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		if (dto.getId() != null) {
-			map.put(TankRequestDto.ID, dto.getId());
+		if (request.getId() != null) {
+			map.put(TankRequestDto.ID, request.getId());
 		}
-		if (StringUtils.isNotBlank(dto.getUsername())) {
-			map.put(RoleRequestDto.USERNAME, dto.getUsername());
+		if (StringUtils.isNotBlank(request.getUsername())) {
+			map.put(RoleRequestDto.USERNAME, request.getUsername());
 		}
-		if (StringUtils.isNotBlank(dto.getRole())) {
-			map.put(RoleRequestDto.ROLE, dto.getRole());
+		if (StringUtils.isNotBlank(request.getRole())) {
+			map.put(RoleRequestDto.ROLE, request.getRole());
 		}
 		return map;
 	}
@@ -59,11 +54,11 @@ public class RoleLogicImpl extends CommonLogic implements IRoleLogic {
 		List<RoleResponseDto> list = new ArrayList<RoleResponseDto>();
 
 		for (RoleEntity entity : entities) {
-			RoleResponseDto dto = new RoleResponseDto();
-			BeanUtils.copyProperties(entity, dto);
-			dto.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
+			RoleResponseDto response = new RoleResponseDto();
+			BeanUtils.copyProperties(entity, response);
+			response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 
-			list.add(dto);
+			list.add(response);
 		}
 		return list;
 	}

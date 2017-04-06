@@ -8,6 +8,7 @@
 		this.removeClass('btn-primary btn-success btn-info btn-warning btn-danger btn-default').addClass('btn-' + settings.type);
 		return this.html(settings.text);
 	};
+
 	$.fn.changeHeaderType = function(options) {
 		var settings = $.extend({
 			text: 'Chưa đặt tên',
@@ -16,6 +17,7 @@
 		this.removeClass('bg-primary bg-success bg-info bg-warning bg-danger bg-default').addClass('bg-' + settings.type);
 		return this.find('.modal-title').html(settings.text);
 	};
+
 	$.fn.changeMessageType = function(options) {
 		var settings = $.extend({
 			text: 'Chưa có thông báo',
@@ -24,10 +26,40 @@
 		this.removeClass('alert-primary alert-success alert-info alert-warning alert-danger alert-default').addClass('alert-' + settings.type);
 		return this.find('strong').html(settings.text);
 	};
+
 	$.fn.generateSelect = function(options) {
 		this.removeClass('alert-primary alert-success alert-info alert-warning alert-danger alert-default').addClass('alert-' + settings.type);
 		return this.find('strong').html(settings.text);
 	};
+
+	if ($.fn.dataTable) {
+		$.extend(true, $.fn.dataTable.defaults, {
+			deferRender: true,
+			lengthChange: false,
+			processing: true,
+			stateSave: true,
+			language: {
+				decimal: '.',
+				emptyTable: 'Không có dữ liệu',
+				info: 'Đang hiển thị _START_ - _END_ / _TOTAL_ dòng (Trang _PAGE_ / _PAGES_)',
+				infoEmpty: 'Đang hiển thị 0 dòng',
+				thousands: ',',
+				loadingRecords: 'Đang tải dữ liệu...',
+				processing: 'Đang xử lý...',
+				search: 'Tìm kiếm:',
+				paginate: {
+					first: 'Trang đầu',
+					last: 'Trang cuối',
+					next: 'Tiếp',
+					previous: 'Trước'
+				},
+				aria: {
+					sortAscending: ': Sắp xếp tăng dần',
+					sortDescending: ': Sắp xếp giảm dần'
+				}
+			}
+		});
+	}
 }(jQuery));
 var addValidateForm = function(form) {
 	var textRequiredRules = {
@@ -62,12 +94,6 @@ var callAjax = function(url, data, callback) {
 		},
 		error: function(e) {
 			console.log('ERROR: ', e);
-		},
-		beforeSend: function() {
-			$('.loading').removeClass('hide');
-		},
-		complete: function() {
-			$('.loading').addClass('hide');
 		}
 	});
 };
@@ -114,29 +140,3 @@ var numbericFilter = function(event, value) {
 		event.preventDefault();
 	}
 };
-$.extend(true, $.fn.dataTable.defaults, {
-	deferRender: true,
-	lengthChange: false,
-	processing: true,
-	stateSave: true,
-	language: {
-		decimal: '.',
-		emptyTable: 'Không có dữ liệu',
-		info: 'Đang hiển thị _START_ - _END_ / _TOTAL_ dòng (Trang _PAGE_ / _PAGES_)',
-		infoEmpty: 'Đang hiển thị 0 dòng',
-		thousands: ',',
-		loadingRecords: 'Đang tải dữ liệu...',
-		processing: 'Đang xử lý...',
-		search: 'Tìm kiếm:',
-		paginate: {
-			first: 'Trang đầu',
-			last: 'Trang cuối',
-			next: 'Tiếp',
-			previous: 'Trước'
-		},
-		aria: {
-			sortAscending: ': Sắp xếp tăng dần',
-			sortDescending: ': Sắp xếp giảm dần'
-		}
-	}
-});

@@ -1,11 +1,11 @@
 package ah.petrolmanagement.constants;
 
-import ah.petrolmanagement.annotation.ConstantsRegister;
-
-@ConstantsRegister
 public final class ApiConstants {
 	private ApiConstants() {
 	}
+
+	// Set max inactive interval in 30 minutes
+	public static final int SESSION_INTERVAL = 30;
 
 	public static final int STATUS_CODE_SUCCESS = 0;
 	public static final int STATUS_CODE_ERROR = -1;
@@ -19,10 +19,14 @@ public final class ApiConstants {
 	public static final String DELETE = "delete";
 
 	public static final String BLANK = "";
+	public static final String SLASH = "/";
 	public static final int ZERO = 0;
 	public static final String[] EMPTY_ARRAY = new String[0];
 
-	public static final String SLASH = "/";
+	public static final String SESSION_USER_LOGGED_IN = "userLoggedIn";
+	public static final String SESSION_USERNAME_LOGGED_IN = "usernameLoggedIn";
+
+	public static final String REQUEST_TITLE = "title";
 
 	public static final String VIEW_DAILY = "daily";
 	public static final String VIEW_DAILY_SEARCH = "daily/search";

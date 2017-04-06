@@ -5,8 +5,8 @@ import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
+import ah.petrolmanagement.constants.ApiConstants;
 import ah.petrolmanagement.constants.UrlConstants;
-import ah.petrolmanagement.exception.WrapRuntimeException;
 
 public final class SerializeUtil {
 	private SerializeUtil() {
@@ -22,7 +22,8 @@ public final class SerializeUtil {
 		try {
 			return new String(out.toByteArray(), UrlConstants.BASE_CHARSET);
 		} catch (Exception e) {
-			throw new WrapRuntimeException(e);
+			e.printStackTrace();
+			return ApiConstants.BLANK;
 		}
 	}
 
@@ -35,7 +36,8 @@ public final class SerializeUtil {
 
 			return decoder.readObject();
 		} catch (Exception e) {
-			throw new WrapRuntimeException(e);
+			e.printStackTrace();
+			return ApiConstants.BLANK;
 		}
 	}
 }

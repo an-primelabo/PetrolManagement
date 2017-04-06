@@ -52,25 +52,24 @@
 					<p class="element-name">Quản Lý Trạm Xăng</p>
 					<i class="fa fa-angle-down" aria-hidden="true"></i>
 
-					<div class="form-group form-animate-text">
+					<div class="form-group form-animate-text text-left">
 						<input type="text" name="username" class="form-text" value="admin" required />
 						<span class="bar"></span>
 						<label>Tài khoản</label>
 					</div>
-					<!-- /div.form-group.form-animate-text -->
+					<!-- /div.form-group.form-animate-text.text-left -->
 
-					<div class="form-group form-animate-text">
+					<div class="form-group form-animate-text text-left">
 						<input type="password" name="password" class="form-text" value="Abc12345" required />
 						<span class="bar"></span>
 						<label>Mật khẩu</label>
 					</div>
-					<!-- /div.form-group.form-animate-text -->
+					<!-- /div.form-group.form-animate-text.text-left -->
 
 					<label class="pull-left">
 						<input type="checkbox" name="remember" class="icheck pull-left" /> Nhớ đăng nhập
 					</label>
 
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					<button type="submit" class="btn col-md-12">Đăng Nhập</button>
 				</div>
 				<!-- /div.panel-body.text-center -->
@@ -83,12 +82,17 @@
 
 	<!-- Plugins -->
 	<script src="<c:url value='/static/js/plugins/icheck.min.js' />"></script>
+	<script src="<c:url value='/static/js/plugins/jquery.validate.min.js' />"></script>
+	<!-- Custom JavaScript -->
+	<script src="<c:url value='/static/js/base.js' />"></script>
 	<script type="text/javascript">
-		$(document).ready(function() {
-			$('.form-signin input').iCheck({
-				checkboxClass: 'icheckbox_flat-aero'
-			});
+	$(document).ready(function() {
+		addValidateForm($('.form-signin'));
+
+		$('.form-signin input').iCheck({
+			checkboxClass: 'icheckbox_flat-aero'
 		});
+	});
 	</script>
 </body>
 

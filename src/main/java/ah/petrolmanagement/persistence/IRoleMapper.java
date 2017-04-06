@@ -8,5 +8,5 @@ import org.apache.ibatis.annotations.Param;
 import ah.petrolmanagement.entity.RoleEntity;
 
 public interface IRoleMapper {
-	List<RoleEntity> select(final @Param("map") Map<String, Object> map);
+	List<RoleEntity> select(@Param("map") Map<String, Object> map);
 }

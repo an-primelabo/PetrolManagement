@@ -4,27 +4,26 @@ import java.util.List;
 
 import ah.petrolmanagement.dto.request.ProductPriceRequestDto;
 import ah.petrolmanagement.dto.response.ProductPriceResponseDto;
-import ah.petrolmanagement.exception.PetrolException;
 
 public interface IProductPriceLogic {
-	List<ProductPriceResponseDto> select(final ProductPriceRequestDto dto)
-			throws PetrolException;
+	List<ProductPriceResponseDto> select(final ProductPriceRequestDto request)
+			throws Exception;
 
-	List<ProductPriceResponseDto> selectPrice(final ProductPriceRequestDto dto)
-			throws PetrolException;
+	List<ProductPriceResponseDto> selectPrice(
+			final ProductPriceRequestDto request) throws Exception;
 
 	List<ProductPriceResponseDto> selectOldPrice(
-			final ProductPriceRequestDto dto) throws PetrolException;
+			final ProductPriceRequestDto request) throws Exception;
 
 	List<ProductPriceResponseDto> selectNewPrice(
-			final ProductPriceRequestDto dto) throws PetrolException;
+			final ProductPriceRequestDto request) throws Exception;
 
-	ProductPriceResponseDto save(final ProductPriceRequestDto dto)
-			throws PetrolException;
+	ProductPriceResponseDto save(final ProductPriceRequestDto request)
+			throws Exception;
 
-	ProductPriceResponseDto update(final ProductPriceRequestDto dto)
-			throws PetrolException;
+	ProductPriceResponseDto update(final ProductPriceRequestDto request)
+			throws Exception;
 
-	ProductPriceResponseDto delete(final ProductPriceRequestDto dto)
-			throws PetrolException;
+	ProductPriceResponseDto delete(final ProductPriceRequestDto request)
+			throws Exception;
 }

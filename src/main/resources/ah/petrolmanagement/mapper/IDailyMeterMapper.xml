@@ -95,8 +95,7 @@
 	</insert>
 
 	<update id="update" parameterType="ah.petrolmanagement.entity.DailyMeterEntity">
-		UPDATE daily_meter
-		<set>
+		UPDATE daily_meter SET
 			<if test="entity.tankId != null">
 				TANK_ID = #{entity.tankId},
 			</if>
@@ -120,21 +119,16 @@
 			</if>
 			UPD_TIME = CURRENT_TIMESTAMP,
 			UPD_USER = #{entity.updUser}
-		</set>
-		<where>
+		WHERE
 			ID = #{entity.id}
-		</where>
 	</update>
 
 	<update id="delete" parameterType="ah.petrolmanagement.entity.DailyMeterEntity">
-		UPDATE daily_meter
-		<set>
+		UPDATE daily_meter SET
 			DEL_FLAG = 1,
 			DEL_TIME = CURRENT_TIMESTAMP,
 			DEL_USER = #{entity.delUser}
-		</set>
-		<where>
+		WHERE
 			ID = #{entity.id}
-		</where>
 	</update>
 </mapper>

@@ -2,42 +2,34 @@ package ah.petrolmanagement.dto.request;
 
 import java.util.Date;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
 import ah.petrolmanagement.dto.BaseDto;
 
 public class CommonRequestDto extends BaseDto {
 	private static final long serialVersionUID = -3452004146554257620L;
 
+	public static final String ID = "id";
+	public static final String CATEGORY_ID = "categoryId";
+	public static final String CATEGORY_NAME = "categoryName";
+	public static final String PRODUCT_ID = "productId";
+	public static final String PRODUCT_NAME = "productName";
+	public static final String PRICE_ID = "priceId";
+	public static final String PRICE = "price";
 	public static final String INS_TIME = "insTime";
 	public static final String INS_USER = "insUser";
+	public static final String UPD_TIME = "updTime";
 	public static final String UPD_USER = "updUser";
 	public static final String DEL_FLAG = "delFlag";
+	public static final String DEL_TIME = "delTime";
 	public static final String DEL_USER = "delUser";
 	public static final String MODE = "mode";
 
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Date insTime;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String insUser;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Date updTime;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String updUser;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer delFlag;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Date delTime;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String delUser;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String mode;
 
 	public Date getInsTime() {

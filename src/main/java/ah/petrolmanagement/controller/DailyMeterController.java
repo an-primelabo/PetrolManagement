@@ -19,11 +19,6 @@ import ah.petrolmanagement.dto.request.DailyMeterRequestDto;
 import ah.petrolmanagement.dto.request.ProductPriceRequestDto;
 import ah.petrolmanagement.dto.response.DailyMeterResponseDto;
 import ah.petrolmanagement.dto.response.ProductPriceResponseDto;
-import ah.petrolmanagement.enums.Categories;
-import ah.petrolmanagement.exception.PetrolException;
-import ah.petrolmanagement.manager.ProductManager;
-import ah.petrolmanagement.manager.TankManager;
-import ah.petrolmanagement.utils.ControllerUtil;
 import ah.petrolmanagement.utils.DateUtil;
 import ah.petrolmanagement.utils.LogUtil;
 
@@ -33,30 +28,30 @@ public class DailyMeterController extends CommonController {
 	private String responseJson = null;
 	private Map<String, Object> mapJson = null;
 
-	@RequestMapping(value = { ApiConstants.BLANK, UrlConstants.URL_DAILY, UrlConstants.URL_DAILY_INDEX },
+	@RequestMapping(value = { UrlConstants.URL_DAILY, UrlConstants.URL_DAILY_INDEX },
 					method = { RequestMethod.GET },
 					headers = { UrlConstants.REQUEST_HEADER_ACCEPT })
-	public String index(final Model map) throws PetrolException {
+	public String index(final Model map) throws Exception {
 		LogUtil.startMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_DAILY);
 
-		List<Integer> productIdList = ProductManager.getIdList(Categories.FUEL.getCode());
-		List<TankManager.ItemData> tankList = TankManager.getTankList();
+//		List<Integer> productIdList = ProductManager.getIdList(Categories.FUEL.getCode());
+//		List<TankManager.ItemData> tankList = TankManager.getTankList();
 
 		DailyMeterRequestDto dailyRequest = new DailyMeterRequestDto();
 		dailyRequest.setInsTime(DateUtil.getToday());
 		List<DailyMeterResponseDto> dailies = searchDaily(dailyRequest);
 
 		ProductPriceRequestDto priceRequest = new ProductPriceRequestDto();
-		priceRequest.setProductIdList(productIdList);
-		List<ProductPriceResponseDto> oldPrice = searchPrice(priceRequest, UrlConstants.URL_API_PRICE_SELECT_OLD_PRICE);
-		List<ProductPriceResponseDto> newPrice = searchPrice(priceRequest, UrlConstants.URL_API_PRICE_SELECT_NEW_PRICE);
+//		priceRequest.setProductIdList(productIdList);
+//		List<ProductPriceResponseDto> oldPrice = searchPrice(priceRequest, UrlConstants.URL_API_PRICE_SELECT_OLD_PRICE);
+//		List<ProductPriceResponseDto> newPrice = searchPrice(priceRequest, UrlConstants.URL_API_PRICE_SELECT_NEW_PRICE);
 
 		map.addAttribute("dailies", dailies);
-		map.addAttribute("oldPrice", oldPrice);
-		map.addAttribute("newPrice", newPrice);
-		map.addAttribute("productIdList", productIdList);
-		map.addAttribute("tankList", tankList);
-		map.addAttribute("loggedInUser", getPrincipal());
+//		map.addAttribute("oldPrice", oldPrice);
+//		map.addAttribute("newPrice", newPrice);
+//		map.addAttribute("productIdList", productIdList);
+//		map.addAttribute("tankList", tankList);
+//		map.addAttribute("loggedInUser", getPrincipal());
 		map.addAttribute("title", TITLE);
 
 		LogUtil.endMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_DAILY);
@@ -68,7 +63,7 @@ public class DailyMeterController extends CommonController {
 					headers = { UrlConstants.REQUEST_HEADER_ACCEPT_JSON })
 	public @ResponseBody List<DailyMeterResponseDto> search(
 			@RequestBody final DailyMeterRequestDto model,
-			final Model map) throws PetrolException {
+			final Model map) throws Exception {
 		LogUtil.startMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_DAILY_SEARCH);
 
 		List<DailyMeterResponseDto> list = searchDaily(model);
@@ -82,7 +77,7 @@ public class DailyMeterController extends CommonController {
 					headers = { UrlConstants.REQUEST_HEADER_ACCEPT_JSON })
 	public @ResponseBody Map<String, Object> chart(
 			@RequestBody final DailyMeterRequestDto model,
-			final Model map) throws PetrolException {
+			final Model map) throws Exception {
 		LogUtil.startMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_DAILY_CHART);
 
 		Map<String, Object> data = new HashMap<String, Object>();
@@ -111,7 +106,7 @@ public class DailyMeterController extends CommonController {
 					headers = { UrlConstants.REQUEST_HEADER_ACCEPT_JSON })
 	public @ResponseBody List<ProductPriceResponseDto> insertPrice(
 			@RequestBody final ProductPriceRequestDto model,
-			final Model map) throws PetrolException {
+			final Model map) throws Exception {
 		LogUtil.startMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_DAILY_INSERT_PRICE);
 
 		boolean flag = insertPrice(model);
@@ -121,10 +116,10 @@ public class DailyMeterController extends CommonController {
 		}
 		ProductPriceRequestDto request = new ProductPriceRequestDto();
 		request.setProductId(model.getProductId());
-		List<ProductPriceResponseDto> prices = searchPrice(request, UrlConstants.URL_API_PRICE_SELECT_PRICE);
+//		List<ProductPriceResponseDto> prices = searchPrice(request, UrlConstants.URL_API_PRICE_SELECT_PRICE);
 
 		LogUtil.endMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_DAILY_INSERT_PRICE);
-		return prices;
+		return null;
 	}
 
 	@RequestMapping(value = { UrlConstants.URL_DAILY_INSERT_DAILY },
@@ -132,7 +127,7 @@ public class DailyMeterController extends CommonController {
 					headers = { UrlConstants.REQUEST_HEADER_ACCEPT_JSON })
 	public @ResponseBody DailyMeterResponseDto insertDaily(
 			@RequestBody final List<DailyMeterRequestDto> modelList,
-			final Model map) throws PetrolException {
+			final Model map) throws Exception {
 		LogUtil.startMethod(this.getClass().getSimpleName(), ApiConstants.VIEW_DAILY_INSERT_DAILY);
 
 		DailyMeterResponseDto response = insertDaily(modelList);
@@ -153,17 +148,17 @@ public class DailyMeterController extends CommonController {
 			mapJson.put(DailyMeterRequestDto.MONTH_FROM, request.getMonthFrom());
 			mapJson.put(DailyMeterRequestDto.MONTH_TO, request.getMonthTo());
 		}
-		responseJson = ControllerUtil.callAPI(UrlConstants.URL_API_DAILY_SELECT, mapJson);
+//		responseJson = ControllerUtil.callAPI(UrlConstants.URL_API_DAILY_SELECT, mapJson);
 
 		if (StringUtils.isNotBlank(responseJson)) {
-			DailyMeterResponseDto[] dataList = ControllerUtil.convertJson2Dto(responseJson, DailyMeterResponseDto[].class);
+//			DailyMeterResponseDto[] dataList = ControllerUtil.convertJson2Dto(responseJson, DailyMeterResponseDto[].class);
 
-			if (dataList != null) {
-				for (DailyMeterResponseDto daily : dataList) {
-					daily.setData();
-					list.add(daily);
-				}
-			}
+//			if (dataList != null) {
+//				for (DailyMeterResponseDto daily : dataList) {
+//					daily.setData();
+//					list.add(daily);
+//				}
+//			}
 		}
 		return list;
 	}
@@ -178,22 +173,22 @@ public class DailyMeterController extends CommonController {
 			mapJson.put(ProductPriceRequestDto.PRICE, request.getPrice());
 			mapJson.put(ProductPriceRequestDto.PRODUCT_ID_LIST, request.getProductIdList());
 		}
-		if (StringUtils.equals(mode, UrlConstants.URL_API_PRICE_SELECT_OLD_PRICE)) {
-			responseJson = ControllerUtil.callAPI(mode, mapJson);
-		} else if (StringUtils.equals(mode, UrlConstants.URL_API_PRICE_SELECT_NEW_PRICE)) {
-			responseJson = ControllerUtil.callAPI(mode, mapJson);
-		} else {
-			responseJson = ControllerUtil.callAPI(mode, mapJson);
-		}
+//		if (StringUtils.equals(mode, UrlConstants.URL_API_PRICE_SELECT_OLD_PRICE)) {
+//			responseJson = ControllerUtil.callAPI(mode, mapJson);
+//		} else if (StringUtils.equals(mode, UrlConstants.URL_API_PRICE_SELECT_NEW_PRICE)) {
+//			responseJson = ControllerUtil.callAPI(mode, mapJson);
+//		} else {
+//			responseJson = ControllerUtil.callAPI(mode, mapJson);
+//		}
 
 		if (StringUtils.isNotBlank(responseJson)) {
-			ProductPriceResponseDto[] dataList = ControllerUtil.convertJson2Dto(responseJson, ProductPriceResponseDto[].class);
-
-			if (dataList != null) {
-				for (ProductPriceResponseDto price : dataList) {
-					list.add(price);
-				}
-			}
+//			ProductPriceResponseDto[] dataList = ControllerUtil.convertJson2Dto(responseJson, ProductPriceResponseDto[].class);
+//
+//			if (dataList != null) {
+//				for (ProductPriceResponseDto price : dataList) {
+//					list.add(price);
+//				}
+//			}
 		}
 		return list;
 	}
@@ -205,16 +200,16 @@ public class DailyMeterController extends CommonController {
 		mapJson.put(ProductPriceRequestDto.PRODUCT_ID, request.getProductId());
 		mapJson.put(ProductPriceRequestDto.PRICE, request.getPrice());
 
-		ControllerUtil.callAPI(UrlConstants.URL_API_PRICE_UPDATE, mapJson);
-		responseJson = ControllerUtil.callAPI(UrlConstants.URL_API_PRICE_INSERT, mapJson);
-
-		if (StringUtils.isNotBlank(responseJson)) {
-			ProductPriceResponseDto data = ControllerUtil.convertJson2Dto(responseJson, ProductPriceResponseDto.class);
-
-			if (data != null && data.getStatus() == ApiConstants.STATUS_CODE_SUCCESS) {
-				flag = true;
-			}
-		}
+//		ControllerUtil.callAPI(UrlConstants.URL_API_PRICE_UPDATE, mapJson);
+//		responseJson = ControllerUtil.callAPI(UrlConstants.URL_API_PRICE_INSERT, mapJson);
+//
+//		if (StringUtils.isNotBlank(responseJson)) {
+//			ProductPriceResponseDto data = ControllerUtil.convertJson2Dto(responseJson, ProductPriceResponseDto.class);
+//
+//			if (data != null && data.getStatus() == ApiConstants.STATUS_CODE_SUCCESS) {
+//				flag = true;
+//			}
+//		}
 		return flag;
 	}
 
@@ -223,11 +218,11 @@ public class DailyMeterController extends CommonController {
 		mapJson = new HashMap<String, Object>();
 		mapJson.put(DailyMeterRequestDto.DAILY_LIST, requestList);
 
-		responseJson = ControllerUtil.callAPI(UrlConstants.URL_API_DAILY_INSERT, mapJson);
-
-		if (StringUtils.isNotBlank(responseJson)) {
-			response = ControllerUtil.convertJson2Dto(responseJson, DailyMeterResponseDto.class);
-		}
+//		responseJson = ControllerUtil.callAPI(UrlConstants.URL_API_DAILY_INSERT, mapJson);
+//
+//		if (StringUtils.isNotBlank(responseJson)) {
+//			response = ControllerUtil.convertJson2Dto(responseJson, DailyMeterResponseDto.class);
+//		}
 		return response;
 	}
 }

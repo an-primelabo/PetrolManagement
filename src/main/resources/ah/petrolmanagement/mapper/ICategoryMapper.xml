@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ah.petrolmanagement.persistence.ICategoryMapper">
-	<select id="select" parameterType="java.util.Map" resultType="ah.petrolmanagement.entity.CategoryEntity">
+	<select id="select" resultType="ah.petrolmanagement.entity.CategoryEntity">
 		SELECT
 			ID						AS id,
 			CATEGORY_NAME	AS categoryName,
@@ -15,21 +15,13 @@
 			DEL_USER			AS delUser
 		FROM
 			category
-		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<if test="map.id != null">
-				ID = #{map.id}
-			</if>
-			<if test="map.categoryName != null">
-				AND CATEGORY_NAME LIKE '%' || #{map.categoryName} || '%'
-			</if>
-			<if test="map.delFlag == null">
-				AND DEL_FLAG = 0
-			</if>
-		</trim>
-		ORDER BY ID
+		WHERE
+			DEL_FLAG = 0
+		ORDER BY
+			ID
 	</select>
 
-	<insert id="save" parameterType="ah.petrolmanagement.entity.CategoryEntity">
+	<insert id="save" parameterType="ah.petrolmanagement.entity.CategoryEntity" useGeneratedKeys="true" keyProperty="entity.id">
 		INSERT INTO category (
 			CATEGORY_NAME,
 			INS_USER
@@ -40,28 +32,20 @@
 	</insert>
 
 	<update id="update" parameterType="ah.petrolmanagement.entity.CategoryEntity">
-		UPDATE category
-		<set>
-			<if test="entity.categoryName != null">
-				CATEGORY_NAME = #{entity.categoryName},
-			</if>
+		UPDATE category SET
+			CATEGORY_NAME = #{entity.categoryName},
 			UPD_TIME = CURRENT_TIMESTAMP,
 			UPD_USER = #{entity.updUser}
-		</set>
-		<where>
+		WHERE
 			ID = #{entity.id}
-		</where>
 	</update>
 
 	<update id="delete" parameterType="ah.petrolmanagement.entity.CategoryEntity">
-		UPDATE category
-		<set>
+		UPDATE category SET
 			DEL_FLAG = 1,
 			DEL_TIME = CURRENT_TIMESTAMP,
 			DEL_USER = #{entity.delUser}
-		</set>
-		<where>
+		WHERE
 			ID = #{entity.id}
-		</where>
 	</update>
 </mapper>

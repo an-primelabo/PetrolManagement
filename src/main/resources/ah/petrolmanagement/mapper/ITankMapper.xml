@@ -46,8 +46,7 @@
 	</insert>
 
 	<update id="update" parameterType="ah.petrolmanagement.entity.TankEntity">
-		UPDATE tank
-		<set>
+		UPDATE tank SET
 			<if test="entity.productId != null">
 				PRODUCT_ID = #{entity.productId},
 			</if>
@@ -56,21 +55,16 @@
 			</if>
 			UPD_TIME = CURRENT_TIMESTAMP,
 			UPD_USER = #{entity.updUser}
-		</set>
-		<where>
+		WHERE
 			ID = #{entity.id}
-		</where>
 	</update>
 
 	<update id="delete" parameterType="ah.petrolmanagement.entity.TankEntity">
-		UPDATE tank
-		<set>
+		UPDATE tank SET
 			DEL_FLAG = 1,
 			DEL_TIME = CURRENT_TIMESTAMP,
 			DEL_USER = #{entity.delUser}
-		</set>
-		<where>
+		WHERE
 			ID = #{entity.id}
-		</where>
 	</update>
 </mapper>

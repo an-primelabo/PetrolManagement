@@ -1,64 +1,27 @@
 package ah.petrolmanagement.dto.response;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
 import ah.petrolmanagement.enums.Shifts;
-import ah.petrolmanagement.manager.ProductPriceManager;
-import ah.petrolmanagement.manager.TankManager;
 import ah.petrolmanagement.utils.Utils;
 
 public class DailyMeterResponseDto extends CommonResponseDto {
 	private static final long serialVersionUID = -7622193904343043465L;
 
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer id;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer tankId;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer productId;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String tankName;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer shift;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String shiftName;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer priceId;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float meterOld;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float meterNew;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float meterQuantity;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float meterElecOld;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float meterElecNew;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float meterElecQuantity;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Integer price;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float amount;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float amountElec;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Float different;
 
 	public Integer getId() {
@@ -198,10 +161,10 @@ public class DailyMeterResponseDto extends CommonResponseDto {
 	}
 
 	public void setData() {
-		String tank = TankManager.getTankName(getTankId());
+		String tank = "";// TankManager.getTankName(getTankId());
 		setTankName(tank);
 
-		Integer product = TankManager.getProductId(getTankId());
+		Integer product = 0;// TankManager.getProductId(getTankId());
 		setProductId(product);
 
 		String shift = Shifts.getByCode(getShift());
@@ -215,7 +178,7 @@ public class DailyMeterResponseDto extends CommonResponseDto {
 		Float mElecOld = (getMeterElecOld() != null) ? getMeterElecOld() : 0L;
 		setMeterElecQuantity(Utils.roundQuantity(mElecNew - mElecOld));
 
-		Integer price = ProductPriceManager.getPrice(getPriceId());
+		Integer price = 0;// ProductPriceManager.getPrice(getPriceId());
 		setPrice(price);
 
 		Float total = getMeterQuantity() * getPrice();

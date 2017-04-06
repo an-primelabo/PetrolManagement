@@ -14,7 +14,7 @@
 			<a href="${home}" class="navbar-brand text-uppercase"><b>Quản lý trạm xăng</b></a>
 
 			<ul class="nav navbar-nav navbar-right user-nav">
-				<li class="user-name"><span>${loggedInUser}</span></li>
+				<li class="user-name"><span>${usernameLoggedIn}</span></li>
 				<li class="dropdown avatar-dropdown">
 					<img src="<c:url value='/static/img/avatar.jpg' />" class="img-circle avatar" alt="${loggedInUser}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" />
 

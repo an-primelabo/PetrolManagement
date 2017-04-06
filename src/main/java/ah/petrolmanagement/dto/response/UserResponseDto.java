@@ -2,28 +2,16 @@ package ah.petrolmanagement.dto.response;
 
 import java.util.Date;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
 public class UserResponseDto extends CommonResponseDto {
 	private static final long serialVersionUID = 271198259591053137L;
 
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String username;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String password;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String firstname;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String lastname;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private Date birthday;
-
-	@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 	private String phone;
+	private String role;
 
 	public String getUsername() {
 		return username;
@@ -71,5 +59,13 @@ public class UserResponseDto extends CommonResponseDto {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

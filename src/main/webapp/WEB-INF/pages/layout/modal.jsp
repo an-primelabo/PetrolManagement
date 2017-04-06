@@ -81,6 +81,19 @@
 							<!-- /div.form-group -->
 						</div>
 						<!-- /div.col-md-12 -->
+
+						<div class="col-md-12">
+							<div class="form-group">
+								<label class="col-md-3 control-label">Giá mới nhất</label>
+	
+								<div class="col-md-9">
+									<input type="text" id="product-price" name="product-price" class="form-control android" required />
+								</div>
+								<!-- /div.col-md-9 -->
+							</div>
+							<!-- /div.form-group -->
+						</div>
+						<!-- /div.col-md-12 -->
 					</form>
 					<!-- /form.form-horizontal -->
 				</div>
