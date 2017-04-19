@@ -2,7 +2,6 @@ package ah.petrolmanagement.logic.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,11 +38,12 @@ public class ProductLogicImpl implements IProductLogic {
 	private DataSourceTransactionManager transaction;
 
 	@Override
-	public List<ProductResponseDto> selectByCategoryId(final ProductRequestDto request)
-			throws Exception {
+	public List<ProductResponseDto> selectByCategoryId(
+			final ProductRequestDto request) throws Exception {
 		LogUtil.startMethod(this.getClass().getSimpleName(), "select", request);
 
-		List<Map<String, Object>> entities = mapper.selectByCategoryId(request.getCategoryId());
+		List<Map<String, Object>> entities = mapper.selectByCategoryId(request
+				.getCategoryId());
 		return setData(entities);
 	}
 
@@ -154,39 +154,33 @@ public class ProductLogicImpl implements IProductLogic {
 		return response;
 	}
 
-	private Map<String, Object> setDataMap(ProductRequestDto request) {
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		if (request.getId() != null) {
-			map.put(ProductRequestDto.ID, request.getId());
-		}
-		if (request.getCategoryId() != null) {
-			map.put(ProductRequestDto.CATEGORY_ID, request.getCategoryId());
-		}
-		if (StringUtils.isNotBlank(request.getProductName())) {
-			map.put(ProductRequestDto.PRODUCT_NAME, request.getProductName());
-		}
-		return map;
-	}
-
 	private List<ProductResponseDto> setData(List<Map<String, Object>> entities) {
 		List<ProductResponseDto> list = new ArrayList<ProductResponseDto>();
 
 		for (Map<String, Object> entity : entities) {
 			ProductResponseDto response = new ProductResponseDto();
 			response.setId(Utils.getInteger(entity.get(ProductRequestDto.ID)));
-			response.setCategoryId(Utils.getInteger(entity.get(ProductRequestDto.CATEGORY_ID)));
-			response.setProductName(Utils.getString(entity.get(ProductRequestDto.PRODUCT_NAME)));
-			response.setPriceId(Utils.getInteger(entity.get(ProductRequestDto.PRICE_ID)));
-			response.setPrice(Utils.getInteger(entity.get(ProductRequestDto.PRICE)));
-			response.setPriceNewest((Date) entity.get(ProductRequestDto.PRICE_NEWEST));
+			response.setCategoryId(Utils.getInteger(entity
+					.get(ProductRequestDto.CATEGORY_ID)));
+			response.setProductName(Utils.getString(entity
+					.get(ProductRequestDto.PRODUCT_NAME)));
+			response.setPriceId(Utils.getInteger(entity
+					.get(ProductRequestDto.PRICE_ID)));
+			response.setPrice(Utils.getInteger(entity
+					.get(ProductRequestDto.PRICE)));
+			response.setPriceNewest((Date) entity
+					.get(ProductRequestDto.PRICE_NEWEST));
 			response.setInsTime((Date) entity.get(ProductRequestDto.INS_TIME));
-			response.setInsUser(Utils.getString(entity.get(ProductRequestDto.INS_USER)));
+			response.setInsUser(Utils.getString(entity
+					.get(ProductRequestDto.INS_USER)));
 			response.setUpdTime((Date) entity.get(ProductRequestDto.UPD_TIME));
-			response.setUpdUser(Utils.getString(entity.get(ProductRequestDto.UPD_USER)));
-			response.setDelFlag(Utils.getInteger(entity.get(ProductRequestDto.DEL_FLAG)));
+			response.setUpdUser(Utils.getString(entity
+					.get(ProductRequestDto.UPD_USER)));
+			response.setDelFlag(Utils.getInteger(entity
+					.get(ProductRequestDto.DEL_FLAG)));
 			response.setDelTime((Date) entity.get(ProductRequestDto.DEL_TIME));
-			response.setDelUser(Utils.getString(entity.get(ProductRequestDto.DEL_USER)));
+			response.setDelUser(Utils.getString(entity
+					.get(ProductRequestDto.DEL_USER)));
 			response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 
 			list.add(response);

@@ -1,35 +1,4 @@
 (function($) {
-	$.fn.ripple = function() {
-		$(this).click(function(e) {
-			e.preventDefault();
-
-			var $rippler = $(this);
-			$rippler.find('.ink').remove();
-
-			var $ink = $('<span class="ink"></span>');
-
-			if ($rippler.children('a').first()) {
-				$rippler.children('a').first().append($ink);
-			} else {
-				$rippler.append($ink);
-			}
-			$ink.removeClass('animate');
-
-			if (!$ink.height() && !$ink.width()) {
-				var d = Math.max($rippler.outerWidth(), $rippler.outerHeight());
-				$ink.css({
-					height: d,
-					width: d
-				});
-			}
-			var x = e.pageX - $rippler.offset().left - $ink.width() / 2;
-			var y = e.pageY - $rippler.offset().top - $ink.height() / 2;
-			$ink.css({
-				top: y + 'px',
-				left: x + 'px'
-			}).addClass('animate');
-		});
-	};
 	$.fn.carouselAnimate = function() {
 		function doAnimations(elems) {
 			var animEndEv = 'webkitAnimationEnd animationend';
@@ -183,22 +152,6 @@
 			width: $(this).data('progress')
 		});
 	});
-	$('.carousel-thumb').on('slid.bs.carousel', function() {
-		if ($(this).find($('.item')).is('.active')) {
-			var current = $(this).find($('.item.active')).data('slide');
-
-			$('.carousel-thumb-img li img').removeClass('animated rubberBand');
-			$('.carousel-thumb-img li').removeClass('active');
-
-			$($('.carousel-thumb-img').children()[current]).addClass('active');
-			$($('.carousel-thumb-img li').children()[current]).addClass('animated rubberBand');
-		}
-	});
-	$('.carousel-thumb-img li').on('click', function() {
-		$('.carousel-thumb-img li img').removeClass('animated rubberBand');
-		$('.carousel-thumb-img li').removeClass('active');
-		$(this).addClass('active');
-	});
 	$('#petrol-mobile-menu-opener').on('click', function(e) {
 		$('#petrol-mobile').toggleClass('reverse');
 
@@ -281,9 +234,9 @@
 	$('.mail-wrapper').find('.mail-left').css({
 		height: $('.mail-wrapper').innerHeight()
 	});
-	$('#left-menu ul li a').ripple();
-	$('.ripple div').ripple();
 	$('#carousel-example3').carouselAnimate();
+	$('#petrol').niceScroll();
+	$('.modal .modal-body').niceScroll();
 	$('#left-menu .sub-left-menu').niceScroll();
 	$('.sub-petrol-mobile-menu-list').niceScroll({
 		touchbehavior: true,
@@ -316,6 +269,15 @@
 		moment.locale('vi');
 		update();
 		setInterval(update, 1000);
+
+		$('#left-menu .nav a').each(function() {
+			$('#left-menu nav li').removeClass('active');
+
+			if ($(this).attr('href') == location.pathname) {
+				$(this).parent().addClass('active');
+				return false;
+			}
+		});
 	});
 	$('body').tooltip({
 		selector: '[data-toggle=tooltip]'

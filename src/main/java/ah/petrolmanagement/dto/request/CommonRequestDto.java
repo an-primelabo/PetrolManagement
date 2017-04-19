@@ -14,6 +14,8 @@ public class CommonRequestDto extends BaseDto {
 	public static final String PRODUCT_NAME = "productName";
 	public static final String PRICE_ID = "priceId";
 	public static final String PRICE = "price";
+	public static final String TANK_ID = "tankId";
+	public static final String TANK_NAME = "tankName";
 	public static final String INS_TIME = "insTime";
 	public static final String INS_USER = "insUser";
 	public static final String UPD_TIME = "updTime";

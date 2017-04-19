@@ -1,7 +1,7 @@
 package ah.petrolmanagement.logic.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +21,7 @@ import ah.petrolmanagement.entity.ProductPriceEntity;
 import ah.petrolmanagement.logic.IProductPriceLogic;
 import ah.petrolmanagement.persistence.IProductPriceMapper;
 import ah.petrolmanagement.utils.LogUtil;
+import ah.petrolmanagement.utils.Utils;
 
 @Component
 public class ProductPriceLogicImpl implements IProductPriceLogic {
@@ -31,58 +32,13 @@ public class ProductPriceLogicImpl implements IProductPriceLogic {
 	private DataSourceTransactionManager transaction;
 
 	@Override
-	public List<ProductPriceResponseDto> select(
+	public List<ProductPriceResponseDto> selectNewestPrice(
 			final ProductPriceRequestDto request) throws Exception {
 		LogUtil.startMethod(this.getClass().getSimpleName(), "select", request);
 
-		Map<String, Object> map = setDataMap(request);
-		List<ProductPriceEntity> entities = mapper.select(map);
-		List<ProductPriceResponseDto> list = setData(entities);
-		return list;
-	}
-
-	@Override
-	public List<ProductPriceResponseDto> selectPrice(
-			final ProductPriceRequestDto request) throws Exception {
-		LogUtil.startMethod(this.getClass().getSimpleName(), "selectPrice",
-				request);
-
-		List<ProductPriceResponseDto> list = new ArrayList<ProductPriceResponseDto>();
-
-//		for (Integer productId : request.getProductIdList()) {
-//			ProductPriceRequestDto request = new ProductPriceRequestDto();
-//			request.setProductId(productId);
-//			request.setSelectTop(request.getSelectTop());
-//
-//			Map<String, Object> map = setDataMap(request);
-//			List<ProductPriceEntity> entities = mapper.selectPrice(map);
-//			list.addAll(setData(entities));
-//		}
-		return list;
-	}
-
-	@Override
-	public List<ProductPriceResponseDto> selectOldPrice(
-			final ProductPriceRequestDto request) throws Exception {
-		LogUtil.startMethod(this.getClass().getSimpleName(), "selectOldPrice",
-				request);
-
-		List<ProductPriceEntity> entities = mapper.selectOldPrice(request
-				.getProductIdList());
-		List<ProductPriceResponseDto> list = setData(entities);
-		return list;
-	}
-
-	@Override
-	public List<ProductPriceResponseDto> selectNewPrice(
-			final ProductPriceRequestDto request) throws Exception {
-		LogUtil.startMethod(this.getClass().getSimpleName(), "selectNewPrice",
-				request);
-
-		List<ProductPriceEntity> entities = mapper.selectNewPrice(request
-				.getProductIdList());
-		List<ProductPriceResponseDto> list = setData(entities);
-		return list;
+		List<Map<String, Object>> entities = mapper.selectNewestPrice(request
+				.getCategoryId());
+		return setData(entities);
 	}
 
 	@Override
@@ -129,88 +85,27 @@ public class ProductPriceLogicImpl implements IProductPriceLogic {
 		return response;
 	}
 
-	@Override
-	public ProductPriceResponseDto update(final ProductPriceRequestDto request)
-			throws Exception {
-		LogUtil.startMethod(this.getClass().getSimpleName(), "update", request);
+	private List<ProductPriceResponseDto> setData(
+			List<Map<String, Object>> entities) {
+		List<ProductPriceResponseDto> list = new ArrayList<ProductPriceResponseDto>();
 
-		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		for (Map<String, Object> entity : entities) {
+			ProductPriceResponseDto response = new ProductPriceResponseDto();
+			response.setId(Utils.getInteger(entity
+					.get(ProductPriceRequestDto.ID)));
+			response.setProductId(Utils.getInteger(entity
+					.get(ProductPriceRequestDto.PRODUCT_ID)));
+			response.setProductName(Utils.getString(entity
+					.get(ProductPriceRequestDto.PRODUCT_NAME)));
+			response.setPrice(Utils.getInteger(entity
+					.get(ProductPriceRequestDto.PRICE)));
+			response.setInsTime((Date) entity
+					.get(ProductPriceRequestDto.INS_TIME));
+			response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 
-		TransactionStatus status = transaction.getTransaction(def);
-
-		ProductPriceEntity entity = setDataEntity(request);
-		ProductPriceResponseDto response = new ProductPriceResponseDto();
-
-		Object savePoint = status.createSavepoint();
-
-		try {
-			mapper.update(entity);
-		} catch (Exception e) {
-			LogUtil.errorLog(this.getClass().getSimpleName(), "update error", e);
-
-			status.releaseSavepoint(savePoint);
-			transaction.rollback(status);
-
-			response = setDataResponse(request);
-			response.setErrorsList(new String[] { ApiConstants.ERR_SYSTEM });
-			response.setStatus(ApiConstants.STATUS_CODE_ERROR);
-			return response;
+			list.add(response);
 		}
-		transaction.commit(status);
-		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
-		return response;
-	}
-
-	@Override
-	public ProductPriceResponseDto delete(final ProductPriceRequestDto request)
-			throws Exception {
-		LogUtil.startMethod(this.getClass().getSimpleName(), "delete", request);
-
-		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-
-		TransactionStatus status = transaction.getTransaction(def);
-
-		ProductPriceEntity entity = setDataEntity(request);
-		ProductPriceResponseDto response = new ProductPriceResponseDto();
-
-		Object savePoint = status.createSavepoint();
-
-		try {
-			mapper.delete(entity);
-		} catch (Exception e) {
-			LogUtil.errorLog(this.getClass().getSimpleName(), "delete error", e);
-
-			status.releaseSavepoint(savePoint);
-			transaction.rollback(status);
-
-			response = setDataResponse(request);
-			response.setErrorsList(new String[] { ApiConstants.ERR_SYSTEM });
-			response.setStatus(ApiConstants.STATUS_CODE_ERROR);
-			return response;
-		}
-		transaction.commit(status);
-		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
-		return response;
-	}
-
-	private Map<String, Object> setDataMap(ProductPriceRequestDto request) {
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		if (request.getId() != null) {
-			map.put(ProductPriceRequestDto.ID, request.getId());
-		}
-		if (request.getProductId() != null) {
-			map.put(ProductPriceRequestDto.PRODUCT_ID, request.getProductId());
-		}
-		if (request.getPrice() != null) {
-			map.put(ProductPriceRequestDto.PRICE, request.getPrice());
-		}
-		if (request.getSelectTop() != null) {
-			map.put(ProductPriceRequestDto.SELECT_TOP, request.getSelectTop());
-		}
-		return map;
+		return list;
 	}
 
 	private ProductPriceEntity setDataEntity(ProductPriceRequestDto request) {
@@ -224,19 +119,5 @@ public class ProductPriceLogicImpl implements IProductPriceLogic {
 		ProductPriceResponseDto response = new ProductPriceResponseDto();
 		BeanUtils.copyProperties(request, response);
 		return response;
-	}
-
-	private List<ProductPriceResponseDto> setData(
-			List<ProductPriceEntity> entities) {
-		List<ProductPriceResponseDto> list = new ArrayList<ProductPriceResponseDto>();
-
-		for (ProductPriceEntity entity : entities) {
-			ProductPriceResponseDto response = new ProductPriceResponseDto();
-			BeanUtils.copyProperties(entity, response);
-			response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
-
-			list.add(response);
-		}
-		return list;
 	}
 }

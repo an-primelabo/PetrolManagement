@@ -32,6 +32,14 @@ public class TankLogicImpl implements ITankLogic {
 	private DataSourceTransactionManager transaction;
 
 	@Override
+	public List<TankResponseDto> selectFuelTanks() throws Exception {
+		LogUtil.startMethod(this.getClass().getSimpleName(), "selectFuelTanks");
+
+		List<TankEntity> entities = mapper.selectFuelTanks();
+		return setData(entities);
+	}
+
+	@Override
 	public List<TankResponseDto> select(final TankRequestDto request)
 			throws Exception {
 		LogUtil.startMethod(this.getClass().getSimpleName(), "select", request);

@@ -8,9 +8,9 @@ import org.apache.ibatis.annotations.Param;
 import ah.petrolmanagement.entity.DailyMeterEntity;
 
 public interface IDailyMeterMapper {
-	List<DailyMeterEntity> select(@Param("map") Map<String, Object> map);
+	List<Map<String, Object>> select(@Param("map") Map<String, Object> map);
 
-	void save(@Param("entity") DailyMeterEntity entity);
+	void save(@Param("dailyList") List<DailyMeterEntity> dailyList);
 
 	void update(@Param("entity") DailyMeterEntity entity);
 

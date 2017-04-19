@@ -6,10 +6,7 @@ import java.util.List;
 public class DailyMeterRequestDto extends CommonRequestDto {
 	private static final long serialVersionUID = -3631533596571093703L;
 
-	public static final String ID = "id";
-	public static final String TANK_ID = "tankId";
 	public static final String SHIFT = "shift";
-	public static final String PRICE_ID = "priceId";
 	public static final String METER_OLD = "meterOld";
 	public static final String METER_NEW = "meterNew";
 	public static final String METER_ELEC_OLD = "meterElecOld";

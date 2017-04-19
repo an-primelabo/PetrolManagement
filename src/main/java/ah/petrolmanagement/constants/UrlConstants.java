@@ -20,10 +20,8 @@ public final class UrlConstants {
 
 	public static final String URL_DAILY = "/daily";
 	public static final String URL_DAILY_INDEX = "/daily/index";
-	public static final String URL_DAILY_SEARCH = "/daily/search";
-	public static final String URL_DAILY_CHART = "/daily/chart";
-	public static final String URL_DAILY_INSERT_PRICE = "/daily/insert/price";
-	public static final String URL_DAILY_INSERT_DAILY = "/daily/insert/daily";
+	public static final String URL_DAILY_SELECT = "/daily/select";
+	public static final String URL_DAILY_ACTION = "/daily/action";
 
 	public static final String URL_PRODUCT = "/product";
 	public static final String URL_PRODUCT_INDEX = "/product/index";

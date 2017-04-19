@@ -6,6 +6,8 @@ import ah.petrolmanagement.dto.request.TankRequestDto;
 import ah.petrolmanagement.dto.response.TankResponseDto;
 
 public interface ITankService {
+	public List<TankResponseDto> selectFuelTanks() throws Exception;
+
 	public List<TankResponseDto> select(final TankRequestDto request)
 			throws Exception;
 

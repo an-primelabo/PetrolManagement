@@ -8,17 +8,10 @@ import org.apache.ibatis.annotations.Param;
 import ah.petrolmanagement.entity.ProductPriceEntity;
 
 public interface IProductPriceMapper {
-	List<ProductPriceEntity> select(@Param("map") Map<String, Object> map);
-
-	List<ProductPriceEntity> selectPrice(@Param("map") Map<String, Object> map);
-
-	List<ProductPriceEntity> selectOldPrice(@Param("productIdList") List<Integer> productIdList);
-
-	List<ProductPriceEntity> selectNewPrice(@Param("productIdList") List<Integer> productIdList);
+	List<Map<String, Object>> selectNewestPrice(
+			@Param("categoryId") Integer categoryId);
 
 	void save(@Param("entity") ProductPriceEntity entity);
 
 	void update(final @Param("entity") ProductPriceEntity entity);
-
-	void delete(final @Param("entity") ProductPriceEntity entity);
 }

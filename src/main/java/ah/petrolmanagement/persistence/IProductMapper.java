@@ -8,7 +8,8 @@ import org.apache.ibatis.annotations.Param;
 import ah.petrolmanagement.entity.ProductEntity;
 
 public interface IProductMapper {
-	List<Map<String, Object>> selectByCategoryId(@Param("categoryId") Integer categoryId);
+	List<Map<String, Object>> selectByCategoryId(
+			@Param("categoryId") Integer categoryId);
 
 	void save(@Param("entity") ProductEntity entity);
 

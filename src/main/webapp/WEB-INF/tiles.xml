@@ -9,7 +9,6 @@
 		<put-attribute name="body" value="" />
 		<put-attribute name="right-menu" value="/WEB-INF/pages/layout/right-menu.jsp" />
 		<put-attribute name="mobile" value="/WEB-INF/pages/layout/mobile.jsp" />
-		<put-attribute name="modal" value="/WEB-INF/pages/layout/modal.jsp" />
 	</definition>
 
 	<definition name="login" extends="default">

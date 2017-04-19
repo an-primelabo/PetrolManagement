@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <div id="modal-category-form" class="modal fade" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="fa fa-times" aria-hidden="true"></span></button>
@@ -15,9 +15,9 @@
 						<div class="col-md-12">
 							<div class="form-group">
 								<label class="col-md-3 control-label">Tên hàng hóa</label>
-	
+
 								<div class="col-md-9">
-									<input type="text" id="category-name" name="category-name" class="form-control android" required />
+									<input type="text" id="category-name" name="category-name" class="form-control android" maxlength="20" required />
 								</div>
 								<!-- /div.col-md-9 -->
 							</div>
@@ -32,7 +32,7 @@
 			<!-- /div.modal-body -->
 
 			<div class="modal-footer">
-				<button type="submit" id="btn-category-action" class="btn btn-gradient"></button>
+				<button type="button" id="btn-category-action" class="btn btn-gradient"></button>
 				<button type="button" class="btn btn-gradient btn-default" data-dismiss="modal">Không</button>
 			</div>
 			<!-- /div.modal-footer -->
@@ -44,7 +44,7 @@
 <!-- /div#modal-category-form -->
 
 <div id="modal-product-form" class="modal fade" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="fa fa-times" aria-hidden="true"></span></button>
@@ -58,7 +58,7 @@
 						<div class="col-md-12">
 							<div class="form-group">
 								<label class="col-md-3 control-label">Chọn hàng hóa</label>
-	
+
 								<div class="col-md-9">
 									<p id="category-select-show" class="form-control-static hide"></p>
 									<select id="category-select" name="category-select" class="form-control" required></select>
@@ -72,9 +72,9 @@
 						<div class="col-md-12">
 							<div class="form-group">
 								<label class="col-md-3 control-label">Tên hạng mục</label>
-	
+
 								<div class="col-md-9">
-									<input type="text" id="product-name" name="product-name" class="form-control android" required />
+									<input type="text" id="product-name" name="product-name" class="form-control android" maxlength="20" required />
 								</div>
 								<!-- /div.col-md-9 -->
 							</div>
@@ -85,9 +85,9 @@
 						<div class="col-md-12">
 							<div class="form-group">
 								<label class="col-md-3 control-label">Giá mới nhất</label>
-	
+
 								<div class="col-md-9">
-									<input type="text" id="product-price" name="product-price" class="form-control android" required />
+									<input type="text" id="product-price" name="product-price" class="form-control android" maxlength="10" required />
 								</div>
 								<!-- /div.col-md-9 -->
 							</div>
@@ -102,7 +102,7 @@
 			<!-- /div.modal-body -->
 
 			<div class="modal-footer">
-				<button type="submit" id="btn-product-action" class="btn btn-gradient"></button>
+				<button type="button" id="btn-product-action" class="btn btn-gradient"></button>
 				<button type="button" class="btn btn-gradient btn-default" data-dismiss="modal">Không</button>
 			</div>
 			<!-- /div.modal-footer -->
@@ -114,7 +114,7 @@
 <!-- /div#modal-product-form -->
 
 <div id="modal-confirm-delete" class="modal fade" tabindex="-1" role="dialog">
-	<div class="modal-dialog modal-sm" role="document">
+	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			<div class="modal-header bg-danger">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="fa fa-times" aria-hidden="true"></span></button>

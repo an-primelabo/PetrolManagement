@@ -58,8 +58,6 @@
 
 	<tiles:insertAttribute name="mobile" />
 
-	<tiles:insertAttribute name="modal" />
-
 	<!-- Plugins -->
 	<script src="<c:url value='/static/js/plugins/moment-with-locales.min.js' />"></script>
 	<script src="<c:url value='/static/js/plugins/jquery.nicescroll.js' />"></script>

@@ -2,75 +2,85 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ah.petrolmanagement.persistence.IDailyMeterMapper">
-	<select id="select" parameterType="java.util.Map" resultType="ah.petrolmanagement.entity.DailyMeterEntity">
+	<resultMap id="dailyResult" type="java.util.Map">
+		<result column="ID" property="id" />
+		<result column="TANK_ID" property="tankId" />
+		<result column="TANK_NAME" property="tankName" />
+		<result column="PRODUCT_ID" property="productId" />
+		<result column="SHIFT" property="shift" />
+		<result column="PRICE_ID" property="priceId" />
+		<result column="PRICE" property="price" />
+		<result column="METER_OLD" property="meterOld" />
+		<result column="METER_NEW" property="meterNew" />
+		<result column="METER_ELEC_OLD" property="meterElecOld" />
+		<result column="METER_ELEC_NEW" property="meterElecNew" />
+		<result column="INS_TIME" property="insTime" />
+		<result column="INS_USER" property="insUser" />
+		<result column="UPD_TIME" property="updTime" />
+		<result column="UPD_USER" property="updUser" />
+		<result column="DEL_FLAG" property="delFlag" />
+		<result column="DEL_TIME" property="delTime" />
+		<result column="DEL_USER" property="delUser" />
+	</resultMap>
+
+	<select id="select" parameterType="java.util.Map" resultMap="dailyResult">
 		SELECT
-			ID							AS id,
-			TANK_ID					AS tankId,
-			SHIFT						AS shift,
-			PRICE_ID				AS priceId,
-			METER_OLD				AS meterOld,
-			METER_NEW				AS meterNew,
-			METER_ELEC_OLD	AS meterElecOld,
-			METER_ELEC_NEW	AS meterElecNew,
-			INS_TIME				AS insTime,
-			INS_USER				AS insUser,
-			UPD_TIME				AS updTime,
-			UPD_USER				AS updUser,
-			DEL_FLAG				AS delFlag,
-			DEL_TIME				AS delTime,
-			DEL_USER				AS delUser
+			d.ID,
+			d.TANK_ID,
+			t.TANK_NAME,
+			t.PRODUCT_ID,
+			d.SHIFT,
+			d.PRICE_ID,
+			pp.PRICE,
+			d.METER_OLD,
+			d.METER_NEW,
+			d.METER_ELEC_OLD,
+			d.METER_ELEC_NEW,
+			d.INS_TIME,
+			d.INS_USER,
+			d.UPD_TIME,
+			d.UPD_USER,
+			d.DEL_FLAG,
+			d.DEL_TIME,
+			d.DEL_USER
 		FROM
-			daily_meter
+			daily_meter d
+		INNER JOIN
+			tank t
+				ON
+					d.TANK_ID = t.ID
+		INNER JOIN
+			product_price pp
+				ON
+					d.PRICE_ID = pp.ID
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<if test="map.id != null">
-				ID = #{map.id}
-			</if>
-			<if test="map.tankId != null">
-				AND TANK_ID = #{map.tankId}
-			</if>
 			<if test="map.shift != null">
-				AND SHIFT = #{map.shift}
-			</if>
-			<if test="map.priceId != null">
-				AND PRICE_ID = #{map.priceId}
-			</if>
-			<if test="map.meterOld != null">
-				AND METER_OLD = #{map.meterOld}
-			</if>
-			<if test="map.meterNew != null">
-				AND METER_NEW = #{map.meterNew}
-			</if>
-			<if test="map.meterElecOld != null">
-				AND METER_ELEC_OLD = #{map.meterElecOld}
-			</if>
-			<if test="map.meterElecNew != null">
-				AND METER_ELEC_NEW = #{map.meterElecNew}
+				d.SHIFT = #{map.shift}
 			</if>
 			<if test="map.insTime != null">
-				AND INS_TIME::DATE = #{map.insTime}::DATE
+				AND d.INS_TIME::DATE = #{map.insTime}::DATE
 			</if>
 			<if test="map.dateFrom != null and map.dateTo == null">
-				AND INS_TIME::DATE = #{map.dateFrom}::DATE
+				AND d.INS_TIME::DATE = #{map.dateFrom}::DATE
 			</if>
 			<if test="map.dateFrom != null and map.dateTo != null">
-				AND INS_TIME::DATE <![CDATA[>=]]> #{map.dateFrom}::DATE
-				AND INS_TIME::DATE <![CDATA[<=]]> #{map.dateTo}::DATE
+				AND d.INS_TIME::DATE <![CDATA[>=]]> #{map.dateFrom}::DATE
+				AND d.INS_TIME::DATE <![CDATA[<=]]> #{map.dateTo}::DATE
 			</if>
 			<if test="map.monthFrom != null and map.monthTo == null">
-				AND EXTRACT (MONTH FROM INS_TIME) = EXTRACT (MONTH FROM #{map.monthFrom}::DATE)
+				AND EXTRACT (MONTH FROM d.INS_TIME) = EXTRACT (MONTH FROM #{map.monthFrom}::DATE)
 			</if>
 			<if test="map.monthFrom != null and map.monthTo != null">
-				AND EXTRACT (MONTH FROM INS_TIME) <![CDATA[>=]]> EXTRACT (MONTH FROM #{map.monthFrom}::DATE)
-				AND EXTRACT (MONTH FROM INS_TIME) <![CDATA[<=]]> EXTRACT (MONTH FROM #{map.monthTo}::DATE)
+				AND EXTRACT (MONTH FROM d.INS_TIME) <![CDATA[>=]]> EXTRACT (MONTH FROM #{map.monthFrom}::DATE)
+				AND EXTRACT (MONTH FROM d.INS_TIME) <![CDATA[<=]]> EXTRACT (MONTH FROM #{map.monthTo}::DATE)
 			</if>
-			<if test="map.delFlag == null">
-				AND DEL_FLAG = 0
-			</if>
+				AND d.DEL_FLAG = 0
 		</trim>
-		ORDER BY ID
+		ORDER BY
+			d.ID
 	</select>
 
-	<insert id="save" parameterType="ah.petrolmanagement.entity.DailyMeterEntity">
+	<insert id="save" parameterType="java.util.List">
 		INSERT INTO daily_meter (
 			STOCK_ID,
 			TANK_ID,
@@ -81,17 +91,20 @@
 			METER_ELEC_OLD,
 			METER_ELEC_NEW,
 			INS_USER
-		) VALUES (
-			0,
-			#{entity.tankId},
-			#{entity.shift},
-			#{entity.priceId},
-			#{entity.meterOld},
-			#{entity.meterNew},
-			#{entity.meterElecOld},
-			#{entity.meterElecNew},
-			#{entity.insUser}
-		)
+		) VALUES
+		<foreach item="daily" collection="dailyList" separator=",">
+			(
+				0,
+				#{daily.tankId},
+				#{daily.shift},
+				#{daily.priceId},
+				#{daily.meterOld},
+				#{daily.meterNew},
+				#{daily.meterElecOld},
+				#{daily.meterElecNew},
+				#{daily.insUser}
+			)
+		</foreach>
 	</insert>
 
 	<update id="update" parameterType="ah.petrolmanagement.entity.DailyMeterEntity">

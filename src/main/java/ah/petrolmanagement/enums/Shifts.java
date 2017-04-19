@@ -3,6 +3,7 @@ package ah.petrolmanagement.enums;
 import java.io.Serializable;
 
 import ah.petrolmanagement.constants.ApiConstants;
+import ah.petrolmanagement.utils.Utils;
 
 public enum Shifts implements Serializable {
 	ALLDAY(0, "Cả Ngày"), MORNING(1, "Ca Sáng"), EVENING(2, "Ca Tối");
@@ -23,7 +24,9 @@ public enum Shifts implements Serializable {
 		return this.value;
 	}
 
-	public static String getByCode(Integer code) {
+	public static String getByCode(Object object) {
+		Integer code = Utils.getInteger(object);
+
 		for (Shifts shift : Shifts.values()) {
 			if (shift.getCode() == code) {
 				return shift.getValue();

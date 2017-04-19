@@ -16,6 +16,11 @@ public class TankServiceImpl implements ITankService {
 	private ITankLogic logic;
 
 	@Override
+	public List<TankResponseDto> selectFuelTanks() throws Exception {
+		return logic.selectFuelTanks();
+	}
+
+	@Override
 	public List<TankResponseDto> select(TankRequestDto request)
 			throws Exception {
 		return logic.select(request);

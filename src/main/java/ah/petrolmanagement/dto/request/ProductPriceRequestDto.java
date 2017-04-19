@@ -1,21 +1,12 @@
 package ah.petrolmanagement.dto.request;
 
-import java.util.List;
-
 public class ProductPriceRequestDto extends CommonRequestDto {
 	private static final long serialVersionUID = -6229527059510434287L;
 
-	public static final String ID = "id";
-	public static final String PRODUCT_ID = "productId";
-	public static final String PRICE = "price";
-	public static final String PRODUCT_ID_LIST = "productIdList";
-	public static final String SELECT_TOP = "selectTop";
-
 	private Integer id;
+	private Integer categoryId;
 	private Integer productId;
 	private Integer price;
-	private List<Integer> productIdList;
-	private Integer selectTop;
 
 	public Integer getId() {
 		return id;
@@ -23,6 +14,14 @@ public class ProductPriceRequestDto extends CommonRequestDto {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public Integer getProductId() {
@@ -39,21 +38,5 @@ public class ProductPriceRequestDto extends CommonRequestDto {
 
 	public void setPrice(Integer price) {
 		this.price = price;
-	}
-
-	public List<Integer> getProductIdList() {
-		return productIdList;
-	}
-
-	public void setProductIdList(List<Integer> productIdList) {
-		this.productIdList = productIdList;
-	}
-
-	public Integer getSelectTop() {
-		return selectTop;
-	}
-
-	public void setSelectTop(Integer selectTop) {
-		this.selectTop = selectTop;
 	}
 }

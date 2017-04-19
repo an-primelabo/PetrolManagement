@@ -11,14 +11,14 @@
 				<h1 class="animated fadeInLeft">21:00</h1>
 				<p class="animated fadeInRight text-capitalize">Thứ Bảy, 1 Tháng 10 2029</p>
 			</li>
-			<li class="active ripple">
+			<li class="ripple">
 				<a class="tree-toggle nav-header text-capitalize"><i class="fa fa-home" aria-hidden="true"></i> Dashboard</a>
 			</li>
 			<li class="ripple">
 				<a href="${home}/daily" class="text-capitalize"><i class="fa fa-fire" aria-hidden="true"></i> Số liệu xăng dầu</a>
 			</li>
 			<li class="ripple">
-				<a href="${home}/product" class="text-capitalize"><i class="fa fa-cubes" aria-hidden="true"></i> Sản phẩm</a>
+				<a href="${home}/product" class="text-capitalize"><i class="fa fa-cubes" aria-hidden="true"></i> Hàng hóa</a>
 			</li>
 			<li class="ripple">
 				<a class="tree-toggle nav-header text-capitalize"><i class="fa fa-pencil-square" aria-hidden="true"></i> Ui Elements <i class="fa fa-angle-right right-arrow" aria-hidden="true"></i></a>

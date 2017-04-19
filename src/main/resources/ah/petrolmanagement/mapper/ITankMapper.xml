@@ -2,6 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ah.petrolmanagement.persistence.ITankMapper">
+	<select id="selectFuelTanks" resultType="ah.petrolmanagement.entity.TankEntity">
+		SELECT
+			t.ID					AS id,
+			t.PRODUCT_ID	AS productId,
+			t.TANK_NAME		AS tankName,
+			t.INS_TIME		AS insTime,
+			t.INS_USER		AS insUser,
+			t.UPD_TIME		AS updTime,
+			t.UPD_USER		AS updUser,
+			t.DEL_FLAG		AS delFlag,
+			t.DEL_TIME		AS delTime,
+			t.DEL_USER		AS delUser
+		FROM
+			tank t
+		INNER JOIN
+			product p
+				ON
+					t.PRODUCT_ID = p.ID
+		WHERE
+			p.CATEGORY_ID = 1
+				AND
+					t.DEL_FLAG = 0
+		ORDER BY
+			t.ID
+	</select>
+
 	<select id="select" parameterType="java.util.Map" resultType="ah.petrolmanagement.entity.TankEntity">
 		SELECT
 			ID					AS id,

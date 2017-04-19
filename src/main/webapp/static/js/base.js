@@ -62,21 +62,31 @@
 	}
 }(jQuery));
 var addValidateForm = function(form) {
-	var textRequiredRules = {
+	var inputRequired = {
 		required: true,
 		messages: {
 			required: 'Yêu cầu nhập.'
 		}
 	};
-	form.validate({
+	var checkRequired = {
+		required: true,
+		messages: {
+			required: 'Yêu cầu chọn.'
+		}
+	};
+	var validator = form.validate({
 		errorElement: 'em',
 		errorPlacement: function(error, element) {
 			error.appendTo(element.parent().closest('div'));
 		}
 	});
 	form.find('input:text[required], input:password[required]').each(function() {
-		$(this).rules('add', textRequiredRules);
+		$(this).rules('add', inputRequired);
 	});
+	form.find('input:radio[required], input:checkbox[required]').each(function() {
+		$(this).rules('add', checkRequired);
+	});
+	return validator;
 };
 var callAjax = function(url, data, callback) {
 	$.ajax({
@@ -125,11 +135,24 @@ var getRandom = function(arr, n) {
 	return result;
 };
 var numbericFilter = function(event, value) {
-	if ($.inArray(event.keyCode, [ 46, 8, 9, 27, 13, 110, 190 ]) !== -1 ||
-	// Allow: Ctrl+A, Command+A
-	(event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
-	// Allow: home, end, left, right, down, up
-	(event.keyCode >= 35 && event.keyCode <= 40)) {
+	if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+		// Allow: Ctrl+A, Command+A
+		(event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
+		// Allow: home, end, left, right, down, up
+		(event.keyCode >= 35 && event.keyCode <= 40)) {
+		return;
+	}
+	// Ensure that it is a number and stop the keypress
+	if ((event.shiftKey || (event.keyCode < 48 || event.keyCode > 57)) && (event.keyCode < 96 || event.keyCode > 105)) {
+		event.preventDefault();
+	}
+};
+var decimalFilter = function(event, value) {
+	if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+		// Allow: Ctrl+A, Command+A
+		(event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
+		// Allow: home, end, left, right, down, up
+		(event.keyCode >= 35 && event.keyCode <= 40)) {
 		if (value.indexOf('.') !== -1 && event.keyCode == 190) {
 			event.preventDefault();
 		}

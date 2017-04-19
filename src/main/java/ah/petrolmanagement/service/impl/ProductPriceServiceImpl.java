@@ -16,44 +16,14 @@ public class ProductPriceServiceImpl implements IProductPriceService {
 	private IProductPriceLogic logic;
 
 	@Override
-	public List<ProductPriceResponseDto> select(ProductPriceRequestDto request)
-			throws Exception {
-		return logic.select(request);
-	}
-
-	@Override
-	public List<ProductPriceResponseDto> selectPrice(
+	public List<ProductPriceResponseDto> selectNewestPrice(
 			ProductPriceRequestDto request) throws Exception {
-		return logic.selectPrice(request);
-	}
-
-	@Override
-	public List<ProductPriceResponseDto> selectOldPrice(
-			ProductPriceRequestDto request) throws Exception {
-		return logic.selectOldPrice(request);
-	}
-
-	@Override
-	public List<ProductPriceResponseDto> selectNewPrice(
-			ProductPriceRequestDto request) throws Exception {
-		return logic.selectNewPrice(request);
+		return logic.selectNewestPrice(request);
 	}
 
 	@Override
 	public ProductPriceResponseDto save(ProductPriceRequestDto request)
 			throws Exception {
 		return logic.save(request);
-	}
-
-	@Override
-	public ProductPriceResponseDto update(ProductPriceRequestDto request)
-			throws Exception {
-		return logic.update(request);
-	}
-
-	@Override
-	public ProductPriceResponseDto delete(ProductPriceRequestDto request)
-			throws Exception {
-		return logic.delete(request);
 	}
 }

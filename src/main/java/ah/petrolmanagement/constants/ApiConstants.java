@@ -29,16 +29,8 @@ public final class ApiConstants {
 	public static final String REQUEST_TITLE = "title";
 
 	public static final String VIEW_DAILY = "daily";
-	public static final String VIEW_DAILY_SEARCH = "daily/search";
-	public static final String VIEW_DAILY_CHART = "daily/chart";
-	public static final String VIEW_DAILY_INSERT_PRICE = "daily/insert/price";
-	public static final String VIEW_DAILY_INSERT_DAILY = "daily/insert/daily";
 
 	public static final String VIEW_PRODUCT = "product";
-	public static final String VIEW_PRODUCT_CATEGORY_SELECT = "product/category/select";
-	public static final String VIEW_PRODUCT_CATEGORY_ACTION = "product/category/action";
-	public static final String VIEW_PRODUCT_SELECT = "product/select";
-	public static final String VIEW_PRODUCT_ACTION = "product/action";
 
 	public static final String PAGE_LOGIN = "login/login";
 	public static final String PAGE_403 = "login/403";

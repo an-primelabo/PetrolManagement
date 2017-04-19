@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Param;
 import ah.petrolmanagement.entity.TankEntity;
 
 public interface ITankMapper {
+	List<TankEntity> selectFuelTanks();
+
 	List<TankEntity> select(@Param("map") Map<String, Object> map);
 
 	void save(@Param("entity") TankEntity entity);

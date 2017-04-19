@@ -1,10 +1,12 @@
 package ah.petrolmanagement.logic.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -18,9 +20,11 @@ import ah.petrolmanagement.constants.ApiConstants;
 import ah.petrolmanagement.dto.request.DailyMeterRequestDto;
 import ah.petrolmanagement.dto.response.DailyMeterResponseDto;
 import ah.petrolmanagement.entity.DailyMeterEntity;
+import ah.petrolmanagement.enums.Shifts;
 import ah.petrolmanagement.logic.IDailyMeterLogic;
 import ah.petrolmanagement.persistence.IDailyMeterMapper;
 import ah.petrolmanagement.utils.LogUtil;
+import ah.petrolmanagement.utils.Utils;
 
 @Component
 public class DailyMeterLogicImpl implements IDailyMeterLogic {
@@ -36,9 +40,8 @@ public class DailyMeterLogicImpl implements IDailyMeterLogic {
 		LogUtil.startMethod(this.getClass().getSimpleName(), "select", request);
 
 		Map<String, Object> map = setDataMap(request);
-		List<DailyMeterEntity> entities = mapper.select(map);
-		List<DailyMeterResponseDto> list = setData(entities);
-		return list;
+		List<Map<String, Object>> entities = mapper.select(map);
+		return setData(entities);
 	}
 
 	@Override
@@ -51,15 +54,13 @@ public class DailyMeterLogicImpl implements IDailyMeterLogic {
 
 		TransactionStatus status = transaction.getTransaction(def);
 
-		List<DailyMeterEntity> list = setDataEntity(request);
+		List<DailyMeterEntity> list = setDataEntityList(request);
 		DailyMeterResponseDto response = new DailyMeterResponseDto();
 
 		Object savePoint = status.createSavepoint();
 
 		try {
-			for (DailyMeterEntity entity : list) {
-				mapper.save(entity);
-			}
+			mapper.save(list);
 		} catch (Exception e) {
 			LogUtil.errorLog(this.getClass().getSimpleName(), "save error", e);
 
@@ -77,7 +78,6 @@ public class DailyMeterLogicImpl implements IDailyMeterLogic {
 			return response;
 		}
 		transaction.commit(status);
-		response = setDataResponse(request);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}
@@ -92,15 +92,13 @@ public class DailyMeterLogicImpl implements IDailyMeterLogic {
 
 		TransactionStatus status = transaction.getTransaction(def);
 
-		List<DailyMeterEntity> list = setDataEntity(request);
+		DailyMeterEntity entity = setDataEntity(request);
 		DailyMeterResponseDto response = new DailyMeterResponseDto();
 
 		Object savePoint = status.createSavepoint();
 
 		try {
-			for (DailyMeterEntity entity : list) {
-				mapper.save(entity);
-			}
+			mapper.update(entity);
 		} catch (Exception e) {
 			LogUtil.errorLog(this.getClass().getSimpleName(), "update error", e);
 
@@ -113,7 +111,6 @@ public class DailyMeterLogicImpl implements IDailyMeterLogic {
 			return response;
 		}
 		transaction.commit(status);
-		response = setDataResponse(request);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}
@@ -128,7 +125,7 @@ public class DailyMeterLogicImpl implements IDailyMeterLogic {
 
 		TransactionStatus status = transaction.getTransaction(def);
 
-		List<DailyMeterEntity> list = setDataEntity(request);
+		List<DailyMeterEntity> list = setDataEntityList(request);
 		DailyMeterResponseDto response = new DailyMeterResponseDto();
 
 		Object savePoint = status.createSavepoint();
@@ -149,7 +146,6 @@ public class DailyMeterLogicImpl implements IDailyMeterLogic {
 			return response;
 		}
 		transaction.commit(status);
-		response = setDataResponse(request);
 		response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
 		return response;
 	}
@@ -157,31 +153,8 @@ public class DailyMeterLogicImpl implements IDailyMeterLogic {
 	private Map<String, Object> setDataMap(DailyMeterRequestDto request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		if (request.getId() != null) {
-			map.put(DailyMeterRequestDto.ID, request.getId());
-		}
-		if (request.getTankId() != null) {
-			map.put(DailyMeterRequestDto.TANK_ID, request.getTankId());
-		}
 		if (request.getShift() != null) {
 			map.put(DailyMeterRequestDto.SHIFT, request.getShift());
-		}
-		if (request.getPriceId() != null) {
-			map.put(DailyMeterRequestDto.PRICE_ID, request.getPriceId());
-		}
-		if (request.getMeterOld() != null) {
-			map.put(DailyMeterRequestDto.METER_OLD, request.getMeterOld());
-		}
-		if (request.getMeterNew() != null) {
-			map.put(DailyMeterRequestDto.METER_NEW, request.getMeterNew());
-		}
-		if (request.getMeterElecOld() != null) {
-			map.put(DailyMeterRequestDto.METER_ELEC_OLD,
-					request.getMeterElecOld());
-		}
-		if (request.getMeterElecNew() != null) {
-			map.put(DailyMeterRequestDto.METER_ELEC_NEW,
-					request.getMeterElecNew());
 		}
 		if (request.getInsTime() != null) {
 			map.put(DailyMeterRequestDto.INS_TIME, request.getInsTime());
@@ -201,34 +174,81 @@ public class DailyMeterLogicImpl implements IDailyMeterLogic {
 		return map;
 	}
 
-	private List<DailyMeterEntity> setDataEntity(DailyMeterRequestDto request) {
+	private List<DailyMeterResponseDto> setData(
+			List<Map<String, Object>> entities) {
+		List<DailyMeterResponseDto> list = new ArrayList<DailyMeterResponseDto>();
+
+		for (Map<String, Object> entity : entities) {
+			DailyMeterResponseDto response = new DailyMeterResponseDto();
+			response.setId(Utils.getInteger(entity.get(DailyMeterRequestDto.ID)));
+			response.setTankId(Utils.getInteger(entity
+					.get(DailyMeterRequestDto.TANK_ID)));
+			response.setTankName(Utils.getString(entity
+					.get(DailyMeterRequestDto.TANK_NAME)));
+			response.setProductId(Utils.getInteger(entity
+					.get(DailyMeterRequestDto.PRODUCT_ID)));
+			response.setShift(Utils.getInteger(entity
+					.get(DailyMeterRequestDto.SHIFT)));
+			response.setShiftName(Shifts.getByCode(response.getShift()));
+			response.setPriceId(Utils.getInteger(entity
+					.get(DailyMeterRequestDto.PRICE_ID)));
+			response.setPrice(Utils.getInteger(entity
+					.get(DailyMeterRequestDto.PRICE)));
+			response.setMeterNew(Utils.getFloat(entity
+					.get(DailyMeterRequestDto.METER_NEW)));
+			response.setMeterOld(Utils.getFloat(entity
+					.get(DailyMeterRequestDto.METER_OLD)));
+			response.setMeterElecNew(Utils.getFloat(entity
+					.get(DailyMeterRequestDto.METER_ELEC_NEW)));
+			response.setMeterElecOld(Utils.getFloat(entity
+					.get(DailyMeterRequestDto.METER_ELEC_OLD)));
+			response.setInsTime((Date) entity
+					.get(DailyMeterRequestDto.INS_TIME));
+			response.setInsUser(Utils.getString(entity
+					.get(DailyMeterRequestDto.INS_USER)));
+			response.setUpdTime((Date) entity
+					.get(DailyMeterRequestDto.UPD_TIME));
+			response.setUpdUser(Utils.getString(entity
+					.get(DailyMeterRequestDto.UPD_USER)));
+			response.setDelFlag(Utils.getInteger(entity
+					.get(DailyMeterRequestDto.DEL_FLAG)));
+			response.setDelTime((Date) entity
+					.get(DailyMeterRequestDto.DEL_TIME));
+			response.setDelUser(Utils.getString(entity
+					.get(DailyMeterRequestDto.DEL_USER)));
+			response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
+
+			list.add(response);
+		}
+		return list;
+	}
+
+	private List<DailyMeterEntity> setDataEntityList(DailyMeterRequestDto request) {
 		List<DailyMeterEntity> list = new ArrayList<DailyMeterEntity>();
 
 		for (DailyMeterRequestDto daily : request.getDailyList()) {
 			DailyMeterEntity entity = new DailyMeterEntity();
 			BeanUtils.copyProperties(daily, entity);
 
+			if (StringUtils.equals(request.getMode(), ApiConstants.INSERT)) {
+				entity.setInsUser(request.getInsUser());
+			} else if (StringUtils.equals(request.getMode(), ApiConstants.UPDATE)) {
+				entity.setUpdUser(request.getUpdUser());
+			}
 			list.add(entity);
 		}
 		return list;
+	}
+
+	private DailyMeterEntity setDataEntity(DailyMeterRequestDto request) {
+		DailyMeterEntity entity = new DailyMeterEntity();
+		BeanUtils.copyProperties(request, entity);
+		return entity;
 	}
 
 	private DailyMeterResponseDto setDataResponse(DailyMeterRequestDto request) {
 		DailyMeterResponseDto response = new DailyMeterResponseDto();
 		BeanUtils.copyProperties(request, response);
 		return response;
-	}
-
-	private List<DailyMeterResponseDto> setData(List<DailyMeterEntity> entities) {
-		List<DailyMeterResponseDto> list = new ArrayList<DailyMeterResponseDto>();
-
-		for (DailyMeterEntity entity : entities) {
-			DailyMeterResponseDto response = new DailyMeterResponseDto();
-			BeanUtils.copyProperties(entity, response);
-			response.setStatus(ApiConstants.STATUS_CODE_SUCCESS);
-
-			list.add(response);
-		}
-		return list;
 	}
 }
