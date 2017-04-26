@@ -43,9 +43,6 @@
 					</ul>
 					<!-- /ul.dropdown-menu.user-dropdown -->
 				</li>
-				<li>
-					<a href="javascript:void(0);" class="opener-right-menu"><i class="fa fa-coffee" aria-hidden="true"></i></a>
-				</li>
 			</ul>
 			<!-- /ul.nav.navbar-nav.navbar-right.user-nav -->
 		</div>

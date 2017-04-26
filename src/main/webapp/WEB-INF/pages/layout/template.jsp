@@ -51,8 +51,6 @@
 			<tiles:insertAttribute name="body" />
 		</div>
 		<!-- /div#content -->
-
-		<tiles:insertAttribute name="right-menu" />
 	</div>
 	<!-- /div.petrol-wrapper -->
 

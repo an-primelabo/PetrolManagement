@@ -11,6 +11,7 @@ public class DailyMeterEntity extends CommonEntity {
 	private Float meterNew;
 	private Float meterElecOld;
 	private Float meterElecNew;
+	private Integer isChecked;
 
 	public Integer getId() {
 		return id;
@@ -76,11 +77,20 @@ public class DailyMeterEntity extends CommonEntity {
 		this.meterElecNew = meterElecNew;
 	}
 
+	public Integer getIsChecked() {
+		return isChecked;
+	}
+
+	public void setIsChecked(Integer isChecked) {
+		this.isChecked = isChecked;
+	}
+
 	@Override
 	public String toString() {
-		return "DailyMeterEntity [id=" + id + ", tankId=" + tankId
-				+ ", priceId=" + priceId + ", meterOld=" + meterOld
+		return "DailyMeterEntity [id=" + id + ", tankId=" + tankId + ", shift="
+				+ shift + ", priceId=" + priceId + ", meterOld=" + meterOld
 				+ ", meterNew=" + meterNew + ", meterElecOld=" + meterElecOld
-				+ ", meterElecNew=" + meterElecNew + "]";
+				+ ", meterElecNew=" + meterElecNew + ", isChecked=" + isChecked
+				+ "]";
 	}
 }

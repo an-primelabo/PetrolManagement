@@ -11,7 +11,7 @@
 				<h1 class="animated fadeInLeft">21:00</h1>
 				<p class="animated fadeInRight text-capitalize">Thứ Bảy, 1 Tháng 10 2029</p>
 			</li>
-			<li class="ripple">
+			<li class="ripple hide">
 				<a class="tree-toggle nav-header text-capitalize"><i class="fa fa-home" aria-hidden="true"></i> Dashboard</a>
 			</li>
 			<li class="ripple">
@@ -20,22 +20,22 @@
 			<li class="ripple">
 				<a href="${home}/product" class="text-capitalize"><i class="fa fa-cubes" aria-hidden="true"></i> Hàng hóa</a>
 			</li>
-			<li class="ripple">
+			<li class="ripple hide">
 				<a class="tree-toggle nav-header text-capitalize"><i class="fa fa-pencil-square" aria-hidden="true"></i> Ui Elements <i class="fa fa-angle-right right-arrow" aria-hidden="true"></i></a>
 			</li>
-			<li class="ripple">
+			<li class="ripple hide">
 				<a class="tree-toggle nav-header text-capitalize"><i class="fa fa-check-square-o" aria-hidden="true"></i> Forms <i class="fa fa-angle-right right-arrow" aria-hidden="true"></i></a>
 			</li>
-			<li class="ripple">
+			<li class="ripple hide">
 				<a class="tree-toggle nav-header text-capitalize"><i class="fa fa-table" aria-hidden="true"></i> Tables <i class="fa fa-angle-right right-arrow" aria-hidden="true"></i></a>
 			</li>
-			<li class="ripple">
+			<li class="ripple hide">
 				<a href="calendar.html"><i class="fa fa-calendar-o" aria-hidden="true"></i>Calendar</a>
 			</li>
-			<li class="ripple">
+			<li class="ripple hide">
 				<a class="tree-toggle nav-header text-capitalize"><i class="fa fa-envelope-o" aria-hidden="true"></i> Mail <i class="fa fa-angle-right right-arrow" aria-hidden="true"></i></a>
 			</li>
-			<li class="ripple">
+			<li class="ripple hide">
 				<a class="tree-toggle nav-header text-capitalize"><i class="fa fa-file-code-o" aria-hidden="true"></i> Pages <i class="fa fa-angle-right right-arrow" aria-hidden="true"></i></a>
 			</li>
 		</ul>

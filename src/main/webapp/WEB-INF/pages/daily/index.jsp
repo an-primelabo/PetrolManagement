@@ -71,7 +71,7 @@
 					<div class="form-element">
 						<div class="input-group">
 							<span id="daily-search-addon" class="input-group-addon bg-primary"><i class="fa fa-calendar text-white" aria-hidden="true"></i></span>
-							<input type="date" id="daily-search" class="form-control" value="<fmt:formatDate pattern=" yyyy-MM-dd " value="${now} " />" aria-describedby="daily-search-addon" />
+							<input type="date" id="daily-search" class="form-control" value="<fmt:formatDate pattern="yyyy-MM-dd" value="${now}" />" aria-describedby="daily-search-addon" />
 						</div>
 						<!-- /div.input-group -->
 					</div>
@@ -80,8 +80,8 @@
 					<div class="top-20">
 						<button type="button" id="btn-daily-insert" class="btn btn-3d btn-primary" data-toggle="modal" data-target="#modal-daily-form">Thêm số liệu</button>
 						<button type="button" id="btn-daily-edit" class="btn btn-3d btn-success" data-toggle="modal" data-target="#modal-daily-form" disabled>Thay đổi</button>
-						<button type="button" id="btn-daily-check" class="btn btn-3d btn-info">Kiểm tiền</button>
-						<button type="button" id="btn-daily-chart" class="btn btn-3d btn-danger">Thống kê</button>
+						<button type="button" id="btn-daily-check" class="btn btn-3d btn-info hide">Kiểm tiền</button>
+						<button type="button" id="btn-daily-chart" class="btn btn-3d btn-danger hide">Thống kê</button>
 					</div>
 					<!-- /div.top-20 -->
 				</div>

@@ -7,7 +7,6 @@
 		<put-attribute name="left-menu" value="/WEB-INF/pages/layout/left-menu.jsp" />
 		<put-attribute name="content-header" value="/WEB-INF/pages/layout/content-header.jsp" />
 		<put-attribute name="body" value="" />
-		<put-attribute name="right-menu" value="/WEB-INF/pages/layout/right-menu.jsp" />
 		<put-attribute name="mobile" value="/WEB-INF/pages/layout/mobile.jsp" />
 	</definition>
 

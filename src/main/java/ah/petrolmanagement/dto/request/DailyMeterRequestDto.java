@@ -11,6 +11,7 @@ public class DailyMeterRequestDto extends CommonRequestDto {
 	public static final String METER_NEW = "meterNew";
 	public static final String METER_ELEC_OLD = "meterElecOld";
 	public static final String METER_ELEC_NEW = "meterElecNew";
+	public static final String IS_CHECKED = "isChecked";
 	public static final String DAILY_LIST = "dailyList";
 	public static final String DATE_FROM = "dateFrom";
 	public static final String DATE_TO = "dateTo";
@@ -25,6 +26,7 @@ public class DailyMeterRequestDto extends CommonRequestDto {
 	private Float meterNew;
 	private Float meterElecOld;
 	private Float meterElecNew;
+	private Integer isChecked;
 	private List<DailyMeterRequestDto> dailyList;
 	private Date dateFrom;
 	private Date dateTo;
@@ -93,6 +95,14 @@ public class DailyMeterRequestDto extends CommonRequestDto {
 
 	public void setMeterElecNew(Float meterElecNew) {
 		this.meterElecNew = meterElecNew;
+	}
+
+	public Integer getIsChecked() {
+		return isChecked;
+	}
+
+	public void setIsChecked(Integer isChecked) {
+		this.isChecked = isChecked;
 	}
 
 	public List<DailyMeterRequestDto> getDailyList() {
